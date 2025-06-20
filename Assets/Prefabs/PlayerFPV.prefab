@@ -88,7 +88,9 @@ GameObject:
   - component: {fileID: 2166676591186006227}
   - component: {fileID: 5365061122698687944}
   - component: {fileID: 7102899695555545194}
+  - component: {fileID: 8389808154942883701}
   - component: {fileID: 179583838809485310}
+  - component: {fileID: 8258137149618458196}
   m_Layer: 0
   m_Name: PlayerFPV
   m_TagString: Untagged
@@ -261,11 +263,68 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 25b48220-c075-40c5-b578-5da5df591537
     m_ActionName: 'Movement/Right[/Keyboard/a,/Keyboard/d]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 179583838809485310}
+        m_TargetAssemblyTypeName: ControllerV2, Assembly-CSharp
+        m_MethodName: Jump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d02c8f60-d376-48b8-bd83-ff0aa15fa2ea
+    m_ActionName: 'Movement/Jump[/Keyboard/space]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 179583838809485310}
+        m_TargetAssemblyTypeName: ControllerV2, Assembly-CSharp
+        m_MethodName: Sprint
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 51c1877b-99c3-458c-918f-925b660f384f
+    m_ActionName: Movement/Sprint
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Movement
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &8389808154942883701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4204455268765701065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3957787092
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &179583838809485310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,18 +337,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7d5f6b8fcf5de449885eb5d0544666f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.1
-  maxSpeed: {x: 5, y: 5}
-  gravity: 1
-  showRays: 1
-  bottomStepReach: 0.2
-  topStepReach: 0.22
+  ShowTopMostFoldoutHeaderGroup: 1
+  walkSpeed: 0.12
+  sprintSpeed: 0.22
+  gravity: -1
+  jumpHeight: 0.35
+  bufferTime: 0.1
+  bottomStepReach: 0.3
+  topStepReach: 0.33
   stepRayHeight: 0.95
   maxStepHeight: 0.5
-  stepSpeed: 0.4
+  stepSpeed: 0.5
   maxFallDepthClip: 0.9
   bottomCollisionHeight: 0.5
-  topCollisionHeight: 0.5
+  bottomReach: 0.5
+  topCollisionHeight: 0.2
+  topReach: 0.2
   sensibility: 13
   currSpeed: {x: 0, y: 0, z: 0}
   viewRotation: {x: 0, y: 0, z: 0}
+--- !u!114 &8258137149618458196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4204455268765701065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df2868252ab5c4d1da357e8f11f1b524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 1
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0

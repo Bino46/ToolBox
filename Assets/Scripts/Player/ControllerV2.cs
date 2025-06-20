@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.Cinemachine;
-using Unity.VisualScripting;
+using Unity.Netcode;
 
-public class ControllerV2 : MonoBehaviour
+public class ControllerV2 : NetworkBehaviour
 {
     [Header("Movement")]
     [SerializeField] float walkSpeed;
@@ -60,11 +60,17 @@ public class ControllerV2 : MonoBehaviour
         currMoveSpeed = walkSpeed;
     }
 
+    public override void OnNetworkSpawn()
+    {
+        if (!IsOwner)
+            Destroy(this);
+    }
+
     //Input
     public void MovePlayerForward(InputAction.CallbackContext ctx)
     {
         isWalkingFwd = true;
-        
+
         switch (ctx.ReadValue<float>())
         {
             case 1:

@@ -156,11 +156,7 @@ namespace PlayFab.EconomyModels
         /// </summary>
         public List<string> Platforms;
         /// <summary>
-        /// The set of configuration that only applies to Ratings and Reviews.
-        /// </summary>
-        public ReviewConfig Review;
-        /// <summary>
-        /// A set of player entity keys that are allowed to review content. There is a maximum of 128 entities that can be added.
+        /// A set of player entity keys that are allowed to review content. There is a maximum of 64 entities that can be added.
         /// </summary>
         public List<EntityKey> ReviewerEntities;
         /// <summary>
@@ -268,10 +264,6 @@ namespace PlayFab.EconomyModels
         /// Rating summary for this item.
         /// </summary>
         public Rating Rating;
-        /// <summary>
-        /// The real price the item was purchased for per marketplace.
-        /// </summary>
-        public RealMoneyPriceDetails RealMoneyPriceDetails;
         /// <summary>
         /// The date of when the item will be available. If not provided then the product will appear immediately.
         /// </summary>
@@ -403,15 +395,6 @@ namespace PlayFab.EconomyModels
         public List<string> Tags;
     }
 
-    [Serializable]
-    public class CategoryRatingConfig : PlayFabBaseModel
-    {
-        /// <summary>
-        /// Name of the category.
-        /// </summary>
-        public string Name;
-    }
-
     public enum ConcernCategory
     {
         None,
@@ -456,6 +439,11 @@ namespace PlayFab.EconomyModels
         /// The Azure CDN URL for retrieval of the catalog item binary content.
         /// </summary>
         public string Url;
+    }
+
+    [Serializable]
+    public class ContentFeed : PlayFabBaseModel
+    {
     }
 
     public enum CountryCode
@@ -708,8 +696,7 @@ namespace PlayFab.EconomyModels
         EH,
         YE,
         ZM,
-        ZW,
-        Unknown
+        ZW
     }
 
     /// <summary>
@@ -998,7 +985,7 @@ namespace PlayFab.EconomyModels
         public string IdempotencyId;
         /// <summary>
         /// The operations to run transactionally. The operations will be executed in-order sequentially and will succeed or fail as
-        /// a batch. Up to 50 operations can be added.
+        /// a batch. Up to 10 operations can be added.
         /// </summary>
         public List<InventoryOperation> Operations;
     }
@@ -1019,86 +1006,6 @@ namespace PlayFab.EconomyModels
         /// The ids of the transactions that occurred as a result of the request.
         /// </summary>
         public List<string> TransactionIds;
-    }
-
-    /// <summary>
-    /// Transfer the specified list of inventory items of an entity's container Id to another entity's container Id.
-    /// </summary>
-    [Serializable]
-    public class ExecuteTransferOperationsRequest : PlayFabRequestCommon
-    {
-        /// <summary>
-        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
-        /// </summary>
-        public Dictionary<string,string> CustomTags;
-        /// <summary>
-        /// The inventory collection id the request is transferring from. (Default="default")
-        /// </summary>
-        public string GivingCollectionId;
-        /// <summary>
-        /// The entity the request is transferring from. Set to the caller by default.
-        /// </summary>
-        public EntityKey GivingEntity;
-        /// <summary>
-        /// ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
-        /// https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
-        /// </summary>
-        public string GivingETag;
-        /// <summary>
-        /// The idempotency id for the request.
-        /// </summary>
-        public string IdempotencyId;
-        /// <summary>
-        /// The transfer operations to run transactionally. The operations will be executed in-order sequentially and will succeed
-        /// or fail as a batch. Up to 50 operations can be added.
-        /// </summary>
-        public List<TransferInventoryItemsOperation> Operations;
-        /// <summary>
-        /// The inventory collection id the request is transferring to. (Default="default")
-        /// </summary>
-        public string ReceivingCollectionId;
-        /// <summary>
-        /// The entity the request is transferring to. Set to the caller by default.
-        /// </summary>
-        public EntityKey ReceivingEntity;
-    }
-
-    [Serializable]
-    public class ExecuteTransferOperationsResponse : PlayFabResultCommon
-    {
-        /// <summary>
-        /// ETags are used for concurrency checking when updating resources (before transferring from). This value will be empty if
-        /// the operation has not completed yet. More information about using ETags can be found here:
-        /// https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
-        /// </summary>
-        public string GivingETag;
-        /// <summary>
-        /// The ids of transactions that occurred as a result of the request's giving action.
-        /// </summary>
-        public List<string> GivingTransactionIds;
-        /// <summary>
-        /// The Idempotency ID for this request.
-        /// </summary>
-        public string IdempotencyId;
-        /// <summary>
-        /// The transfer operation status. Possible values are 'InProgress' or 'Completed'. If the operation has completed, the
-        /// response code will be 200. Otherwise, it will be 202.
-        /// </summary>
-        public string OperationStatus;
-        /// <summary>
-        /// The token that can be used to get the status of the transfer operation. This will only have a value if OperationStatus
-        /// is 'InProgress'.
-        /// </summary>
-        public string OperationToken;
-        /// <summary>
-        /// ETags are used for concurrency checking when updating resources (before transferring to). This value will be empty if
-        /// the operation has not completed yet.
-        /// </summary>
-        public string ReceivingETag;
-        /// <summary>
-        /// The ids of transactions that occurred as a result of the request's receiving action.
-        /// </summary>
-        public List<string> ReceivingTransactionIds;
     }
 
     [Serializable]
@@ -1369,35 +1276,6 @@ namespace PlayFab.EconomyModels
         /// The requested inventory items.
         /// </summary>
         public List<InventoryItem> Items;
-    }
-
-    /// <summary>
-    /// Get the status of an Inventory Operation using an OperationToken.
-    /// </summary>
-    [Serializable]
-    public class GetInventoryOperationStatusRequest : PlayFabRequestCommon
-    {
-        /// <summary>
-        /// The id of the entity's collection to perform this action on. (Default="default")
-        /// </summary>
-        public string CollectionId;
-        /// <summary>
-        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
-        /// </summary>
-        public Dictionary<string,string> CustomTags;
-        /// <summary>
-        /// The entity to perform this action on.
-        /// </summary>
-        public EntityKey Entity;
-    }
-
-    [Serializable]
-    public class GetInventoryOperationStatusResponse : PlayFabResultCommon
-    {
-        /// <summary>
-        /// The inventory operation status.
-        /// </summary>
-        public string OperationStatus;
     }
 
     /// <summary>
@@ -1710,11 +1588,6 @@ namespace PlayFab.EconomyModels
         /// and (apiname eq 'AddInventoryItems')". By default, a 6 month timespan from the current date is used.
         /// </summary>
         public string Filter;
-        /// <summary>
-        /// An OData orderby to order TransactionHistory results. The only supported values are 'timestamp asc' or 'timestamp desc'.
-        /// Default orderby is 'timestamp asc'
-        /// </summary>
-        public string OrderBy;
     }
 
     [Serializable]
@@ -1902,13 +1775,8 @@ namespace PlayFab.EconomyModels
     }
 
     [Serializable]
-    public class Permissions : PlayFabBaseModel
+    public class PayoutDetails : PlayFabBaseModel
     {
-        /// <summary>
-        /// The list of ids of Segments that the a player can be in to purchase from the store. When a value is provided, the player
-        /// must be in at least one of the segments listed for the purchase to be allowed.
-        /// </summary>
-        public List<string> SegmentIds;
     }
 
     /// <summary>
@@ -2071,7 +1939,7 @@ namespace PlayFab.EconomyModels
     }
 
     [Serializable]
-    public class PurchaseOverridesInfo : PlayFabBaseModel
+    public class PurchaseOverride : PlayFabBaseModel
     {
     }
 
@@ -2123,35 +1991,6 @@ namespace PlayFab.EconomyModels
         /// The total count of ratings for this item.
         /// </summary>
         public int? TotalCount;
-    }
-
-    [Serializable]
-    public class RealMoneyPriceDetails : PlayFabBaseModel
-    {
-        /// <summary>
-        /// The 'AppleAppStore' price amount per CurrencyCode. 'USD' supported only.
-        /// </summary>
-        public Dictionary<string,int> AppleAppStorePrices;
-        /// <summary>
-        /// The 'GooglePlay' price amount per CurrencyCode. 'USD' supported only.
-        /// </summary>
-        public Dictionary<string,int> GooglePlayPrices;
-        /// <summary>
-        /// The 'MicrosoftStore' price amount per CurrencyCode. 'USD' supported only.
-        /// </summary>
-        public Dictionary<string,int> MicrosoftStorePrices;
-        /// <summary>
-        /// The 'NintendoEShop' price amount per CurrencyCode. 'USD' supported only.
-        /// </summary>
-        public Dictionary<string,int> NintendoEShopPrices;
-        /// <summary>
-        /// The 'PlayStationStore' price amount per CurrencyCode. 'USD' supported only.
-        /// </summary>
-        public Dictionary<string,int> PlayStationStorePrices;
-        /// <summary>
-        /// The 'Steam' price amount per CurrencyCode. 'USD' supported only.
-        /// </summary>
-        public Dictionary<string,int> SteamPrices;
     }
 
     /// <summary>
@@ -2259,8 +2098,7 @@ namespace PlayFab.EconomyModels
         /// </summary>
         public EntityKey Entity;
         /// <summary>
-        /// Xbox Token used for delegated business partner authentication. Token provided by the Xbox Live SDK method
-        /// GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", "").
+        /// Xbox Token used for delegated business partner authentication.
         /// </summary>
         public string XboxToken;
     }
@@ -2346,7 +2184,7 @@ namespace PlayFab.EconomyModels
         /// </summary>
         public EntityKey Entity;
         /// <summary>
-        /// Redirect URI supplied to PlayStation :tm: Network when requesting an auth code.
+        /// Redirect URI supplied to PlayStation :tm: Network when requesting an auth code
         /// </summary>
         public string RedirectUri;
         /// <summary>
@@ -2421,26 +2259,26 @@ namespace PlayFab.EconomyModels
         /// </summary>
         public string FailureDetails;
         /// <summary>
-        /// The Marketplace Alternate ID being redeemed.
-        /// </summary>
-        public string MarketplaceAlternateId;
-        /// <summary>
         /// The transaction id in the external marketplace.
         /// </summary>
         public string MarketplaceTransactionId;
+        /// <summary>
+        /// The ID of the offer being redeemed.
+        /// </summary>
+        public string OfferId;
     }
 
     [Serializable]
     public class RedemptionSuccess : PlayFabBaseModel
     {
         /// <summary>
-        /// The Marketplace Alternate ID being redeemed.
-        /// </summary>
-        public string MarketplaceAlternateId;
-        /// <summary>
         /// The transaction id in the external marketplace.
         /// </summary>
         public string MarketplaceTransactionId;
+        /// <summary>
+        /// The ID of the offer being redeemed.
+        /// </summary>
+        public string OfferId;
         /// <summary>
         /// The timestamp for when the redeem was completed.
         /// </summary>
@@ -2526,10 +2364,6 @@ namespace PlayFab.EconomyModels
     public class Review : PlayFabBaseModel
     {
         /// <summary>
-        /// The star rating associated with each selected category in this review.
-        /// </summary>
-        public Dictionary<string,int> CategoryRatings;
-        /// <summary>
         /// The number of negative helpfulness votes for this review.
         /// </summary>
         public int HelpfulNegative;
@@ -2562,6 +2396,10 @@ namespace PlayFab.EconomyModels
         /// </summary>
         public EntityKey ReviewerEntity;
         /// <summary>
+        /// Deprecated. Use ReviewerEntity instead. This property will be removed in a future release.
+        /// </summary>
+        public string ReviewerId;
+        /// <summary>
         /// The ID of the review.
         /// </summary>
         public string ReviewId;
@@ -2577,15 +2415,6 @@ namespace PlayFab.EconomyModels
         /// The title of this review.
         /// </summary>
         public string Title;
-    }
-
-    [Serializable]
-    public class ReviewConfig : PlayFabBaseModel
-    {
-        /// <summary>
-        /// A set of categories that can be applied toward ratings and reviews.
-        /// </summary>
-        public List<CategoryRatingConfig> CategoryRatings;
     }
 
     [Serializable]
@@ -2633,6 +2462,15 @@ namespace PlayFab.EconomyModels
         /// The ID of the review to take down.
         /// </summary>
         public string ReviewId;
+    }
+
+    [Serializable]
+    public class ScanResult : PlayFabBaseModel
+    {
+        /// <summary>
+        /// The URL of the item which failed the scan.
+        /// </summary>
+        public string Url;
     }
 
     [Serializable]
@@ -2733,10 +2571,6 @@ namespace PlayFab.EconomyModels
         /// </summary>
         public FilterOptions FilterOptions;
         /// <summary>
-        /// The permissions that control which players can purchase from the store.
-        /// </summary>
-        public Permissions Permissions;
-        /// <summary>
         /// The global prices utilized in the store. These options are mutually exclusive with price options in item references.
         /// </summary>
         public CatalogPriceOptionsOverride PriceOptionsOverride;
@@ -2787,6 +2621,15 @@ namespace PlayFab.EconomyModels
     [Serializable]
     public class SubmitItemReviewVoteResponse : PlayFabResultCommon
     {
+    }
+
+    [Serializable]
+    public class SubscriptionDetails : PlayFabBaseModel
+    {
+        /// <summary>
+        /// The length of time that the subscription will last in seconds.
+        /// </summary>
+        public double DurationInSeconds;
     }
 
     [Serializable]
@@ -2907,10 +2750,6 @@ namespace PlayFab.EconomyModels
         /// </summary>
         public string ApiName;
         /// <summary>
-        /// Additional details about the transaction. Null if it was not a clawback operation.
-        /// </summary>
-        public TransactionClawbackDetails ClawbackDetails;
-        /// <summary>
         /// The type of item that the the operation occurred on.
         /// </summary>
         public string ItemType;
@@ -2945,15 +2784,6 @@ namespace PlayFab.EconomyModels
     }
 
     [Serializable]
-    public class TransactionClawbackDetails : PlayFabBaseModel
-    {
-        /// <summary>
-        /// The id of the clawed back operation.
-        /// </summary>
-        public string TransactionIdClawedback;
-    }
-
-    [Serializable]
     public class TransactionOperation : PlayFabBaseModel
     {
         /// <summary>
@@ -2964,10 +2794,6 @@ namespace PlayFab.EconomyModels
         /// The duration modified in this transaction.
         /// </summary>
         public double? DurationInSeconds;
-        /// <summary>
-        /// The friendly id of the items in this transaction.
-        /// </summary>
-        public string ItemFriendlyId;
         /// <summary>
         /// The item id of the items in this transaction.
         /// </summary>
@@ -2989,10 +2815,6 @@ namespace PlayFab.EconomyModels
     [Serializable]
     public class TransactionPurchaseDetails : PlayFabBaseModel
     {
-        /// <summary>
-        /// The friendly id of the Store the item was purchased from or null.
-        /// </summary>
-        public string StoreFriendlyId;
         /// <summary>
         /// The id of the Store the item was purchased from or null.
         /// </summary>
@@ -3141,16 +2963,6 @@ namespace PlayFab.EconomyModels
         /// The idempotency id for the request.
         /// </summary>
         public string IdempotencyId;
-        /// <summary>
-        /// The transfer operation status. Possible values are 'InProgress' or 'Completed'. If the operation has completed, the
-        /// response code will be 200. Otherwise, it will be 202.
-        /// </summary>
-        public string OperationStatus;
-        /// <summary>
-        /// The token that can be used to get the status of the transfer operation. This will only have a value if OperationStatus
-        /// is 'InProgress'.
-        /// </summary>
-        public string OperationToken;
         /// <summary>
         /// The ids of transactions that occurred as a result of the request's receiving action.
         /// </summary>

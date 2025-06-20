@@ -4427,17 +4427,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!114 &298871960 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 179583838809485310, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-  m_PrefabInstance: {fileID: 7714670525706213242}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7d5f6b8fcf5de449885eb5d0544666f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &391946521
 GameObject:
   m_ObjectHideFlags: 0
@@ -12158,66 +12147,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 179583838809485310, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: gravity
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 179583838809485310, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: jumpTime
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 179583838809485310, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: topReach
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 179583838809485310, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: moveSpeed
-      value: 0.16
-      objectReference: {fileID: 0}
-    - target: {fileID: 179583838809485310, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: stepSpeed
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 179583838809485310, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: walkSpeed
-      value: 0.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 179583838809485310, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: bufferTime
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 179583838809485310, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: jumpHeight
-      value: 0.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 179583838809485310, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: bottomReach
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 179583838809485310, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: sensibility
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 179583838809485310, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: sprintSpeed
-      value: 0.22
-      objectReference: {fileID: 0}
-    - target: {fileID: 179583838809485310, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: topStepReach
-      value: 0.33
-      objectReference: {fileID: 0}
-    - target: {fileID: 179583838809485310, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: bottomStepReach
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 179583838809485310, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: topCollisionHeight
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 179583838809485310, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: bottomCollisionHeight
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 1992932905420966691, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.7650828
@@ -12261,82 +12190,6 @@ PrefabInstance:
     - target: {fileID: 4204455268765701065, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
       propertyPath: m_Name
       value: PlayerFPV
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102899695555545194, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: m_ActionEvents.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102899695555545194, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: m_ActionEvents.Array.data[3].m_ActionId
-      value: d02c8f60-d376-48b8-bd83-ff0aa15fa2ea
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102899695555545194, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: m_ActionEvents.Array.data[4].m_ActionId
-      value: 51c1877b-99c3-458c-918f-925b660f384f
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102899695555545194, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: m_ActionEvents.Array.data[3].m_ActionName
-      value: 'Movement/Jump[/Keyboard/space]'
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102899695555545194, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: m_ActionEvents.Array.data[4].m_ActionName
-      value: Movement/Sprint
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102899695555545194, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102899695555545194, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102899695555545194, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102899695555545194, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102899695555545194, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 298871960}
-    - target: {fileID: 7102899695555545194, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 298871960}
-    - target: {fileID: 7102899695555545194, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102899695555545194, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102899695555545194, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Jump
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102899695555545194, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Sprint
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102899695555545194, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: ControllerV2, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102899695555545194, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: ControllerV2, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102899695555545194, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 7102899695555545194, guid: 0b462076261ab36439f3809538cb13f9, type: 3}
-      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

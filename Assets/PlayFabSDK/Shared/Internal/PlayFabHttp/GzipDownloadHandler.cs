@@ -51,7 +51,7 @@ public class GzipDownloadHandler : DownloadHandlerScript
         {
             // If we fail to decompress, it should be because Unity silently decompressed already, so we should disable this custom handler.
             // There is no info on which platforms Unity decompresses on, so we have to assume this is needed until we reach this.
-            PlayFabSettings.staticSettings.DecompressWithDownloadHandler = false;
+           // PlayFabSettings.staticSettings.DecompressWithDownloadHandler = false;
         }
     }
 }

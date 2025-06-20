@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FpvTesting.unity
     guid: e13881c2fdcc14e44bacd9c02b03daca
+  - enabled: 1
+    path: Assets/Scenes/GameScene.unity
+    guid: d1ecad9a9a0301a4081870922656ecb8
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 79a911c8e9614da4da785179e6944d67, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

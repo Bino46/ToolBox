@@ -1,9 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.Cinemachine;
-using Unity.Netcode;
 
-public class ControllerV2 : NetworkBehaviour
+public class ControllerV2 : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] float walkSpeed;
@@ -58,12 +57,6 @@ public class ControllerV2 : NetworkBehaviour
 
         baseJumpTime = jumpTime;
         currMoveSpeed = walkSpeed;
-    }
-
-    public override void OnNetworkSpawn()
-    {
-        if (!IsOwner)
-            Destroy(this);
     }
 
     //Input

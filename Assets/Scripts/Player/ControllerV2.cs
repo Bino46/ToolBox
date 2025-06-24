@@ -26,13 +26,14 @@ public class ControllerV2 : MonoBehaviour
     [SerializeField] float topReach;
 
     [Header("Camera")]
+    [SerializeField] Camera fpvCamera;
     [SerializeField] float sensibility;
 
     [Header("Private")]
     
     [SerializeField] Vector3 currSpeed;
     [SerializeField] Vector3 viewRotation;
-    private CinemachineCamera fpvCamera;
+    private LayerMask collisionMask;
     private Vector3 bottomPos;
     private Vector2 currInputDir;
     private bool[] currInputBlock = new bool[4];
@@ -51,12 +52,13 @@ public class ControllerV2 : MonoBehaviour
 
     void Start()
     {
-        fpvCamera = gameObject.transform.GetComponentInChildren<CinemachineCamera>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
         baseJumpTime = jumpTime;
         currMoveSpeed = walkSpeed;
+
+        collisionMask = LayerMask.GetMask("Walls");
     }
 
     //Input
@@ -193,7 +195,7 @@ public class ControllerV2 : MonoBehaviour
     void CheckGround()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.localPosition, Vector3.down, out hit, 1.1f))
+        if (Physics.Raycast(transform.localPosition, Vector3.down, out hit, 1.1f, collisionMask))
         {
             isGrounded = true;
 
@@ -210,25 +212,25 @@ public class ControllerV2 : MonoBehaviour
         Vector3 topCollisionHeightVector = new Vector3(transform.position.x, transform.position.y - topCollisionHeight, transform.position.z);
 
         //Forward
-        if (Physics.Raycast(bottomCollisionHeightVector, transform.rotation * Vector3.forward, bottomReach) || Physics.Raycast(topCollisionHeightVector, transform.rotation * Vector3.forward, topReach))
+        if (Physics.Raycast(bottomCollisionHeightVector, transform.rotation * Vector3.forward, bottomReach, collisionMask) || Physics.Raycast(topCollisionHeightVector, transform.rotation * Vector3.forward, topReach, collisionMask))
             currInputBlock[0] = true;
         else
             currInputBlock[0] = false;
 
         //Behind
-        if (Physics.Raycast(bottomCollisionHeightVector, transform.rotation * -Vector3.forward, bottomReach) || Physics.Raycast(topCollisionHeightVector, transform.rotation * -Vector3.forward, topReach))
+        if (Physics.Raycast(bottomCollisionHeightVector, transform.rotation * -Vector3.forward, bottomReach, collisionMask) || Physics.Raycast(topCollisionHeightVector, transform.rotation * -Vector3.forward, topReach, collisionMask))
             currInputBlock[1] = true;
         else
             currInputBlock[1] = false;
 
         //Left
-        if (Physics.Raycast(bottomCollisionHeightVector, transform.rotation * Vector3.left, bottomReach) || Physics.Raycast(topCollisionHeightVector, transform.rotation * Vector3.left, topReach))
+        if (Physics.Raycast(bottomCollisionHeightVector, transform.rotation * Vector3.left, bottomReach, collisionMask) || Physics.Raycast(topCollisionHeightVector, transform.rotation * Vector3.left, topReach, collisionMask))
             currInputBlock[2] = true;
         else
             currInputBlock[2] = false;
 
         //Right
-        if (Physics.Raycast(bottomCollisionHeightVector, transform.rotation * -Vector3.left, bottomReach) || Physics.Raycast(topCollisionHeightVector, transform.rotation * -Vector3.left, topReach))
+        if (Physics.Raycast(bottomCollisionHeightVector, transform.rotation * -Vector3.left, bottomReach, collisionMask) || Physics.Raycast(topCollisionHeightVector, transform.rotation * -Vector3.left, topReach, collisionMask))
             currInputBlock[3] = true;
         else
             currInputBlock[3] = false;
@@ -240,10 +242,10 @@ public class ControllerV2 : MonoBehaviour
         bottomPos.y = gameObject.transform.position.y - stepRayHeight;
         bottomPos.z = gameObject.transform.position.z;
 
-        if (Physics.Raycast(bottomPos, transform.rotation * Vector3.forward, bottomStepReach) || Physics.Raycast(bottomPos, transform.rotation * Vector3.left, bottomStepReach))
+        if (Physics.Raycast(bottomPos, transform.rotation * Vector3.forward, bottomStepReach, collisionMask) || Physics.Raycast(bottomPos, transform.rotation * Vector3.left, bottomStepReach,collisionMask))
             touchStep = true; 
 
-        if (Physics.Raycast(bottomPos, transform.rotation * -Vector3.forward, bottomStepReach) || Physics.Raycast(bottomPos, transform.rotation * -Vector3.left, bottomStepReach))
+        if (Physics.Raycast(bottomPos, transform.rotation * -Vector3.forward, bottomStepReach,collisionMask) || Physics.Raycast(bottomPos, transform.rotation * -Vector3.left, bottomStepReach,collisionMask))
             touchStep = true; 
     }
 
@@ -262,8 +264,8 @@ public class ControllerV2 : MonoBehaviour
         {
             origin.y = currY;
 
-            bool hitFwd = Physics.Raycast(origin, transform.rotation * -Vector3.forward, topStepReach) || Physics.Raycast(origin, transform.rotation * Vector3.forward, topStepReach);
-            bool hitLeft = Physics.Raycast(origin, transform.rotation * -Vector3.left, topStepReach) || Physics.Raycast(origin, transform.rotation * Vector3.left, topStepReach);
+            bool hitFwd = Physics.Raycast(origin, transform.rotation * -Vector3.forward, topStepReach,collisionMask) || Physics.Raycast(origin, transform.rotation * Vector3.forward, topStepReach,collisionMask);
+            bool hitLeft = Physics.Raycast(origin, transform.rotation * -Vector3.left, topStepReach,collisionMask) || Physics.Raycast(origin, transform.rotation * Vector3.left, topStepReach,collisionMask);
 
             if (!hitFwd && !hitLeft)
             {

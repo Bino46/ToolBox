@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Unity.Cinemachine;
 
 public class ControllerV2 : MonoBehaviour
 {
@@ -26,11 +25,10 @@ public class ControllerV2 : MonoBehaviour
     [SerializeField] float topReach;
 
     [Header("Camera")]
-    [SerializeField] Camera fpvCamera;
+    [SerializeField] GameObject cameraPivot;
     [SerializeField] float sensibility;
 
     [Header("Private")]
-    
     [SerializeField] Vector3 currSpeed;
     [SerializeField] Vector3 viewRotation;
     private LayerMask collisionMask;
@@ -106,32 +104,31 @@ public class ControllerV2 : MonoBehaviour
         viewRotation.y += ctx.ReadValue<Vector2>().x * sensibility * Time.deltaTime;
         viewRotation.x += -ctx.ReadValue<Vector2>().y * sensibility * Time.deltaTime;
 
-        fpvCamera.transform.eulerAngles = viewRotation;
+        cameraPivot.transform.eulerAngles = viewRotation;
         transform.eulerAngles = new Vector3(0, viewRotation.y, 0);
     }
 
     public void Jump(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed)
+        if (canJump)
+            Jump();
+        else
         {
-            if (canJump)
-                Jump();
-            else
-            {
-                baseBufferTime = bufferTime;
-                isBuffering = true;
-            }
-        }
-        
+            baseBufferTime = bufferTime;
+            isBuffering = true;
+        }  
     }
 
     public void Sprint(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed)
+        float sprinting = ctx.ReadValue<float>();
+
+        if (sprinting == 1)
             currMoveSpeed = sprintSpeed;
-        else if (ctx.canceled)
+        else
             currMoveSpeed = walkSpeed;
     }
+
     //Values
     void ApplyMovement()
     {

@@ -9,12 +9,9 @@ public class CameraBlend : MonoBehaviour
     float distMult;
     float parentHeight;
     float height;
-    bool adjustHeight;
 
     void UpdateHeight()
     {
-        Debug.Log("easing");
-
         distMult = Mathf.Abs(parentHeight - height);
         distMult = Mathf.Clamp(distMult, minSpeed, 100);
 
@@ -38,5 +35,6 @@ public class CameraBlend : MonoBehaviour
         UpdateHeight();
 
         transform.position = newPos;
+        transform.rotation = parentPos.rotation;
     }
 }

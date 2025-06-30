@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class ControllerV2 : MonoBehaviour
 {
+    Animator animPlayer;
     [Header("Movement")]
     [SerializeField] float walkSpeed;
     [SerializeField] float sprintSpeed;
@@ -57,6 +58,8 @@ public class ControllerV2 : MonoBehaviour
         currMoveSpeed = walkSpeed;
 
         collisionMask = LayerMask.GetMask("Walls");
+
+        animPlayer = GetComponentInChildren<Animator>();
     }
 
     //Input
@@ -156,6 +159,11 @@ public class ControllerV2 : MonoBehaviour
 
         if (isWalkingFwd)
             ForwardMovement();
+        else
+        {
+            animPlayer.SetBool("isWalking", false);
+            animPlayer.SetBool("isBackWalking", false);
+        }
 
         if (isWalkingSide)
             SideMovement();
@@ -167,12 +175,19 @@ public class ControllerV2 : MonoBehaviour
         {
             currSpeed = transform.forward;
             transform.Translate(currSpeed * currMoveSpeed, Space.World);
+
+            animPlayer.SetBool("isWalking", true);
+            animPlayer.SetBool("isBackWalking", false);
         }
         else if (currInputDir.x == -1 && currInputBlock[1] == false)
         {
             currSpeed = -transform.forward;
             transform.Translate(currSpeed * currMoveSpeed, Space.World);
+
+            animPlayer.SetBool("isWalking", false);
+            animPlayer.SetBool("isBackWalking", true);
         }
+
     }
 
     void SideMovement()

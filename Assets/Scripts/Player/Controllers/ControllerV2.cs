@@ -28,6 +28,7 @@ public class ControllerV2 : MonoBehaviour
     [Header("Camera")]
     [SerializeField] GameObject cameraPivot;
     [SerializeField] float sensibility;
+    [SerializeField] Vector2 maxCamAngle;
 
     [Header("Private")]
     [SerializeField] Vector3 currSpeed;
@@ -107,7 +108,10 @@ public class ControllerV2 : MonoBehaviour
         viewRotation.y += ctx.ReadValue<Vector2>().x * sensibility * Time.deltaTime;
         viewRotation.x += -ctx.ReadValue<Vector2>().y * sensibility * Time.deltaTime;
 
+        viewRotation.x = Mathf.Clamp(viewRotation.x, maxCamAngle.x, maxCamAngle.y);
+
         cameraPivot.transform.eulerAngles = viewRotation;
+
         transform.eulerAngles = new Vector3(0, viewRotation.y, 0);
     }
 

@@ -1,10 +1,11 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Headbutt : MonoBehaviour
 {
     [SerializeField] Transform head;
-
+    
     [Header("Variables")]
     public float chargeValue;
     [SerializeField] float chargeSpeed;
@@ -17,9 +18,15 @@ public class Headbutt : MonoBehaviour
 
     [Header("hidden values")]
     States currState;
+    Animator animHead;
     public bool canSling { get; private set; }
     float timerSling;
     Vector3 headPos;
+
+    void Start()
+    {
+        animHead = GetComponentInChildren<Animator>();
+    }
 
     //Input
     public void ChargeHead(InputAction.CallbackContext ctx)
@@ -48,6 +55,8 @@ public class Headbutt : MonoBehaviour
         chargeValue = Mathf.Clamp(chargeValue, maxCharge, 0);
         headPos.z = chargeValue;
 
+        AnimCharge(true);
+
         if (chargeValue <= thresholdSling)
             canSling = true;
     }
@@ -56,6 +65,8 @@ public class Headbutt : MonoBehaviour
     {
         currState = States.slinging;
         chargeValue = 0;
+
+        AnimCharge(false);
 
         timerSling += Time.deltaTime * slingSpeed;
         headPos.z = slingValue.Evaluate(timerSling);
@@ -66,6 +77,8 @@ public class Headbutt : MonoBehaviour
         currState = States.cancel;
         headPos.z += Time.deltaTime * cancelSpeed;
 
+        AnimCharge(false);
+
         if (headPos.z > 0)
         {
             head.transform.position = Vector3.zero;
@@ -73,9 +86,18 @@ public class Headbutt : MonoBehaviour
         }
     }
 
-    void ShowHitPoint()
+    void AnimCharge(bool charge)
     {
-
+        if (charge)
+        {
+            animHead.SetLayerWeight(1, 1);
+            animHead.SetBool("isCharging", true); 
+        }
+        else
+        {
+            animHead.SetLayerWeight(1, 0);
+            animHead.SetBool("isCharging", false); 
+        }
     }
 
     //Update
@@ -90,13 +112,10 @@ public class Headbutt : MonoBehaviour
                 LaunchHit();
             else
                 CancelHit();
-        }
-
-        if(currState == States.charging)
-            ShowHitPoint();
+        }        
 
         if (currState == States.slinging && timerSling > slingValue.keys[2].time)
-                currState = States.idle;
+            currState = States.idle;
 
         head.transform.localPosition = headPos;
     }

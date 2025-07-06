@@ -1,10 +1,14 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class ControllerV2 : MonoBehaviour
 {
     Animator animPlayer;
+    [SerializeField] Rigidbody body;
     [Header("Movement")]
+    [SerializeField] Vector3 currSpeed;
     [SerializeField] float walkSpeed;
     [SerializeField] float sprintSpeed;
     [SerializeField] float gravity;
@@ -29,10 +33,16 @@ public class ControllerV2 : MonoBehaviour
     [SerializeField] GameObject cameraPivot;
     [SerializeField] float sensibility;
     [SerializeField] Vector2 maxCamAngle;
+    [SerializeField] Vector3 viewRotation;
+
+    [Header("Physics")]
+    [SerializeField] Vector3 launchSpeed;
+    [SerializeField] float airDrag;
+    [SerializeField] float groundDrag;
+    [SerializeField] float pushDivider;
+    [SerializeField] float thresholdResetPhysics;
 
     [Header("Private")]
-    [SerializeField] Vector3 currSpeed;
-    [SerializeField] Vector3 viewRotation;
     private LayerMask collisionMask;
     private Vector3 bottomPos;
     private Vector2 currInputDir;
@@ -44,14 +54,18 @@ public class ControllerV2 : MonoBehaviour
     private bool isWalkingFwd;
     private bool isWalkingSide;
     private bool isBuffering;
+    private bool isBeingThrown;
     private Vector3 fallSpeed;
     private float jumpTime = 0.4f;
     private float baseJumpTime;
     private float baseBufferTime;
     private float currMoveSpeed;
+    private float currDrag;
+    private float currLaunchDelay;
 
     void Start()
     {
+        //Hide the cursor
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
@@ -63,9 +77,10 @@ public class ControllerV2 : MonoBehaviour
         animPlayer = GetComponentInChildren<Animator>();
     }
 
-    //Input
+    #region Movement
     public void MovePlayerForward(InputAction.CallbackContext ctx)
     {
+        //Check the forward input value : 1 is forward, -1 backward and 0 static
         isWalkingFwd = true;
 
         switch (ctx.ReadValue<float>())
@@ -85,6 +100,7 @@ public class ControllerV2 : MonoBehaviour
     }
     public void MovePlayerSide(InputAction.CallbackContext ctx)
     {
+        //Check the side input value : 1 is right, -1 left and 0 static
         isWalkingSide = true;
         
         switch (ctx.ReadValue<float>())
@@ -103,29 +119,6 @@ public class ControllerV2 : MonoBehaviour
         }
     }
 
-    public void MoveCamera(InputAction.CallbackContext ctx)
-    {
-        viewRotation.y += ctx.ReadValue<Vector2>().x * sensibility * Time.deltaTime;
-        viewRotation.x += -ctx.ReadValue<Vector2>().y * sensibility * Time.deltaTime;
-
-        viewRotation.x = Mathf.Clamp(viewRotation.x, maxCamAngle.x, maxCamAngle.y);
-
-        cameraPivot.transform.eulerAngles = viewRotation;
-
-        transform.eulerAngles = new Vector3(0, viewRotation.y, 0);
-    }
-
-    public void Jump(InputAction.CallbackContext ctx)
-    {
-        if (canJump)
-            Jump();
-        else
-        {
-            baseBufferTime = bufferTime;
-            isBuffering = true;
-        }  
-    }
-
     public void Sprint(InputAction.CallbackContext ctx)
     {
         float sprinting = ctx.ReadValue<float>();
@@ -136,40 +129,13 @@ public class ControllerV2 : MonoBehaviour
             currMoveSpeed = walkSpeed;
     }
 
-    //Values
     void ApplyMovement()
     {
-        if (!isGrounded || isJumping)
-        {
-            fallSpeed.y += gravity * Time.deltaTime;
-            transform.Translate(fallSpeed, Space.World);
-        }
-        else
-        {
-            canJump = true;
-            fallSpeed.y = 0;
-        }
-
-        if (isJumping)
-        {
-            baseJumpTime -= Time.deltaTime;
-
-            if (baseJumpTime <= 0)
-            {
-                isJumping = false;
-                baseJumpTime = jumpTime;
-            }
-        }
-
-        if (isWalkingFwd)
+        //Separated both for readibility
+        if (isWalkingFwd && !isBeingThrown)
             ForwardMovement();
-        else
-        {
-            animPlayer.SetBool("isWalking", false);
-            animPlayer.SetBool("isBackWalking", false);
-        }
 
-        if (isWalkingSide)
+        if (isWalkingSide && !isBeingThrown)
             SideMovement();
     }
 
@@ -179,19 +145,12 @@ public class ControllerV2 : MonoBehaviour
         {
             currSpeed = transform.forward;
             transform.Translate(currSpeed * currMoveSpeed, Space.World);
-
-            animPlayer.SetBool("isWalking", true);
-            animPlayer.SetBool("isBackWalking", false);
         }
         else if (currInputDir.x == -1 && currInputBlock[1] == false)
         {
             currSpeed = -transform.forward;
             transform.Translate(currSpeed * currMoveSpeed, Space.World);
-
-            animPlayer.SetBool("isWalking", false);
-            animPlayer.SetBool("isBackWalking", true);
         }
-
     }
 
     void SideMovement()
@@ -207,7 +166,69 @@ public class ControllerV2 : MonoBehaviour
             transform.Translate(currSpeed * currMoveSpeed, Space.World);
         }
     }
+    #endregion
 
+    #region Jump
+    public void Jump(InputAction.CallbackContext ctx)
+    {
+        if (canJump && !isBeingThrown)
+            JumpAction();
+        else
+        {
+            baseBufferTime = bufferTime;
+            isBuffering = true;
+        }  
+    }
+
+        void BufferTimer()
+    {
+        if (baseBufferTime > 0)
+            baseBufferTime -= Time.deltaTime;
+        else
+            isBuffering = false;
+
+        if (isBuffering && isGrounded)
+            JumpAction();
+    }
+
+    void JumpAction()
+    {
+        fallSpeed.y = jumpHeight;
+        isJumping = true;
+        canJump = false;
+    }
+
+    void ApplyJump()
+    {
+        if (isJumping)
+        {
+            baseJumpTime -= Time.deltaTime;
+
+            if (baseJumpTime <= 0)
+            {
+                isJumping = false;
+                baseJumpTime = jumpTime;
+            }
+        }
+    }
+
+    #endregion
+
+    #region Camera
+    public void MoveCamera(InputAction.CallbackContext ctx)
+    {
+        viewRotation.y += ctx.ReadValue<Vector2>().x * sensibility * Time.deltaTime;
+        viewRotation.x += -ctx.ReadValue<Vector2>().y * sensibility * Time.deltaTime;
+
+        viewRotation.x = Mathf.Clamp(viewRotation.x, maxCamAngle.x, maxCamAngle.y);
+
+        cameraPivot.transform.eulerAngles = viewRotation;
+
+        transform.eulerAngles = new Vector3(0, viewRotation.y, 0);
+    }
+    #endregion
+
+    #region Collison
     void CheckGround()
     {
         RaycastHit hit;
@@ -217,13 +238,23 @@ public class ControllerV2 : MonoBehaviour
 
             if (hit.distance <= maxFallDepthClip)
                 gameObject.transform.position += Vector3.up * Time.deltaTime;
+
+            currDrag = groundDrag;
+
+            isBeingThrown = false;
         }
         else
+        {
             isGrounded = false;
+            currDrag = airDrag;
+        }
     }
 
     void CheckCollision()
     {
+        //Checking a layer "Wall" in 4 directions both at the top and at the feet of the controller
+        //TODO compensate direction rather than block the input
+
         Vector3 bottomCollisionHeightVector = new Vector3(transform.position.x, transform.position.y - bottomCollisionHeight, transform.position.z);
         Vector3 topCollisionHeightVector = new Vector3(transform.position.x, transform.position.y - topCollisionHeight, transform.position.z);
 
@@ -251,9 +282,14 @@ public class ControllerV2 : MonoBehaviour
         else
             currInputBlock[3] = false;
     }
+    #endregion
 
+    #region Step
     void CheckStep()
     {
+        //Check at the bottom of the controller in 4 directions if there is a heigth difference
+        //TODO perhaps add 4 diagonal raycasts for smoothing 
+
         bottomPos.x = gameObject.transform.position.x;
         bottomPos.y = gameObject.transform.position.y - stepRayHeight;
         bottomPos.z = gameObject.transform.position.z;
@@ -267,6 +303,8 @@ public class ControllerV2 : MonoBehaviour
 
     void ApplyStep()
     {
+        //Before checking another step, I use another raycast that goes up by a little every frame.
+        //If that raycast stops hitting a wall/ground within a threshold, it calculates the heigth difference and lifts the controller by that value
         touchStep = false;
         bool canStep = false;
 
@@ -276,12 +314,13 @@ public class ControllerV2 : MonoBehaviour
 
         Vector3 origin = new Vector3(transform.position.x, currY, transform.position.z);
 
+        //For loop to avoid crashes
         for (int i = 0; i < 100; i++)
         {
             origin.y = currY;
 
-            bool hitFwd = Physics.Raycast(origin, transform.rotation * -Vector3.forward, topStepReach,collisionMask) || Physics.Raycast(origin, transform.rotation * Vector3.forward, topStepReach,collisionMask);
-            bool hitLeft = Physics.Raycast(origin, transform.rotation * -Vector3.left, topStepReach,collisionMask) || Physics.Raycast(origin, transform.rotation * Vector3.left, topStepReach,collisionMask);
+            bool hitFwd = Physics.Raycast(origin, transform.rotation * -Vector3.forward, topStepReach, collisionMask) || Physics.Raycast(origin, transform.rotation * Vector3.forward, topStepReach, collisionMask);
+            bool hitLeft = Physics.Raycast(origin, transform.rotation * -Vector3.left, topStepReach, collisionMask) || Physics.Raycast(origin, transform.rotation * Vector3.left, topStepReach, collisionMask);
 
             if (!hitFwd && !hitLeft)
             {
@@ -301,29 +340,70 @@ public class ControllerV2 : MonoBehaviour
             transform.position += new Vector3(0, climbAmount, 0);
         }
     }
+    #endregion
 
-    void BufferTimer()
+#region Physics
+    //Physics
+    void CheckForce()
     {
-        if (baseBufferTime > 0)
-            baseBufferTime -= Time.deltaTime;
+        //Check if children rigidbody "feels" a force
+        if ((body.GetAccumulatedForce().x > 1 || body.GetAccumulatedForce().y > 1 || body.GetAccumulatedForce().z > 1) && !isBeingThrown)
+        {
+            isGrounded = false;
+            Throw(body.GetAccumulatedForce());
+        }
+    }
+
+    void Throw(Vector3 dir)
+    {
+        //The controller is launched into orbit, so I reduce the force
+        launchSpeed = dir / pushDivider;
+        isBeingThrown = true;
+    }
+
+    void ApplyPhysics()
+    {
+        //Reducing every value by a bit until it stops
+        if (launchSpeed.x < thresholdResetPhysics && launchSpeed.x > -thresholdResetPhysics)
+            launchSpeed.x = 0;
         else
-            isBuffering = false;
+            launchSpeed.x -= currDrag * Mathf.Sign(launchSpeed.x) * Time.deltaTime;
 
-        if (isBuffering && isGrounded)
-            Jump();
+        if (launchSpeed.y > thresholdResetPhysics)
+            launchSpeed.y += gravity * Time.deltaTime;
+        else
+            launchSpeed.y = 0;
+
+        if (launchSpeed.z < thresholdResetPhysics && launchSpeed.z > -thresholdResetPhysics)
+            launchSpeed.z = 0;
+        else
+            launchSpeed.z -= currDrag * Mathf.Sign(launchSpeed.z) * Time.deltaTime;
+
+        transform.position += launchSpeed;
     }
 
-    void Jump()
+    void Gravity()
     {
-        fallSpeed.y = jumpHeight;
-        isJumping = true;
-        canJump = false;
+        if (!isGrounded || isJumping)
+        {
+            fallSpeed.y += gravity * Time.deltaTime;
+            transform.Translate(fallSpeed, Space.World);
+        }
+        else
+        {
+            canJump = true;
+            fallSpeed.y = 0;
+        }
     }
 
+    #endregion
+
+    //Update
     void FixedUpdate()
-    {
+    {   
         CheckGround();
         CheckCollision();
+        CheckForce();
 
         if (currSpeed.x != 0 || currSpeed.z != 0)
         {
@@ -336,6 +416,12 @@ public class ControllerV2 : MonoBehaviour
         if (isBuffering)
             BufferTimer();
 
+        Gravity();
+
+        if (isJumping)
+            ApplyJump();
+
+        ApplyPhysics();
         ApplyMovement();
     }
 }

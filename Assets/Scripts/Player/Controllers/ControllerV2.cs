@@ -25,10 +25,10 @@ public class ControllerV2 : MonoBehaviour
     [SerializeField] float maxFallDepthClip;
 
     [Header("Collision")]
-    [SerializeField] float bottomCollisionHeight;
-    [SerializeField] float bottomReach;
-    [SerializeField] float topCollisionHeight;
-    [SerializeField] float topReach;
+    [SerializeField] float wallPushforce;
+    [SerializeField] float collisionHeight;
+    [SerializeField] float collisionDistance;
+    [SerializeField] float diagonalCollisionModifier;
 
     [Header("Camera")]
     [SerializeField] GameObject cameraPivot;
@@ -48,7 +48,6 @@ public class ControllerV2 : MonoBehaviour
     private LayerMask collisionMask;
     private Vector3 bottomPos;
     private Vector2 currInputDir;
-    private bool[] currInputBlock = new bool[4];
     private bool touchStep;
     private bool isJumping;
     private bool canJump = true;
@@ -141,29 +140,31 @@ public class ControllerV2 : MonoBehaviour
 
     void ForwardMovement()
     {
-        if (currInputDir.x == 1 && currInputBlock[0] == false)
+        // if (currInputDir.x == 1 && currInputBlock[0] == false)
+        // {
+        //     currSpeed = transform.forward;
+        //     transform.Translate(currSpeed * currMoveSpeed, Space.World);
+        // }
+        // else if (currInputDir.x == -1 && currInputBlock[1] == false)
+        // {
+        //     currSpeed = -transform.forward;
+        //     transform.Translate(currSpeed * currMoveSpeed, Space.World);
+        // }
+
+        if (currInputDir.x != 0)
         {
-            currSpeed = transform.forward;
-            transform.Translate(currSpeed * currMoveSpeed, Space.World);
+            currSpeed = transform.forward * currInputDir.x * currMoveSpeed;
+            transform.Translate(currSpeed, Space.World);
         }
-        else if (currInputDir.x == -1 && currInputBlock[1] == false)
-        {
-            currSpeed = -transform.forward;
-            transform.Translate(currSpeed * currMoveSpeed, Space.World);
-        }
+
     }
 
     void SideMovement()
     {
-        if (currInputDir.y == 1 && currInputBlock[3] == false)
+        if (currInputDir.y != 0)
         {
-            currSpeed = transform.right;
-            transform.Translate(currSpeed * currMoveSpeed, Space.World);
-        }
-        else if (currInputDir.y == -1 && currInputBlock[2] == false)
-        {
-            currSpeed = -transform.right;
-            transform.Translate(currSpeed * currMoveSpeed, Space.World);
+            currSpeed = transform.right * currInputDir.y * currMoveSpeed;
+            transform.Translate(currSpeed, Space.World);
         }
     }
     #endregion
@@ -253,32 +254,40 @@ public class ControllerV2 : MonoBehaviour
         //Checking a layer "Wall" in 4 directions both at the top and at the feet of the controller
         //TODO compensate direction rather than block the input
 
-        Vector3 bottomCollisionHeightVector = new Vector3(transform.position.x, transform.position.y - bottomCollisionHeight, transform.position.z);
-        Vector3 topCollisionHeightVector = new Vector3(transform.position.x, transform.position.y - topCollisionHeight, transform.position.z);
+        Vector3 collisionHeightVector = new Vector3(transform.position.x, transform.position.y - collisionHeight, transform.position.z);
 
         //Forward
-        if (Physics.Raycast(bottomCollisionHeightVector, transform.rotation * Vector3.forward, bottomReach, collisionMask) || Physics.Raycast(topCollisionHeightVector, transform.rotation * Vector3.forward, topReach, collisionMask))
-            currInputBlock[0] = true;
-        else
-            currInputBlock[0] = false;
+        if (Physics.Raycast(collisionHeightVector, transform.rotation * Vector3.forward, collisionDistance, collisionMask))
+            transform.Translate(transform.rotation * Vector3.back * currMoveSpeed, Space.World);
 
         //Behind
-        if (Physics.Raycast(bottomCollisionHeightVector, transform.rotation * -Vector3.forward, bottomReach, collisionMask) || Physics.Raycast(topCollisionHeightVector, transform.rotation * -Vector3.forward, topReach, collisionMask))
-            currInputBlock[1] = true;
-        else
-            currInputBlock[1] = false;
+        if (Physics.Raycast(collisionHeightVector, transform.rotation * -Vector3.forward, collisionDistance, collisionMask))
+            transform.Translate(transform.rotation * Vector3.forward * currMoveSpeed, Space.World);
 
         //Left
-        if (Physics.Raycast(bottomCollisionHeightVector, transform.rotation * Vector3.left, bottomReach, collisionMask) || Physics.Raycast(topCollisionHeightVector, transform.rotation * Vector3.left, topReach, collisionMask))
-            currInputBlock[2] = true;
-        else
-            currInputBlock[2] = false;
+        if (Physics.Raycast(collisionHeightVector, transform.rotation * Vector3.left, collisionDistance, collisionMask))
+            transform.Translate(Vector3.left * currMoveSpeed, Space.World);
 
         //Right
-        if (Physics.Raycast(bottomCollisionHeightVector, transform.rotation * -Vector3.left, bottomReach, collisionMask) || Physics.Raycast(topCollisionHeightVector, transform.rotation * -Vector3.left, topReach, collisionMask))
-            currInputBlock[3] = true;
-        else
-            currInputBlock[3] = false;
+        if (Physics.Raycast(collisionHeightVector, transform.rotation * -Vector3.left, collisionDistance, collisionMask))
+            transform.Translate(Vector3.right * currMoveSpeed, Space.World);
+
+        //Forward Right
+        if (Physics.Raycast(collisionHeightVector, transform.rotation * (Vector3.forward + Vector3.right), collisionDistance, collisionMask))
+            transform.Translate(transform.rotation * (Vector3.back + Vector3.left) * currMoveSpeed, Space.World);
+
+        //Forward Left
+        if (Physics.Raycast(collisionHeightVector, transform.rotation * (Vector3.forward + Vector3.left), collisionDistance, collisionMask))
+            transform.Translate(transform.rotation * (Vector3.back + Vector3.right) * currMoveSpeed, Space.World);
+
+        //Behind Left
+        if (Physics.Raycast(collisionHeightVector, transform.rotation * (Vector3.back + Vector3.left), collisionDistance, collisionMask))
+            transform.Translate(transform.rotation * (Vector3.forward + Vector3.right) * currMoveSpeed, Space.World);
+
+        //Behind Right
+        if (Physics.Raycast(collisionHeightVector, transform.rotation * (Vector3.back + Vector3.right), collisionDistance, collisionMask))
+            transform.Translate(transform.rotation * (Vector3.forward + Vector3.left) * currMoveSpeed, Space.World);
+
     }
     #endregion
 

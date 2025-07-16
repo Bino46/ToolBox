@@ -4351,7 +4351,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 598861060}
 --- !u!33 &1765497026
@@ -12471,10 +12471,10 @@ MonoBehaviour:
   maxStepHeight: 0.5
   stepSpeed: 0.5
   maxFallDepthClip: 0.9
-  bottomCollisionHeight: 0.5
-  bottomReach: 0.5
-  topCollisionHeight: 0.2
-  topReach: 0.2
+  wallPushforce: 1
+  collisionHeight: 0.5
+  collisionDistance: 0.5
+  diagonalCollisionModifier: 0
   cameraPivot: {fileID: 597361460}
   sensibility: 17
   maxCamAngle: {x: -90, y: 80}

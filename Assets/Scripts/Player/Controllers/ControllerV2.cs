@@ -12,8 +12,9 @@ public class ControllerV2 : MonoBehaviour
     [SerializeField] float walkSpeed;
     [SerializeField] float sprintSpeed;
     [SerializeField] float gravity;
-    [SerializeField] float jumpHeight;
     [SerializeField] float bufferTime;
+    [SerializeField] float jumpHeight;
+    [SerializeField] float jumpSpeedMultiplier;
 
     [Header("Step")]
     [SerializeField] float bottomStepReach;
@@ -37,12 +38,10 @@ public class ControllerV2 : MonoBehaviour
 
     [Header("Physics")]
     [SerializeField] Vector3 launchSpeed;
-    [SerializeField] float airDrag;
     [SerializeField] float groundDrag;
     [SerializeField] float pushDivider;
-    [SerializeField] float thresholdResetPhysics;
     [SerializeField] float maxKnockbackForce;
-    [SerializeField] float pushSpeed;
+    [SerializeField] float forceSpeedMultiplier;
 
 
     [Header("Private")]
@@ -60,9 +59,9 @@ public class ControllerV2 : MonoBehaviour
     private Vector3 fallSpeed;
     private float jumpTime = 0.4f;
     private float baseJumpTime;
+    private float pushSpeed;
     private float baseBufferTime;
     private float currMoveSpeed;
-    private float currDrag;
 
     void Start()
     {
@@ -197,10 +196,13 @@ public class ControllerV2 : MonoBehaviour
         fallSpeed.y = jumpHeight;
         isJumping = true;
         canJump = false;
+
+        pushSpeed = jumpSpeedMultiplier;
     }
 
     void ApplyJump()
     {
+        //When does the gravity takes the lead
         if (isJumping)
         {
             baseJumpTime -= Time.deltaTime;
@@ -239,13 +241,10 @@ public class ControllerV2 : MonoBehaviour
 
             if (hit.distance <= maxFallDepthClip)
                 gameObject.transform.position += Vector3.up * Time.deltaTime;
-
-            currDrag = groundDrag;
         }
         else
         {
             isGrounded = false;
-            currDrag = airDrag;
         }
     }
 
@@ -352,6 +351,8 @@ public class ControllerV2 : MonoBehaviour
 
         fallSpeed.y = launchSpeed.y;
         launchSpeed.y = 0;
+
+        pushSpeed = forceSpeedMultiplier;
     }
 
     void ApplyPhysics()
@@ -360,14 +361,13 @@ public class ControllerV2 : MonoBehaviour
         {
             fallSpeed.y += gravity * Time.deltaTime;
             canJump = false;
-            //transform.Translate(fallSpeed, Space.World);
         }
         else if (isGrounded && fallSpeed.y <= 0)
         {
             canJump = true;
 
             fallSpeed.y = 0;
-            launchSpeed = Vector3.MoveTowards(launchSpeed, Vector3.zero, currDrag * Time.deltaTime);
+            launchSpeed = Vector3.MoveTowards(launchSpeed, Vector3.zero, groundDrag * Time.deltaTime);
         }
     
         transform.position += (launchSpeed + fallSpeed) * (pushSpeed * Time.deltaTime);

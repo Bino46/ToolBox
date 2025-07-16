@@ -12462,8 +12462,9 @@ MonoBehaviour:
   walkSpeed: 0.12
   sprintSpeed: 0.18
   gravity: -1
-  jumpHeight: 0.35
   bufferTime: 0.1
+  jumpHeight: 0.35
+  jumpSpeedMultiplier: 30
   bottomStepReach: 0.3
   topStepReach: 0.33
   stepRayHeight: 0.9
@@ -12479,12 +12480,10 @@ MonoBehaviour:
   maxCamAngle: {x: -90, y: 80}
   viewRotation: {x: 0, y: 0, z: 0}
   launchSpeed: {x: 0, y: 0, z: 0}
-  airDrag: 0.2
   groundDrag: 3
   pushDivider: 20
-  thresholdResetPhysics: 0.05
   maxKnockbackForce: 15
-  pushSpeed: 15
+  forceSpeedMultiplier: 15
 --- !u!4 &6400618545108881723
 Transform:
   m_ObjectHideFlags: 0

@@ -41,6 +41,9 @@ public class ControllerV2 : MonoBehaviour
     [SerializeField] float groundDrag;
     [SerializeField] float pushDivider;
     [SerializeField] float thresholdResetPhysics;
+    [SerializeField] float maxKnockbackForce;
+    [SerializeField] float pushSpeed;
+
 
     [Header("Private")]
     private LayerMask collisionMask;
@@ -54,14 +57,12 @@ public class ControllerV2 : MonoBehaviour
     private bool isWalkingFwd;
     private bool isWalkingSide;
     private bool isBuffering;
-    private bool isBeingThrown;
     private Vector3 fallSpeed;
     private float jumpTime = 0.4f;
     private float baseJumpTime;
     private float baseBufferTime;
     private float currMoveSpeed;
     private float currDrag;
-    private float currLaunchDelay;
 
     void Start()
     {
@@ -132,10 +133,10 @@ public class ControllerV2 : MonoBehaviour
     void ApplyMovement()
     {
         //Separated both for readibility
-        if (isWalkingFwd && !isBeingThrown)
+        if (isWalkingFwd)
             ForwardMovement();
 
-        if (isWalkingSide && !isBeingThrown)
+        if (isWalkingSide)
             SideMovement();
     }
 
@@ -171,7 +172,7 @@ public class ControllerV2 : MonoBehaviour
     #region Jump
     public void Jump(InputAction.CallbackContext ctx)
     {
-        if (canJump && !isBeingThrown)
+        if (canJump)
             JumpAction();
         else
         {
@@ -240,8 +241,6 @@ public class ControllerV2 : MonoBehaviour
                 gameObject.transform.position += Vector3.up * Time.deltaTime;
 
             currDrag = groundDrag;
-
-            isBeingThrown = false;
         }
         else
         {
@@ -342,68 +341,45 @@ public class ControllerV2 : MonoBehaviour
     }
     #endregion
 
-#region Physics
+    #region Physics
     //Physics
-    void CheckForce()
-    {
-        //Check if children rigidbody "feels" a force
-        if ((body.GetAccumulatedForce().x > 1 || body.GetAccumulatedForce().y > 1 || body.GetAccumulatedForce().z > 1) && !isBeingThrown)
-        {
-            isGrounded = false;
-            Throw(body.GetAccumulatedForce());
-        }
-    }
-
-    void Throw(Vector3 dir)
+    public void Throw(Vector3 dir)
     {
         //The controller is launched into orbit, so I reduce the force
-        launchSpeed = dir / pushDivider;
-        isBeingThrown = true;
+        Vector3 forceDir = dir.normalized;
+        float forceMag = Mathf.Clamp(dir.magnitude, 0, maxKnockbackForce);
+        launchSpeed = forceDir * (forceMag / pushDivider);
+
+        fallSpeed.y = launchSpeed.y;
+        launchSpeed.y = 0;
     }
 
     void ApplyPhysics()
     {
-        //Reducing every value by a bit until it stops
-        if (launchSpeed.x < thresholdResetPhysics && launchSpeed.x > -thresholdResetPhysics)
-            launchSpeed.x = 0;
-        else
-            launchSpeed.x -= currDrag * Mathf.Sign(launchSpeed.x) * Time.deltaTime;
-
-        if (launchSpeed.y > thresholdResetPhysics)
-            launchSpeed.y += gravity * Time.deltaTime;
-        else
-            launchSpeed.y = 0;
-
-        if (launchSpeed.z < thresholdResetPhysics && launchSpeed.z > -thresholdResetPhysics)
-            launchSpeed.z = 0;
-        else
-            launchSpeed.z -= currDrag * Mathf.Sign(launchSpeed.z) * Time.deltaTime;
-
-        transform.position += launchSpeed;
-    }
-
-    void Gravity()
-    {
         if (!isGrounded || isJumping)
         {
             fallSpeed.y += gravity * Time.deltaTime;
-            transform.Translate(fallSpeed, Space.World);
+            canJump = false;
+            //transform.Translate(fallSpeed, Space.World);
         }
-        else
+        else if (isGrounded && fallSpeed.y <= 0)
         {
             canJump = true;
+
             fallSpeed.y = 0;
+            launchSpeed = Vector3.MoveTowards(launchSpeed, Vector3.zero, currDrag * Time.deltaTime);
         }
+    
+        transform.position += (launchSpeed + fallSpeed) * (pushSpeed * Time.deltaTime);
     }
 
     #endregion
 
     //Update
     void FixedUpdate()
-    {   
+    {
         CheckGround();
         CheckCollision();
-        CheckForce();
 
         if (currSpeed.x != 0 || currSpeed.z != 0)
         {
@@ -415,8 +391,6 @@ public class ControllerV2 : MonoBehaviour
 
         if (isBuffering)
             BufferTimer();
-
-        Gravity();
 
         if (isJumping)
             ApplyJump();

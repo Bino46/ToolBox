@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerInputManager : MonoBehaviour
 {
@@ -8,6 +7,7 @@ public class PlayerInputManager : MonoBehaviour
     ControllerV2 playerController;
     Headbutt playerHit;
     GrabObject grab;
+    ShootSpell spell;
 
     void Awake()
     {
@@ -29,6 +29,7 @@ public class PlayerInputManager : MonoBehaviour
         playerController = GetComponent<ControllerV2>();
         playerHit = GetComponent<Headbutt>();
         grab = GetComponentInChildren<GrabObject>();
+        spell = GetComponent<ShootSpell>();
 
         inputs.Movement.Forward.performed += playerController.MovePlayerForward;
         inputs.Movement.Forward.canceled += playerController.MovePlayerForward;
@@ -47,11 +48,7 @@ public class PlayerInputManager : MonoBehaviour
 
         inputs.Movement.Grab.performed += grab.Grab;
         inputs.Movement.Grab.canceled += grab.UnGrab;
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        inputs.Attack.Shoot.performed += spell.Shoot;
     }
 }

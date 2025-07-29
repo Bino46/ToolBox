@@ -36,8 +36,8 @@ public class ControllerV2 : MonoBehaviour
     [SerializeField] GameObject cameraPivot;
     [SerializeField] float sensibility;
     [SerializeField] Vector2 maxCamAngle;
-    [SerializeField] Vector3 viewRotation;
-
+    public Vector3 viewRotation;
+    
     [Header("Physics")]
     [SerializeField] Vector3 launchSpeed;
     [SerializeField] float groundDrag;

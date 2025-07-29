@@ -1,4 +1,6 @@
 using System.Collections;
+using NUnit.Framework.Api;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
@@ -130,40 +132,15 @@ public class ControllerV2 : MonoBehaviour
 
     void ApplyMovement()
     {
-        //Separated both for readibility
         if (isWalkingFwd)
-            ForwardMovement();
-
-        if (isWalkingSide)
-            SideMovement();
-    }
-
-    void ForwardMovement()
-    {
-        // if (currInputDir.x == 1 && currInputBlock[0] == false)
-        // {
-        //     currSpeed = transform.forward;
-        //     transform.Translate(currSpeed * currMoveSpeed, Space.World);
-        // }
-        // else if (currInputDir.x == -1 && currInputBlock[1] == false)
-        // {
-        //     currSpeed = -transform.forward;
-        //     transform.Translate(currSpeed * currMoveSpeed, Space.World);
-        // }
-
-        if (currInputDir.x != 0)
         {
-            currSpeed = transform.forward * currInputDir.x * currMoveSpeed;
+            currSpeed = (transform.forward + CheckCollision(currInputDir)) * currInputDir.x * currMoveSpeed;
             transform.Translate(currSpeed, Space.World);
         }
 
-    }
-
-    void SideMovement()
-    {
-        if (currInputDir.y != 0)
+        if (isWalkingSide)
         {
-            currSpeed = transform.right * currInputDir.y * currMoveSpeed;
+            currSpeed = (transform.right + CheckCollision(currInputDir)) * currInputDir.y * currMoveSpeed;
             transform.Translate(currSpeed, Space.World);
         }
     }
@@ -249,46 +226,103 @@ public class ControllerV2 : MonoBehaviour
         }
     }
 
-    void CheckCollision()
+    Vector3 CheckCollisionFwd(Vector2 dir)
     {
-        //Checking a layer "Wall" in 4 directions both at the top and at the feet of the controller
-        //TODO compensate direction rather than block the input
-
         Vector3 collisionHeightVector = new Vector3(transform.position.x, transform.position.y - collisionHeight, transform.position.z);
+        RaycastHit hit;
 
-        //Forward
-        if (Physics.Raycast(collisionHeightVector, transform.rotation * Vector3.forward, collisionDistance, collisionMask))
-            transform.Translate(transform.rotation * Vector3.back * currMoveSpeed, Space.World);
+        switch (dir.x)
+        {
+            case 1:
+                if (Physics.Raycast(collisionHeightVector, transform.rotation * Vector3.forward, out hit, collisionDistance, collisionMask))
+                    return hit.normal;
+                break;
 
-        //Behind
-        if (Physics.Raycast(collisionHeightVector, transform.rotation * -Vector3.forward, collisionDistance, collisionMask))
-            transform.Translate(transform.rotation * Vector3.forward * currMoveSpeed, Space.World);
-
-        //Left
-        if (Physics.Raycast(collisionHeightVector, transform.rotation * Vector3.left, collisionDistance, collisionMask))
-            transform.Translate(Vector3.left * currMoveSpeed, Space.World);
-
-        //Right
-        if (Physics.Raycast(collisionHeightVector, transform.rotation * -Vector3.left, collisionDistance, collisionMask))
-            transform.Translate(Vector3.right * currMoveSpeed, Space.World);
-
-        //Forward Right
-        if (Physics.Raycast(collisionHeightVector, transform.rotation * (Vector3.forward + Vector3.right), collisionDistance, collisionMask))
-            transform.Translate(transform.rotation * (Vector3.back + Vector3.left) * currMoveSpeed, Space.World);
-
-        //Forward Left
-        if (Physics.Raycast(collisionHeightVector, transform.rotation * (Vector3.forward + Vector3.left), collisionDistance, collisionMask))
-            transform.Translate(transform.rotation * (Vector3.back + Vector3.right) * currMoveSpeed, Space.World);
-
-        //Behind Left
-        if (Physics.Raycast(collisionHeightVector, transform.rotation * (Vector3.back + Vector3.left), collisionDistance, collisionMask))
-            transform.Translate(transform.rotation * (Vector3.forward + Vector3.right) * currMoveSpeed, Space.World);
-
-        //Behind Right
-        if (Physics.Raycast(collisionHeightVector, transform.rotation * (Vector3.back + Vector3.right), collisionDistance, collisionMask))
-            transform.Translate(transform.rotation * (Vector3.forward + Vector3.left) * currMoveSpeed, Space.World);
-
+            case -1:
+                if (Physics.Raycast(collisionHeightVector, transform.rotation * -Vector3.forward, out hit, collisionDistance, collisionMask))
+                    return hit.normal;
+                break;
+        }
+        return Vector3.zero;
     }
+
+    bool CheckCollisionSide(Vector2 dir)
+    {
+        Vector3 collisionHeightVector = new Vector3(transform.position.x, transform.position.y - collisionHeight, transform.position.z);
+        float wallPush = currMoveSpeed * wallPushforce;
+
+        switch (dir.y)
+        {
+            case 1:
+                if (Physics.Raycast(collisionHeightVector, transform.rotation * Vector3.right, collisionDistance, collisionMask))
+                {
+                    transform.Translate(transform.rotation * Vector3.left * wallPush, Space.World);
+                    return false;
+                }
+                break;
+
+            case -1:
+                if (Physics.Raycast(collisionHeightVector, transform.rotation * Vector3.left, collisionDistance, collisionMask))
+                {
+                    transform.Translate(transform.rotation * Vector3.right * wallPush, Space.World);
+                    return false;
+                }
+                break;
+        }
+        return true;
+    }
+
+    Vector3 CheckCollision(Vector2 dir)
+    {
+        Vector3 collisionHeightVector = new Vector3(transform.position.x, transform.position.y - collisionHeight, transform.position.z);
+        RaycastHit hit;
+
+        switch (dir.x, dir.y)
+        {
+            case (1, 0):
+                if (Physics.Raycast(collisionHeightVector, transform.rotation * Vector3.forward, out hit, collisionDistance, collisionMask))
+                    return hit.normal;
+                break;
+
+            case (-1, 0):
+                if (Physics.Raycast(collisionHeightVector, transform.rotation * Vector3.back, out hit, collisionDistance, collisionMask))
+                    return -hit.normal;
+                break;
+
+            case (0, 1):
+                if (Physics.Raycast(collisionHeightVector, transform.rotation * Vector3.right, out hit, collisionDistance, collisionMask))
+                    return hit.normal;
+                break;
+
+            case (0, -1):
+                if (Physics.Raycast(collisionHeightVector, transform.rotation * Vector3.left, out hit, collisionDistance, collisionMask))
+                    return -hit.normal;
+                break;
+
+            case (1, 1):
+                if (Physics.Raycast(collisionHeightVector, transform.rotation * (Vector3.forward + Vector3.right), out hit, collisionDistance, collisionMask))
+                    return hit.normal;
+                break;
+
+            case (-1, 1):
+                if (Physics.Raycast(collisionHeightVector, transform.rotation * (Vector3.back + Vector3.right), out hit, collisionDistance, collisionMask))
+                    return new Vector3(-hit.normal.x, hit.normal.y, hit.normal.z);
+                break;
+
+            case (1, -1):
+                if (Physics.Raycast(collisionHeightVector, transform.rotation * (Vector3.forward + Vector3.left), out hit, collisionDistance, collisionMask))
+                    return hit.normal;
+                break;
+
+            case (-1, -1):
+                if (Physics.Raycast(collisionHeightVector, transform.rotation * (Vector3.back + Vector3.left), out hit, collisionDistance, collisionMask))
+                    return -hit.normal;
+                break;
+        }
+
+        return Vector3.zero;
+    }
+
     #endregion
 
     #region Step
@@ -388,7 +422,6 @@ public class ControllerV2 : MonoBehaviour
     void FixedUpdate()
     {
         CheckGround();
-        CheckCollision();
 
         if (currSpeed.x != 0 || currSpeed.z != 0)
         {

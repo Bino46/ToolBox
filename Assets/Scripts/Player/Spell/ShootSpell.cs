@@ -3,12 +3,16 @@ using UnityEngine.InputSystem;
 
 public class ShootSpell : MonoBehaviour
 {
+    [SerializeField] Pool currPool;
     [SerializeField] SpellData currSpell;
-    [SerializeField] GameObject prefab;
     public void Shoot(InputAction.CallbackContext ctx)
     {
-        Quaternion rotation = Quaternion.Euler(GetComponent<ControllerV2>().viewRotation);
-        GameObject newObject = Instantiate(prefab, transform.position, rotation);
+        GameObject newObject = currPool.GetItem();
+
+        newObject.transform.position = transform.position;
+        newObject.transform.rotation = transform.rotation;
+
         newObject.GetComponent<Spell>().Init(currSpell);
+        newObject.SetActive(true);
     }
 }

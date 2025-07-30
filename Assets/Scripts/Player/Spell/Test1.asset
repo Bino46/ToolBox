@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellName: test1
   speed: 65
-  size: 2
-  lifetime: 10
+  size: 0.5
+  lifetime: 1
+  timeBeforeDestruction: 0

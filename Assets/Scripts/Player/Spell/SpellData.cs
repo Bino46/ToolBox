@@ -7,4 +7,5 @@ public class SpellData : ScriptableObject
     public float speed;
     public float size;
     public float lifetime;
+    public float timeBeforeDestruction;
 }

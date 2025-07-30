@@ -67,6 +67,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchWeapon",
+                    "type": "Value",
+                    "id": "30845628-6440-4538-9d7d-419033a6543e",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -234,32 +243,15 @@
                     "action": "Grab",
                     "isComposite": false,
                     "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Attack",
-            "id": "ef2d202a-dc09-4d9b-8aab-96c7c88fc3db",
-            "actions": [
-                {
-                    "name": "Shoot",
-                    "type": "Button",
-                    "id": "b0fa337b-6d46-4208-83f0-03f408290350",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
+                },
                 {
                     "name": "",
-                    "id": "790c42bb-2a06-48b5-b9ce-a6c2000a4e9c",
-                    "path": "<Mouse>/leftButton",
+                    "id": "3c000b9d-e202-42bd-8cd8-e6bfbb66ac97",
+                    "path": "<Mouse>/scroll/y",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Shoot",
+                    "action": "SwitchWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

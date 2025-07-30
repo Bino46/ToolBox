@@ -8,7 +8,6 @@ using UnityEngine.Rendering;
 public class ControllerV2 : MonoBehaviour
 {
     Animator animPlayer;
-    [SerializeField] Rigidbody body;
     [Header("Movement")]
     [SerializeField] Vector3 currSpeed;
     [SerializeField] float walkSpeed;
@@ -30,7 +29,6 @@ public class ControllerV2 : MonoBehaviour
     [SerializeField] float wallPushforce;
     [SerializeField] float collisionHeight;
     [SerializeField] float collisionDistance;
-    [SerializeField] float diagonalCollisionModifier;
 
     [Header("Camera")]
     [SerializeField] GameObject cameraPivot;

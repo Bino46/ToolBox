@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInputManager : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class PlayerInputManager : MonoBehaviour
     Headbutt playerHit;
     GrabObject grab;
     ShootSpell spell;
+
+    [Header("Variables")]
+    bool switchMain;
 
     void Awake()
     {
@@ -43,12 +47,34 @@ public class PlayerInputManager : MonoBehaviour
 
         inputs.Movement.Jump.performed += playerController.Jump;
 
-        inputs.Movement.Attack.performed += playerHit.ChargeHead;
-        inputs.Movement.Attack.canceled += playerHit.SlingHead;
+        inputs.Movement.SwitchWeapon.performed += SwitchAttack;
 
         inputs.Movement.Grab.performed += grab.Grab;
         inputs.Movement.Grab.canceled += grab.UnGrab;
 
-        inputs.Attack.Shoot.performed += spell.Shoot;
+    }
+
+    void SwitchAttack(InputAction.CallbackContext ctx)
+    {
+        switchMain = !switchMain;
+
+        if (switchMain)
+        {
+            inputs.Movement.Attack.performed -= playerHit.ChargeHead;
+            inputs.Movement.Attack.canceled -= playerHit.SlingHead;
+
+            inputs.Movement.Attack.performed += spell.Shoot;
+
+            UIManager._instance.ChangeTextOnUi("MainAttack", "Spell");
+        }
+        else
+        {
+            inputs.Movement.Attack.performed += playerHit.ChargeHead;
+            inputs.Movement.Attack.canceled += playerHit.SlingHead;
+
+            inputs.Movement.Attack.performed -= spell.Shoot;
+
+            UIManager._instance.ChangeTextOnUi("MainAttack", "Headbutt");
+        }
     }
 }

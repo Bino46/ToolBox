@@ -1,0 +1,8 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="ExplosionPanel" style="flex-grow: 1; height: 100px;">
+        <ui:Toggle label="Toggle" binding-path="b_explosion" />
+        <ui:Toggle label="Attract" binding-path="b_blackHole" />
+        <ui:FloatField label="Radius" value="42.2" binding-path="f_explosionRadius" />
+        <ui:FloatField label="Strength" value="42.2" binding-path="f_explosionStrength" />
+    </ui:VisualElement>
+</ui:UXML>

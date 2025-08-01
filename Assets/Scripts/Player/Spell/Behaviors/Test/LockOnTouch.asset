@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afa72efd83b06ad44ad064e12255fab8, type: 3}
-  m_Name: Test1
+  m_Script: {fileID: 11500000, guid: 3466fd9bff45e504e9d2746e9c9f8286, type: 3}
+  m_Name: LockOnTouch
   m_EditorClassIdentifier: 
-  spellName: test1
-  speed: 65
-  size: 0.5
-  lifetime: 1
-  timeBeforeDestruction: 0
+  currtType: 0
+  id: 3
+  modValue: 1
+  b_lockOnTouch: 1
+  f_timeBeforeDestruction: 3

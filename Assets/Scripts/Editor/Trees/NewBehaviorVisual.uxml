@@ -1,0 +1,9 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="DelayDataVisual" src="project://database/Assets/Scripts/Editor/Trees/DelayDataVisual.uxml?fileID=9197481963319205126&amp;guid=f16e0f3fb2fb2b943af53ddb8a6296e8&amp;type=3#DelayDataVisual" />
+    <ui:Template name="ExplosionDataVisual" src="project://database/Assets/Scripts/Editor/Trees/ExplosionDataVisual.uxml?fileID=9197481963319205126&amp;guid=ae436b48978bae94192f17ad9010f778&amp;type=3#ExplosionDataVisual" />
+    <ui:VisualElement name="VisualElement" data-source-type="NewBehaviorDataEditor, Assembly-CSharp-Editor" style="flex-grow: 1; opacity: 1; height: auto; bottom: auto; position: relative;">
+        <ui:EnumField label="BehaviorType" value="caca" type="AddedBehavior+behaviorType, Assembly-CSharp" binding-path="newBehavior" include-obsolete-values="false" usage-hints="None" name="ChooseType" />
+        <ui:Instance template="DelayDataVisual" data-source-type="NewBehaviorDataEditor, Assembly-CSharp-Editor" style="display: flex;" />
+        <ui:Instance template="ExplosionDataVisual" style="flex-direction: column; top: 0; display: flex; height: 149px;" />
+    </ui:VisualElement>
+</ui:UXML>

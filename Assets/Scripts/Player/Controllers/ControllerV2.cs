@@ -31,7 +31,7 @@ public class ControllerV2 : MonoBehaviour
     [SerializeField] float collisionDistance;
 
     [Header("Camera")]
-    [SerializeField] GameObject cameraPivot;
+    public GameObject cameraPivot;
     [SerializeField] float sensibility;
     [SerializeField] Vector2 maxCamAngle;
     public Vector3 viewRotation;

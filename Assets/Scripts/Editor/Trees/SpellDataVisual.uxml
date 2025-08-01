@@ -1,0 +1,15 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="NewBehaviorVisual" src="project://database/Assets/Scripts/Editor/Trees/NewBehaviorVisual.uxml?fileID=9197481963319205126&amp;guid=5a6f7e62235eda14bb35e98a2709abfb&amp;type=3#NewBehaviorVisual" />
+    <ui:TextField label="Spell Name" placeholder-text="filler text" binding-path="s_spellName" />
+    <ui:VisualElement name="Pane1" style="flex-grow: 1; bottom: auto; height: auto;">
+        <ui:Label text="Base values" name="s_spellName" style="-unity-font-style: bold; font-size: 15px; -unity-text-align: middle-center; height: 40px;" />
+        <ui:FloatField label="Projectile Speed" value="42.2" binding-path="f_speed" />
+        <ui:FloatField label="Projectile Size" value="42.2" binding-path="f_size" />
+        <ui:FloatField label="Projectile Lifetime" value="42.2" binding-path="f_lifetime" />
+        <ui:FloatField label="Projectile Mass" value="42.2" binding-path="f_mass" />
+        <ui:Label text="Added Behavior" name="s_spellName" data-source-type="SpellData, Assembly-CSharp" style="-unity-font-style: bold; font-size: 15px; -unity-text-align: middle-center; height: 40px;" />
+        <ui:Instance template="NewBehaviorVisual" data-source-type="NewBehaviorDataEditor, Assembly-CSharp-Editor" />
+        <ui:Button text="Add Behavior" />
+        <ui:ListView reorderable="true" show-foldout-header="true" show-add-remove-footer="true" header-title="Add Behavior" data-source-type="SpellData, Assembly-CSharp" binding-source-selection-mode="AutoAssign" binding-path="b_AddedBehaviors" allow-add="true" fixed-item-height="100" virtualization-method="DynamicHeight" style="height: auto; bottom: auto; top: auto; overflow: visible; visibility: visible;" />
+    </ui:VisualElement>
+</ui:UXML>

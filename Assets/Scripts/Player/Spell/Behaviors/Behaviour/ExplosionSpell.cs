@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Spell Behavior", menuName = "ExplosionData", order = 1)]
+[CreateAssetMenu(fileName = "ExplosionSpell", menuName = "Spell Behavior/Explosion", order = 1)]
 public class ExplosionSpell : AddedBehavior
 {
     [Header("SO values")]

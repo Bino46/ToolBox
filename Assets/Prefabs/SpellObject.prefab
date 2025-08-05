@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 523c6a34a30945e41bdcd65c8875b0a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bh: {fileID: 4148681075411480629, guid: 49fc0ef32af16dd4d96aa4d45be665e7, type: 3}
 --- !u!114 &6181987246435131336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,3 +163,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b7eb688e77e495429412d03282b2739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pool: {fileID: 0}

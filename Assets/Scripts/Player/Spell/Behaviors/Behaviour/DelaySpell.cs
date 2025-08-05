@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Spell Behavior", menuName = "DelayData", order = 1)]
+[CreateAssetMenu(fileName = "DelaySpell", menuName = "Spell Behavior/Delay", order = 1)]
 public class DelaySpell : AddedBehavior
 {
     [Header("SO values")]

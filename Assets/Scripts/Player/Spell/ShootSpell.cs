@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class ShootSpell : MonoBehaviour
 {
     [SerializeField] Pool currPool;
-    [SerializeField] FullSpell currSpell;
+    [SerializeField] CompliedSpell currSpell;
     ControllerV2 controller;
 
     void Start()

@@ -8,12 +8,12 @@ public class SpellDataEditor : Editor
 {
     public VisualTreeAsset visualTree;
 
-    private SpellData data;
+    private SimpleProjectileData data;
     
 
     void OnEnable()
     {
-        data = (SpellData)target;
+        data = (SimpleProjectileData)target;
     }
 
     public override VisualElement CreateInspectorGUI()

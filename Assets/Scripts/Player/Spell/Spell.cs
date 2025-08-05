@@ -10,7 +10,7 @@ public class Spell : MonoBehaviour
     LayerMask mask;
     PoolObject pool;
     Rigidbody body;
-    FullSpell currData;
+    CompliedSpell currData;
 
     [Header("Base value")]
     bool canGo;
@@ -24,6 +24,7 @@ public class Spell : MonoBehaviour
     [Header("Explosion values")]
     bool resetAfterExplosion;
     List<Rigidbody> explosionBodyList = new List<Rigidbody>();
+    [SerializeField] GameObject bh;
 
     [Header("Wait effect")]
     bool needWait;
@@ -63,7 +64,7 @@ public class Spell : MonoBehaviour
         //bool for the projectile to move only when i want it to move (when active mostly)
         if (canGo)
             Move();
-        
+
         //Changes in behavior when the projectile hits something
         if (touch)
         {
@@ -120,18 +121,19 @@ public class Spell : MonoBehaviour
             Debug.Log("Reset Behavior " + indexCurrentBehaviour);
 
             explosionBodyList.Clear();
-            currData.followEffects[indexCurrentBehaviour].modValue = 1;
+            currData.followEffects[indexCurrentBehaviour].modStrengthValue = 1;
+            currData.followEffects[indexCurrentBehaviour].modDurationValue = 1;
         }
     }
     #endregion
 
     #region Spell construction
-    public void Init(FullSpell data)
+    public void Init(CompliedSpell data)
     {
         //copies the SO for all the script to use, then sets the base projectile values
         currData = Instantiate(data);
 
-        ReadProjectileData((SpellData)currData.followEffects[0]);
+        ReadProjectileData((SimpleProjectileData)currData.followEffects[0]);
 
         gameObject.SetActive(true);
         body.isKinematic = false;
@@ -148,7 +150,7 @@ public class Spell : MonoBehaviour
             ReadNewBehavior();
     }
 
-    void ReadProjectileData(SpellData data)
+    void ReadProjectileData(SimpleProjectileData data)
     {
         //Base projectile stats
         speed = data.f_speed;
@@ -194,22 +196,46 @@ public class Spell : MonoBehaviour
 
     void ReadModifierData(int gap)
     {
+        BaseModifier currModifier = (BaseModifier)currData.followEffects[indexCurrentBehaviour + gap];
         //Applies the modifier(s) following the behavior
-        switch (currData.followEffects[indexCurrentBehaviour + gap].id)
+        switch (currModifier.id)
         {
             case 1:
-                //reverse
-                Debug.Log("reverse " + currData.followEffects[indexCurrentBehaviour] + "base " + currData.followEffects[indexCurrentBehaviour].modValue);
-                currData.followEffects[indexCurrentBehaviour].modValue = currData.followEffects[indexCurrentBehaviour].modValue * currData.followEffects[indexCurrentBehaviour + gap].modValue;
+                //Increase strength
+                Debug.Log("Increase");
+                ChangeModValue(currModifier.modStrengthValue, currModifier.operation, true);
                 break;
+
             case 2:
+                //Decrease strength
+                Debug.Log("Decrease");
+                ChangeModValue(currModifier.modStrengthValue, currModifier.operation, true);
+                break;
+
+            case 3:
                 //wait
                 Debug.Log("Wait");
                 needWait = true;
-                waitTime = currData.followEffects[indexCurrentBehaviour + gap].modValue;
+                waitTime = currModifier.modDurationValue;
                 break;
+
+            case 4:
+                //Increase duration
+                Debug.Log("Increase");
+                ChangeModValue(currModifier.modDurationValue, currModifier.operation, false);
+                break;
+
+            case 5:
+                //Decrease Duration
+                Debug.Log("Decrease");
+                ChangeModValue(currModifier.modDurationValue, currModifier.operation, false);
+                break;
+            case 6:
+                GameObject newBh = Instantiate(bh, transform.position, bh.transform.rotation);
+                newBh.GetComponent<ScaleBlackhole>().Summon(currData.followEffects[indexCurrentBehaviour].modDurationValue, waitTime, false);
+                break;
+            }
         }
-    }
     #endregion
 
 
@@ -262,19 +288,23 @@ public class Spell : MonoBehaviour
 
         foreach (Rigidbody obj in explosionBodyList)
         {
-            Debug.Log(spell.f_explosionStrength * spell.modValue + " " + spell.modValue);
-            obj.AddExplosionForce(spell.f_explosionStrength * spell.modValue, transform.position, spell.f_explosionRadius);
+            Debug.Log(spell.f_explosionStrength * spell.modStrengthValue + " strength");
+            Debug.Log(spell.f_explosionRadius * spell.modDurationValue + " radius");
+            obj.AddExplosionForce(spell.f_explosionStrength * spell.modStrengthValue, transform.position, spell.f_explosionRadius * spell.modDurationValue);
         }
 
         if (resetAfterExplosion)
+        {
+            ResetBehaviors();
             Reset();
+        }
     }
 
     void SetDelay()
     {
         //Sets the delay
         DelaySpell spell = (DelaySpell)currData.followEffects[indexCurrentBehaviour];
-        delayTime = spell.delayTime;
+        delayTime = spell.delayTime * Mathf.Abs(spell.modDurationValue);
         isDelaying = true;
     }
 
@@ -283,10 +313,53 @@ public class Spell : MonoBehaviour
         //Sets the collision interaction
         LockOnTouch onTouch = (LockOnTouch)currData.followEffects[indexCurrentBehaviour];
 
-        currlifetime = onTouch.f_timeBeforeDestruction;
+        currlifetime = onTouch.f_timeBeforeDestruction * Mathf.Abs(onTouch.modDurationValue);
         mustLock = onTouch.b_lockOnTouch;
         resetAfterExplosion = false;
     }
 
+    #endregion
+
+    #region Modifiers
+
+    void ChangeModValue(float mod, BaseModifier.Operation op, bool strength)
+    {
+        if (strength)
+        {
+            switch (op)
+            {
+                case BaseModifier.Operation.Add:
+                    currData.followEffects[indexCurrentBehaviour].modStrengthValue = currData.followEffects[indexCurrentBehaviour].modStrengthValue + mod;
+                    break;
+                case BaseModifier.Operation.Multiply:
+                    currData.followEffects[indexCurrentBehaviour].modStrengthValue = currData.followEffects[indexCurrentBehaviour].modStrengthValue * mod;
+                    break;
+                case BaseModifier.Operation.Substract:
+                    currData.followEffects[indexCurrentBehaviour].modStrengthValue = currData.followEffects[indexCurrentBehaviour].modStrengthValue - mod;
+                    break;
+                case BaseModifier.Operation.Divide:
+                    currData.followEffects[indexCurrentBehaviour].modStrengthValue = currData.followEffects[indexCurrentBehaviour].modStrengthValue / mod;
+                    break;
+            }
+        }
+        else
+        {
+            switch (op)
+            {
+                case BaseModifier.Operation.Add:
+                    currData.followEffects[indexCurrentBehaviour].modDurationValue = currData.followEffects[indexCurrentBehaviour].modDurationValue + mod;
+                    break;
+                case BaseModifier.Operation.Multiply:
+                    currData.followEffects[indexCurrentBehaviour].modDurationValue = currData.followEffects[indexCurrentBehaviour].modDurationValue * mod;
+                    break;
+                case BaseModifier.Operation.Substract:
+                    currData.followEffects[indexCurrentBehaviour].modDurationValue = currData.followEffects[indexCurrentBehaviour].modDurationValue - mod;
+                    break;
+                case BaseModifier.Operation.Divide:
+                    currData.followEffects[indexCurrentBehaviour].modDurationValue = currData.followEffects[indexCurrentBehaviour].modDurationValue / mod;
+                    break;
+            }
+        }
+    }
     #endregion
 }

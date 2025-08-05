@@ -13,7 +13,10 @@ public class AddedBehavior : ScriptableObject
     [Header("Setup")]
     public dataType currtType;
     public int id;
+    public Texture2D tex;
+    public Material color;
 
     [Header("Modifiers section")]
-    public float modValue = 1;
+    public float modStrengthValue = 1;
+    public float modDurationValue = 1;
 }

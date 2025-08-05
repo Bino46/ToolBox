@@ -1,9 +1,5 @@
-using System.Collections;
-using NUnit.Framework.Api;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 
 public class ControllerV2 : MonoBehaviour
 {
@@ -55,6 +51,7 @@ public class ControllerV2 : MonoBehaviour
     private bool isWalkingFwd;
     private bool isWalkingSide;
     private bool isBuffering;
+    private bool lockControl;
     private Vector3 fallSpeed;
     private float jumpTime = 0.4f;
     private float baseJumpTime;
@@ -74,6 +71,22 @@ public class ControllerV2 : MonoBehaviour
         collisionMask = LayerMask.GetMask("Walls");
 
         animPlayer = GetComponentInChildren<Animator>();
+    }
+
+    public void LockPlayer(bool lockPlayer)
+    {
+        lockControl = lockPlayer; 
+
+        if (lockPlayer)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
     #region Movement
@@ -196,14 +209,17 @@ public class ControllerV2 : MonoBehaviour
     #region Camera
     public void MoveCamera(InputAction.CallbackContext ctx)
     {
-        viewRotation.y += ctx.ReadValue<Vector2>().x * sensibility * Time.deltaTime;
-        viewRotation.x += -ctx.ReadValue<Vector2>().y * sensibility * Time.deltaTime;
+        if (!lockControl)
+        {
+            viewRotation.y += ctx.ReadValue<Vector2>().x * sensibility * Time.deltaTime;
+            viewRotation.x += -ctx.ReadValue<Vector2>().y * sensibility * Time.deltaTime;
 
-        viewRotation.x = Mathf.Clamp(viewRotation.x, maxCamAngle.x, maxCamAngle.y);
+            viewRotation.x = Mathf.Clamp(viewRotation.x, maxCamAngle.x, maxCamAngle.y);
 
-        cameraPivot.transform.eulerAngles = viewRotation;
+            cameraPivot.transform.eulerAngles = viewRotation;
 
-        transform.eulerAngles = new Vector3(0, viewRotation.y, 0);
+            transform.eulerAngles = new Vector3(0, viewRotation.y, 0);      
+        }
     }
     #endregion
 
@@ -436,6 +452,8 @@ public class ControllerV2 : MonoBehaviour
             ApplyJump();
 
         ApplyPhysics();
-        ApplyMovement();
+        
+        if (!lockControl)
+            ApplyMovement();
     }
 }

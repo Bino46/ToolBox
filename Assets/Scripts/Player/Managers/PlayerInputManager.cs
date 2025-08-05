@@ -9,6 +9,7 @@ public class PlayerInputManager : MonoBehaviour
     Headbutt playerHit;
     GrabObject grab;
     ShootSpell spell;
+    [SerializeField] PlayerUI playerUi;
 
     [Header("Variables")]
     bool switchMain;
@@ -42,6 +43,8 @@ public class PlayerInputManager : MonoBehaviour
 
         inputs.Movement.View.performed += playerController.MoveCamera;
 
+        inputs.Movement.ShowSpellMenu.performed += playerUi.ShowMenu;
+
         inputs.Movement.Sprint.performed += playerController.Sprint;
         inputs.Movement.Sprint.canceled += playerController.Sprint;
 
@@ -50,7 +53,8 @@ public class PlayerInputManager : MonoBehaviour
         inputs.Movement.SwitchWeapon.performed += SwitchAttack;
 
         inputs.Movement.Grab.performed += grab.Grab;
-        inputs.Movement.Grab.canceled += grab.UnGrab;
+        inputs.Movement.Grab.canceled += grab.UnGrab; 
+
 
     }
 

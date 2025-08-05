@@ -162,6 +162,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ShowSpellMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""710e8c15-6fe0-4aa8-bb97-dda4b00602ba"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -340,6 +349,17 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""SwitchWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""28f1dff0-c220-4326-89a2-0c8653668690"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShowSpellMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -356,6 +376,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Movement_Attack = m_Movement.FindAction("Attack", throwIfNotFound: true);
         m_Movement_Grab = m_Movement.FindAction("Grab", throwIfNotFound: true);
         m_Movement_SwitchWeapon = m_Movement.FindAction("SwitchWeapon", throwIfNotFound: true);
+        m_Movement_ShowSpellMenu = m_Movement.FindAction("ShowSpellMenu", throwIfNotFound: true);
     }
 
     ~@PlayerActions()
@@ -444,6 +465,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Movement_Attack;
     private readonly InputAction m_Movement_Grab;
     private readonly InputAction m_Movement_SwitchWeapon;
+    private readonly InputAction m_Movement_ShowSpellMenu;
     /// <summary>
     /// Provides access to input actions defined in input action map "Movement".
     /// </summary>
@@ -487,6 +509,10 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Movement/SwitchWeapon".
         /// </summary>
         public InputAction @SwitchWeapon => m_Wrapper.m_Movement_SwitchWeapon;
+        /// <summary>
+        /// Provides access to the underlying input action "Movement/ShowSpellMenu".
+        /// </summary>
+        public InputAction @ShowSpellMenu => m_Wrapper.m_Movement_ShowSpellMenu;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -537,6 +563,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @SwitchWeapon.started += instance.OnSwitchWeapon;
             @SwitchWeapon.performed += instance.OnSwitchWeapon;
             @SwitchWeapon.canceled += instance.OnSwitchWeapon;
+            @ShowSpellMenu.started += instance.OnShowSpellMenu;
+            @ShowSpellMenu.performed += instance.OnShowSpellMenu;
+            @ShowSpellMenu.canceled += instance.OnShowSpellMenu;
         }
 
         /// <summary>
@@ -572,6 +601,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @SwitchWeapon.started -= instance.OnSwitchWeapon;
             @SwitchWeapon.performed -= instance.OnSwitchWeapon;
             @SwitchWeapon.canceled -= instance.OnSwitchWeapon;
+            @ShowSpellMenu.started -= instance.OnShowSpellMenu;
+            @ShowSpellMenu.performed -= instance.OnShowSpellMenu;
+            @ShowSpellMenu.canceled -= instance.OnShowSpellMenu;
         }
 
         /// <summary>
@@ -668,5 +700,12 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSwitchWeapon(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ShowSpellMenu" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnShowSpellMenu(InputAction.CallbackContext context);
     }
 }

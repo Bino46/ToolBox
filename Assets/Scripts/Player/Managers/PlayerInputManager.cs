@@ -43,7 +43,9 @@ public class PlayerInputManager : MonoBehaviour
 
         inputs.Movement.View.performed += playerController.MoveCamera;
 
+        inputs.Movement.MousePosition.performed += playerUi.GetMousePos;
         inputs.Movement.ShowSpellMenu.performed += playerUi.ShowMenu;
+
 
         inputs.Movement.Sprint.performed += playerController.Sprint;
         inputs.Movement.Sprint.canceled += playerController.Sprint;

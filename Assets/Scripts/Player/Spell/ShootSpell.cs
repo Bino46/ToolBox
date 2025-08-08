@@ -15,13 +15,16 @@ public class ShootSpell : MonoBehaviour
 
     public void Shoot(InputAction.CallbackContext ctx)
     {
-        Quaternion rotation = Quaternion.Euler(controller.viewRotation);
-        GameObject newObject = currPool.GetItem();
+        if (!UIManager._instance.inMenu)
+        {
+            Quaternion rotation = Quaternion.Euler(controller.viewRotation);
+            GameObject newObject = currPool.GetItem();
 
-        newObject.transform.position = controller.cameraPivot.transform.position;
-        newObject.transform.rotation = rotation;
+            newObject.transform.position = controller.cameraPivot.transform.position;
+            newObject.transform.rotation = rotation;
 
-        newObject.GetComponent<Spell>().Init(currSpell);
-        newObject.SetActive(true);
+            newObject.GetComponent<Spell>().Init(currSpell);
+            newObject.SetActive(true); 
+        }
     }
 }

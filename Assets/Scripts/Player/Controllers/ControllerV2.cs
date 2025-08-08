@@ -73,11 +73,11 @@ public class ControllerV2 : MonoBehaviour
         animPlayer = GetComponentInChildren<Animator>();
     }
 
-    public void LockPlayer(bool lockPlayer)
+    void LockPlayer()
     {
-        lockControl = lockPlayer; 
+        lockControl = UIManager._instance.inMenu;
 
-        if (lockPlayer)
+        if (UIManager._instance.inMenu)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -452,8 +452,10 @@ public class ControllerV2 : MonoBehaviour
             ApplyJump();
 
         ApplyPhysics();
-        
+
         if (!lockControl)
             ApplyMovement();
+
+        LockPlayer();
     }
 }

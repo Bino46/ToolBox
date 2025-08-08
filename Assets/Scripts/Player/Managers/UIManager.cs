@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
     Dictionary<string, TextMeshProUGUI> allUITexts = new Dictionary<string, TextMeshProUGUI>();
     [Header("UI Elements")]
     [SerializeField] TextMeshProUGUI mainText;
+    public bool inMenu;
 
     void Awake()
     {

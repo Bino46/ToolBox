@@ -31,7 +31,7 @@ public class Headbutt : MonoBehaviour
     //Input
     public void ChargeHead(InputAction.CallbackContext ctx)
     {
-        if (currState == States.idle)
+        if (currState == States.idle && !UIManager._instance.inMenu)
         {
             chargeValue = 0;
             canSling = false;
@@ -41,7 +41,7 @@ public class Headbutt : MonoBehaviour
 
     public void SlingHead(InputAction.CallbackContext ctx)
     {
-        if (currState == States.charging)
+        if (currState == States.charging )
         {
             currState = States.charged;
             timerSling = 0;

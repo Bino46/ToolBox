@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -7,6 +8,7 @@ using UnityEngine.UI;
 public class PlayerUI : MonoBehaviour
 {
     [SerializeField] ControllerV2 player;
+    [SerializeField] LoadSpellFromRune runeSlots;
 
     [Header("UI objects")]
     [SerializeField] Image spellSelected;
@@ -14,13 +16,15 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] Image menuButton;
     [SerializeField] GameObject[] menuLists = new GameObject[2];
     [SerializeField] Sprite[] buttonSelection = new Sprite[2];
-    [SerializeField] Image[] behaviorsButtonsImages = new Image[3];
-    [SerializeField] Image projectileButtonImage;
+    [SerializeField] Image[] behaviorsButtons = new Image[3];
+    [SerializeField] Image projectileButton;
 
     [Header("Script values")]
     [SerializeField] Sprite[] projectileSprites = new Sprite[3];
     [SerializeField] Sprite[] behaviorSprites = new Sprite[2];
     Vector2 mousePos;
+    int currHoldingSpellId = -1;
+    int holdingSpellCount;
     bool swicthMenu;
     bool inSpellMenu;
     bool selectProjectile;
@@ -30,7 +34,8 @@ public class PlayerUI : MonoBehaviour
     {
         if (inSpellMenu && (selectProjectile || selectBehavior))
         {
-            spellSelected.transform.position = mousePos;
+            Vector3 mouseWorld = new Vector3(mousePos.x, mousePos.y, 0.05f);
+            spellSelected.transform.position = Camera.main.ScreenToWorldPoint(mouseWorld);
         }
     }
 
@@ -61,6 +66,8 @@ public class PlayerUI : MonoBehaviour
 
             selectProjectile = false;
             selectBehavior = false;
+
+            currHoldingSpellId = -1;
         }
     }
 
@@ -97,6 +104,8 @@ public class PlayerUI : MonoBehaviour
         spellSelected.color = Color.white;
         spellSelected.sprite = projectileSprites[id];
         spellSelected.preserveAspect = true;
+
+        currHoldingSpellId = id;
     }
 
     public void SelectBehavior(int id)
@@ -106,13 +115,21 @@ public class PlayerUI : MonoBehaviour
         spellSelected.color = Color.white;
         spellSelected.sprite = behaviorSprites[id];
         spellSelected.preserveAspect = true;
+
+        currHoldingSpellId = id;
     }
 
     public void DepositBehavior(int id)
     {
         if (selectBehavior)
         {
-            behaviorsButtonsImages[id].sprite = spellSelected.sprite;
+            behaviorsButtons[id].sprite = spellSelected.sprite;
+            runeSlots.LoadBehavior(currHoldingSpellId);
+
+            behaviorsButtons[id].GetComponentInChildren<SpellGlowMask>().ActivateSpell();
+
+            holdingSpellCount++;
+
             ResetHoldingSprite();
         }
     }
@@ -121,9 +138,23 @@ public class PlayerUI : MonoBehaviour
     {
         if (selectProjectile)
         {
-            projectileButtonImage.sprite = spellSelected.sprite;
+            projectileButton.sprite = spellSelected.sprite;
+            runeSlots.LoadProjectile(currHoldingSpellId);
+
+            projectileButton.GetComponentInChildren<SpellGlowMask>().ActivateSpell();
+
+            holdingSpellCount++;
+
             ResetHoldingSprite();
         }
+    }
+
+    public void FullColorSpell()
+    {
+        if (holdingSpellCount > behaviorsButtons.Length)
+            projectileButton.GetComponentInChildren<SpellGlowMask>().maxSize = 4;
+        else
+            projectileButton.GetComponentInChildren<SpellGlowMask>().maxSize = 1.6f; 
     }
     #endregion
 }

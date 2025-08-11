@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currtType: 0
   id: 3
-  modValue: 1
+  tex: {fileID: 2800000, guid: 88c76e12187dfcf41affbc5506495bfb, type: 3}
+  color: {fileID: 0}
+  modStrengthValue: 1
+  modDurationValue: 1
   b_lockOnTouch: 1
   f_timeBeforeDestruction: 3

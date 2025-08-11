@@ -6,14 +6,28 @@ public class LoadSpellFromRune : MonoBehaviour
     [SerializeField] List<AddedBehavior> so_projectiles = new List<AddedBehavior>();
     [SerializeField] List<AddedBehavior> so_behaviors = new List<AddedBehavior>();
     [SerializeField] CompliedSpell currSpell;
+    string lastLoaded;
+
+    void Start()
+    {
+        currSpell.followEffects.Clear();
+    }
 
     public void LoadBehavior(int id)
     {
+        lastLoaded = so_behaviors[id].name;
         currSpell.followEffects.Add(so_behaviors[id]);
+    }
+
+    public string GetName()
+    {
+        return lastLoaded;
     }
 
     public void LoadProjectile(int id)
     {
+        lastLoaded = so_projectiles[id].name;
+
         if (currSpell.followEffects.Count > 0)
         {
             if (currSpell.followEffects[0].currtType != AddedBehavior.dataType.Projectile)

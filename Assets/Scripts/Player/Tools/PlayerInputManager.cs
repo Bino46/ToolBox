@@ -9,7 +9,7 @@ public class PlayerInputManager : MonoBehaviour
     Headbutt playerHit;
     GrabObject grab;
     ShootSpell spell;
-    [SerializeField] PlayerUI playerUi;
+    [SerializeField] SpellCraftUI playerUi;
 
     [Header("Variables")]
     bool switchMain;

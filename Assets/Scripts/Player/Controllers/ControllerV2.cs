@@ -22,16 +22,16 @@ public class ControllerV2 : MonoBehaviour
     [SerializeField] float maxFallDepthClip;
 
     [Header("Collision")]
-    [SerializeField] float wallPushforce;
-    [SerializeField] float collisionHeight;
-    [SerializeField] float collisionDistance;
+    [SerializeField] int maxBounce;
+    float skinWidth = 0.015f;
+    Bounds bounds;
 
     [Header("Camera")]
     public GameObject cameraPivot;
     [SerializeField] float sensibility;
     [SerializeField] Vector2 maxCamAngle;
     public Vector3 viewRotation;
-    
+
     [Header("Physics")]
     [SerializeField] Vector3 launchSpeed;
     [SerializeField] float groundDrag;
@@ -67,14 +67,19 @@ public class ControllerV2 : MonoBehaviour
 
         baseJumpTime = jumpTime;
         currMoveSpeed = walkSpeed;
+        pushSpeed = jumpSpeedMultiplier;
 
         collisionMask = LayerMask.GetMask("Walls");
 
         animPlayer = GetComponentInChildren<Animator>();
+
+        bounds = GetComponent<CapsuleCollider>().bounds;
+        bounds.Expand(-2 * skinWidth);
     }
 
     void LockPlayer()
     {
+        //Lock for menus
         lockControl = UIManager._instance.inMenu;
 
         if (UIManager._instance.inMenu)
@@ -114,7 +119,7 @@ public class ControllerV2 : MonoBehaviour
     {
         //Check the side input value : 1 is right, -1 left and 0 static
         isWalkingSide = true;
-        
+
         switch (ctx.ReadValue<float>())
         {
             case 1:
@@ -145,13 +150,15 @@ public class ControllerV2 : MonoBehaviour
     {
         if (isWalkingFwd)
         {
-            currSpeed = (transform.forward + CheckCollision(currInputDir)) * currInputDir.x * currMoveSpeed;
+            currSpeed = transform.forward * currInputDir.x * currMoveSpeed;
+            currSpeed = CollideAndSlide(currSpeed, transform.position, 0, currSpeed);
             transform.Translate(currSpeed, Space.World);
         }
 
         if (isWalkingSide)
         {
-            currSpeed = (transform.right + CheckCollision(currInputDir)) * currInputDir.y * currMoveSpeed;
+            currSpeed = transform.right * currInputDir.y * currMoveSpeed;
+            currSpeed = CollideAndSlide(currSpeed, transform.position, 0, currSpeed);
             transform.Translate(currSpeed, Space.World);
         }
     }
@@ -166,10 +173,10 @@ public class ControllerV2 : MonoBehaviour
         {
             baseBufferTime = bufferTime;
             isBuffering = true;
-        }  
+        }
     }
 
-        void BufferTimer()
+    void BufferTimer()
     {
         if (baseBufferTime > 0)
             baseBufferTime -= Time.deltaTime;
@@ -218,7 +225,7 @@ public class ControllerV2 : MonoBehaviour
 
             cameraPivot.transform.eulerAngles = viewRotation;
 
-            transform.eulerAngles = new Vector3(0, viewRotation.y, 0);      
+            transform.eulerAngles = new Vector3(0, viewRotation.y, 0);
         }
     }
     #endregion
@@ -240,101 +247,41 @@ public class ControllerV2 : MonoBehaviour
         }
     }
 
-    Vector3 CheckCollisionFwd(Vector2 dir)
+    Vector3 CollideAndSlide(Vector3 vel, Vector3 pos, int depth, Vector3 velInit)
     {
-        Vector3 collisionHeightVector = new Vector3(transform.position.x, transform.position.y - collisionHeight, transform.position.z);
+        if (depth >= maxBounce)
+            return Vector3.zero;
+
+        float dist = vel.magnitude + skinWidth;
+
         RaycastHit hit;
-
-        switch (dir.x)
+        if (Physics.SphereCast(pos, bounds.extents.x, vel.normalized, out hit, dist, collisionMask))
         {
-            case 1:
-                if (Physics.Raycast(collisionHeightVector, transform.rotation * Vector3.forward, out hit, collisionDistance, collisionMask))
-                    return hit.normal;
-                break;
+            Vector3 snapToSurface = vel.normalized * (hit.distance - skinWidth);
+            Vector3 leftover = vel - snapToSurface;
 
-            case -1:
-                if (Physics.Raycast(collisionHeightVector, transform.rotation * -Vector3.forward, out hit, collisionDistance, collisionMask))
-                    return hit.normal;
-                break;
+            if (snapToSurface.magnitude <= skinWidth)
+                snapToSurface = Vector3.zero;
+
+            leftover = ProjectAndScale(leftover, hit.normal);
+
+            float scale = 1 - Vector3.Dot(new Vector3(hit.normal.x, 0, hit.normal.z).normalized, -new Vector3(velInit.x, 0, velInit.z).normalized);
+
+            leftover = ProjectAndScale(leftover, hit.normal) * scale;
+
+            return snapToSurface + CollideAndSlide(leftover, pos + snapToSurface, depth + 1, velInit);
         }
-        return Vector3.zero;
+
+        return vel;
     }
 
-    bool CheckCollisionSide(Vector2 dir)
+    Vector3 ProjectAndScale(Vector3 vec, Vector3 normal)
     {
-        Vector3 collisionHeightVector = new Vector3(transform.position.x, transform.position.y - collisionHeight, transform.position.z);
-        float wallPush = currMoveSpeed * wallPushforce;
+        float mag = vec.magnitude;
+        vec = Vector3.ProjectOnPlane(vec, normal).normalized;
+        vec *= mag;
 
-        switch (dir.y)
-        {
-            case 1:
-                if (Physics.Raycast(collisionHeightVector, transform.rotation * Vector3.right, collisionDistance, collisionMask))
-                {
-                    transform.Translate(transform.rotation * Vector3.left * wallPush, Space.World);
-                    return false;
-                }
-                break;
-
-            case -1:
-                if (Physics.Raycast(collisionHeightVector, transform.rotation * Vector3.left, collisionDistance, collisionMask))
-                {
-                    transform.Translate(transform.rotation * Vector3.right * wallPush, Space.World);
-                    return false;
-                }
-                break;
-        }
-        return true;
-    }
-
-    Vector3 CheckCollision(Vector2 dir)
-    {
-        Vector3 collisionHeightVector = new Vector3(transform.position.x, transform.position.y - collisionHeight, transform.position.z);
-        RaycastHit hit;
-
-        switch (dir.x, dir.y)
-        {
-            case (1, 0):
-                if (Physics.Raycast(collisionHeightVector, transform.rotation * Vector3.forward, out hit, collisionDistance, collisionMask))
-                    return hit.normal;
-                break;
-
-            case (-1, 0):
-                if (Physics.Raycast(collisionHeightVector, transform.rotation * Vector3.back, out hit, collisionDistance, collisionMask))
-                    return -hit.normal;
-                break;
-
-            case (0, 1):
-                if (Physics.Raycast(collisionHeightVector, transform.rotation * Vector3.right, out hit, collisionDistance, collisionMask))
-                    return hit.normal;
-                break;
-
-            case (0, -1):
-                if (Physics.Raycast(collisionHeightVector, transform.rotation * Vector3.left, out hit, collisionDistance, collisionMask))
-                    return -hit.normal;
-                break;
-
-            case (1, 1):
-                if (Physics.Raycast(collisionHeightVector, transform.rotation * (Vector3.forward + Vector3.right), out hit, collisionDistance, collisionMask))
-                    return hit.normal;
-                break;
-
-            case (-1, 1):
-                if (Physics.Raycast(collisionHeightVector, transform.rotation * (Vector3.back + Vector3.right), out hit, collisionDistance, collisionMask))
-                    return new Vector3(-hit.normal.x, hit.normal.y, hit.normal.z);
-                break;
-
-            case (1, -1):
-                if (Physics.Raycast(collisionHeightVector, transform.rotation * (Vector3.forward + Vector3.left), out hit, collisionDistance, collisionMask))
-                    return hit.normal;
-                break;
-
-            case (-1, -1):
-                if (Physics.Raycast(collisionHeightVector, transform.rotation * (Vector3.back + Vector3.left), out hit, collisionDistance, collisionMask))
-                    return -hit.normal;
-                break;
-        }
-
-        return Vector3.zero;
+        return vec;
     }
 
     #endregion
@@ -349,11 +296,11 @@ public class ControllerV2 : MonoBehaviour
         bottomPos.y = gameObject.transform.position.y - stepRayHeight;
         bottomPos.z = gameObject.transform.position.z;
 
-        if (Physics.Raycast(bottomPos, transform.rotation * Vector3.forward, bottomStepReach, collisionMask) || Physics.Raycast(bottomPos, transform.rotation * Vector3.left, bottomStepReach,collisionMask))
-            touchStep = true; 
+        if (Physics.Raycast(bottomPos, transform.rotation * Vector3.forward, bottomStepReach, collisionMask) || Physics.Raycast(bottomPos, transform.rotation * Vector3.left, bottomStepReach, collisionMask))
+            touchStep = true;
 
-        if (Physics.Raycast(bottomPos, transform.rotation * -Vector3.forward, bottomStepReach,collisionMask) || Physics.Raycast(bottomPos, transform.rotation * -Vector3.left, bottomStepReach,collisionMask))
-            touchStep = true; 
+        if (Physics.Raycast(bottomPos, transform.rotation * -Vector3.forward, bottomStepReach, collisionMask) || Physics.Raycast(bottomPos, transform.rotation * -Vector3.left, bottomStepReach, collisionMask))
+            touchStep = true;
     }
 
     void ApplyStep()
@@ -426,7 +373,7 @@ public class ControllerV2 : MonoBehaviour
             fallSpeed.y = 0;
             launchSpeed = Vector3.MoveTowards(launchSpeed, Vector3.zero, groundDrag * Time.deltaTime);
         }
-    
+
         transform.position += (launchSpeed + fallSpeed) * (pushSpeed * Time.deltaTime);
     }
 

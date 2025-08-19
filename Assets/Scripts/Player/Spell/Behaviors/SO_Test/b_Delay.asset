@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afa72efd83b06ad44ad064e12255fab8, type: 3}
-  m_Name: Projectile
+  m_Script: {fileID: 11500000, guid: 2abe429d90f34bf41b11d97a60ba8029, type: 3}
+  m_Name: b_Delay
   m_EditorClassIdentifier: 
-  currtType: 2
-  id: 1
-  modValue: 1
-  f_speed: 20
-  f_size: 0.5
-  f_lifetime: 5
-  f_mass: 10
+  currtType: 0
+  id: 2
+  tex: {fileID: 21300000, guid: 529835eb3f1d31b448e79e4ee85e0b8b, type: 3}
+  color: {fileID: 0}
+  modStrengthValue: 1
+  modDurationValue: 1
+  delayTime: 2

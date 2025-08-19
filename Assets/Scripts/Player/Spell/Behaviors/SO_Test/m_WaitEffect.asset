@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02d1f1160d562c64daa191ddce9baa4e, type: 3}
-  m_Name: BlackHole
+  m_Name: m_WaitEffect
   m_EditorClassIdentifier: 
   currtType: 1
-  id: 6
+  id: 3
+  tex: {fileID: 21300000, guid: b19c798b4c5ace440a1bc2830ce3dce0, type: 3}
+  color: {fileID: 0}
   modStrengthValue: 0
-  modDurationValue: 0
+  modDurationValue: 1
   operation: 0

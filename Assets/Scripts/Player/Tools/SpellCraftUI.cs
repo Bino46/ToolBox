@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,6 +11,7 @@ using UnityEngine.UI;
 public class SelectionSlot
 {
     public GameObject selectedSlot;
+    public AddedBehavior behavior;
     public bool isFull = false;
     Image image;
     string spellHoldingName;
@@ -20,9 +23,9 @@ public class SelectionSlot
         return image;
     }
 
-    public void SetName(string spellAdded)
+    public void SetName(string spellAdded, int id)
     {
-        spellHoldingName = spellAdded;
+        spellHoldingName = spellAdded + id.ToString();
     }
 
     public string GetName()
@@ -47,11 +50,17 @@ public class SpellCraftUI : MonoBehaviour
     [SerializeField] SelectionSlot[] behaviorsButtons = new SelectionSlot[3];
     [SerializeField] SelectionSlot projectileButton;
 
-    [Header("Script values")]
+    [Header("Modifiers")]
+    [SerializeField] GameObject modSlotParent;
+    [SerializeField] AddedBehavior[] SO_modifierArray = new AddedBehavior[3];
+    Button[] modSlotsUI = new Button[16]; 
 
+    [Header("Script values")]
     // Reference to sprites in addon menu
-    [SerializeField] Sprite[] projectileSprites = new Sprite[3];
-    [SerializeField] Sprite[] behaviorSprites = new Sprite[2];
+    [SerializeField] AddedBehavior[] SO_projectileArray = new AddedBehavior[3];
+    [SerializeField] AddedBehavior[] SO_behaviorArray = new AddedBehavior[2];
+    [SerializeField] Sprite nullSprite;
+    int currSelectedSlot; //reference
     Vector2 mousePos;
     int currHoldingSpellId = -1;
     int holdingSpellCount;
@@ -59,10 +68,19 @@ public class SpellCraftUI : MonoBehaviour
     bool inSpellMenu;
     bool selectProjectile;
     bool selectBehavior;
+    bool selectModifier;
+
+    private void Start()
+    {
+        for (int i = 0; i < modSlotsUI.Length; i++)
+        {
+            modSlotsUI[i] = modSlotParent.transform.GetChild(i).gameObject.GetComponent<Button>();
+        }
+    }
 
     void Update()
     {
-        if (inSpellMenu && (selectProjectile || selectBehavior))
+        if (inSpellMenu && (selectProjectile || selectBehavior || selectModifier))
         {
             Vector3 mouseWorld = new Vector3(mousePos.x, mousePos.y, 0.05f);
             spellSelected.transform.position = Camera.main.ScreenToWorldPoint(mouseWorld);
@@ -86,42 +104,15 @@ public class SpellCraftUI : MonoBehaviour
         }
     }
 
-    public void ResetHoldingSprite()
-    {
-        if (inSpellMenu && (selectProjectile || selectBehavior))
-        {
-            spellSelected.preserveAspect = false;
-            Color trans = new Color(1, 1, 1, 0);
-            spellSelected.color = trans;
-
-            selectProjectile = false;
-            selectBehavior = false;
-
-            currHoldingSpellId = -1;
-        }
-    }
-
     #endregion
 
-    #region UI buttons
-
-    public void SelectProjectile(int id)
-    {
-        selectProjectile = true;
-
-        spellSelected.color = Color.white;
-        spellSelected.sprite = projectileSprites[id];
-        spellSelected.preserveAspect = true;
-
-        currHoldingSpellId = id;
-    }
-
+    #region Behavior
     public void SelectBehavior(int id)
     {
         selectBehavior = true;
 
         spellSelected.color = Color.white;
-        spellSelected.sprite = behaviorSprites[id];
+        spellSelected.sprite = SO_behaviorArray[id].tex;
         spellSelected.preserveAspect = true;
 
         currHoldingSpellId = id;
@@ -131,23 +122,18 @@ public class SpellCraftUI : MonoBehaviour
     {
         if (!selectBehavior)
         {
-            if(behaviorsButtons[id].isFull)
+            if (behaviorsButtons[id].isFull)
+            {
+                currModifiyingSpellName.text = behaviorsButtons[id].GetName();
+                currSelectedSlot = id;
+
+                ResetModInterface();
+                LoadModifiersOnUI(id);
                 SwitchToBHModifiers();
+            }
         }
         else
             DepositBehavior(id);
-    }
-
-    public void SlotProjectile()
-    {
-        if (!selectProjectile)
-        {
-            if(projectileButton.isFull)
-                SwitchToPJModifiers();
-        }
-        else
-            DepositProjectile();
-
     }
 
     void DepositBehavior(int id)
@@ -157,16 +143,48 @@ public class SpellCraftUI : MonoBehaviour
             behaviorsButtons[id].GetImage().sprite = spellSelected.sprite;
 
             runeSlots.LoadBehavior(currHoldingSpellId);
-            currModifiyingSpellName.text = runeSlots.GetName();
+            behaviorsButtons[id].SetName(runeSlots.GetName(), id);
 
             behaviorsButtons[id].isFull = true;
             behaviorsButtons[id].selectedSlot.GetComponentInChildren<SpellGlowMask>().ActivateSpell();
 
-            holdingSpellCount++;
+            behaviorsButtons[id].behavior = SO_behaviorArray[id];
 
+            holdingSpellCount++;
 
             ResetHoldingSprite();
         }
+    }
+
+    #endregion
+
+    #region Projectile
+
+    public void SelectProjectile(int id)
+    {
+        selectProjectile = true;
+
+        spellSelected.color = Color.white;
+        spellSelected.sprite = SO_projectileArray[id].tex;
+        spellSelected.preserveAspect = true;
+
+        currHoldingSpellId = id;
+    }
+
+
+    public void SlotProjectile()
+    {
+        if (!selectProjectile)
+        {
+            if (projectileButton.isFull)
+            {
+                currModifiyingSpellName.text = projectileButton.GetName();
+                SwitchToPJModifiers();
+            }
+        }
+        else
+            DepositProjectile();
+
     }
 
     void DepositProjectile()
@@ -176,7 +194,7 @@ public class SpellCraftUI : MonoBehaviour
             projectileButton.GetImage().sprite = spellSelected.sprite;
 
             runeSlots.LoadProjectile(currHoldingSpellId);
-            currModifiyingSpellName.text = runeSlots.GetName();
+            projectileButton.SetName(runeSlots.GetName(),0);
 
             projectileButton.isFull = true;
             projectileButton.selectedSlot.GetComponentInChildren<SpellGlowMask>().ActivateSpell();
@@ -186,6 +204,47 @@ public class SpellCraftUI : MonoBehaviour
             ResetHoldingSprite();
         }
     }
+    #endregion
+
+    #region Modifiers
+    public void SelectModifier(int id)
+    {
+        selectModifier = true;
+
+        spellSelected.color = Color.white;
+        spellSelected.sprite = SO_modifierArray[id].tex;
+        spellSelected.preserveAspect = true;
+
+        currHoldingSpellId = id;
+    }
+
+    public void DepositModifier(int id)
+    {
+        if (selectModifier)
+        {
+            modSlotsUI[id - 1].GetComponentInChildren<Image>().sprite = spellSelected.sprite;
+
+            modSlotsUI[id]?.gameObject.SetActive(true);
+
+            runeSlots.LoadBehaviorModifiers(currSelectedSlot, id, currHoldingSpellId);
+            ResetHoldingSprite();
+        }
+    }
+    void LoadModifiersOnUI(int id)
+    {
+        List<AddedBehavior> modList = runeSlots.GetModifiersOnBehavior(id);
+        Transform modSlot;
+
+        foreach (AddedBehavior bh in modList)
+        {
+            modSlot = modSlotParent.transform.GetChild(id);
+            modSlot.gameObject.SetActive(true);
+            modSlot.GetComponentInChildren<Image>().sprite = bh.tex;
+        }
+    }
+    #endregion
+
+    #region UI menus
 
     public void SwitchActionMenu()
     {
@@ -237,10 +296,39 @@ public class SpellCraftUI : MonoBehaviour
     {
         ResetHoldingSprite();
 
+        ResetModInterface();
+
         menuParent[0].SetActive(true);
         menuParent[1].SetActive(false);
     }
-    
+
+    public void ResetHoldingSprite()
+    {
+        if (inSpellMenu && (selectProjectile || selectBehavior || selectModifier))
+        {
+            spellSelected.preserveAspect = false;
+            Color trans = new Color(1, 1, 1, 0);
+            spellSelected.color = trans;
+
+            selectProjectile = false;
+            selectBehavior = false;
+            selectModifier = false;
+
+            currHoldingSpellId = -1;
+        }
+    }
+
+    void ResetModInterface()
+    {
+        modSlotsUI[0].GetComponentInChildren<Image>().sprite = nullSprite;
+
+        for (int i = 1; i < modSlotsUI.Length; i++)
+        {
+            modSlotsUI[i].GetComponentInChildren<Image>().sprite = nullSprite;
+            modSlotsUI[i].gameObject.SetActive(false);
+        }
+    }
+
     #endregion
 
     public void FullColorSpell()

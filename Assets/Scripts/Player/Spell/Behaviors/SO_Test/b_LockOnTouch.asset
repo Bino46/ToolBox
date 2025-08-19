@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cab31b5ff7766844b9fed79d863f340, type: 3}
-  m_Name: Explosion
+  m_Script: {fileID: 11500000, guid: 3466fd9bff45e504e9d2746e9c9f8286, type: 3}
+  m_Name: b_LockOnTouch
   m_EditorClassIdentifier: 
   currtType: 0
-  id: 1
-  tex: {fileID: 2800000, guid: ea6e39a1e06f4794081d8cf5c7d58518, type: 3}
-  color: {fileID: 2100000, guid: c9b48ac487af3034db22aff121ffd7be, type: 2}
+  id: 3
+  tex: {fileID: 21300000, guid: 88c76e12187dfcf41affbc5506495bfb, type: 3}
+  color: {fileID: 0}
   modStrengthValue: 1
   modDurationValue: 1
-  f_explosionRadius: 3
-  f_explosionStrength: 100
+  b_lockOnTouch: 1
+  f_timeBeforeDestruction: 3

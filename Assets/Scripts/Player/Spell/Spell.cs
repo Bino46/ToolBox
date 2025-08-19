@@ -17,7 +17,6 @@ public class Spell : MonoBehaviour
     bool touch;
     float speed;
     float currlifetime;
-    float deathTime;
     [Header("Delay values")]
     bool isDelaying;
     float delayTime;

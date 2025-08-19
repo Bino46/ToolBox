@@ -63,6 +63,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _CircleColor: {r: 0.75311995, g: 0.57236, b: 3.0641508, a: 1}
+    - _Brightness: {r: 0.05, g: 1, b: 0, a: 0}
+    - _CircleColor: {r: 49.026405, g: 9.240579, b: 38.493843, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

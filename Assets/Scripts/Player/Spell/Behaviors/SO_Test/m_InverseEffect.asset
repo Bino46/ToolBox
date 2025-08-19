@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02d1f1160d562c64daa191ddce9baa4e, type: 3}
-  m_Name: InverseEffect
+  m_Name: m_InverseEffect
   m_EditorClassIdentifier: 
   currtType: 1
   id: 1
+  tex: {fileID: 21300000, guid: bd5e14effc77d4e408d2c2b2bb16b0ed, type: 3}
+  color: {fileID: 0}
   modStrengthValue: -1
   modDurationValue: 0
   operation: 1

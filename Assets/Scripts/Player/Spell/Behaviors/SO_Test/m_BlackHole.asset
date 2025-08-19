@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02d1f1160d562c64daa191ddce9baa4e, type: 3}
-  m_Name: DecreaseStrength
+  m_Name: m_BlackHole
   m_EditorClassIdentifier: 
   currtType: 1
-  id: 2
-  modStrengthValue: 0.5
+  id: 6
+  tex: {fileID: 21300000, guid: 7e3328a9bf8a8504e85da45c2c7874a7, type: 3}
+  color: {fileID: 0}
+  modStrengthValue: 0
   modDurationValue: 0
-  operation: 1
+  operation: 0

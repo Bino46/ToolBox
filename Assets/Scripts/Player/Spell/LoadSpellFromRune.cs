@@ -5,8 +5,10 @@ public class LoadSpellFromRune : MonoBehaviour
 {
     [SerializeField] List<AddedBehavior> so_projectiles = new List<AddedBehavior>();
     [SerializeField] List<AddedBehavior> so_behaviors = new List<AddedBehavior>();
+    [SerializeField] List<AddedBehavior> so_modifiers = new List<AddedBehavior>();
     [SerializeField] CompliedSpell currSpell;
     string lastLoaded;
+    int slotProjectile = 0;
 
     void Start()
     {
@@ -37,5 +39,56 @@ public class LoadSpellFromRune : MonoBehaviour
         }
         else
             currSpell.followEffects.Add(so_projectiles[id]);
+
+        slotProjectile = 1;
+    }
+
+    public void LoadBehaviorModifiers(int searchIndex, int modifierIndex, int modifierType)
+    {
+        int behaviorSlot = 0;
+        int offset = 0;
+
+        for (int i = slotProjectile; i < currSpell.followEffects.Count; i++)
+        {
+            Debug.Log("loop " + i);
+            Debug.Log("behaviorSlot " + behaviorSlot + " searchIndex " + searchIndex + " currtype " + currSpell.followEffects[i].currtType);
+
+            if (currSpell.followEffects[i].currtType == AddedBehavior.dataType.Behaviour)
+            {
+                if (behaviorSlot == searchIndex)
+                    break;
+
+                Debug.Log("spot behavior");
+                behaviorSlot++;
+            }
+
+            if (currSpell.followEffects[i].currtType == AddedBehavior.dataType.Modifier)
+            {
+                Debug.Log("spot modifier");
+                offset++;
+            }
+        }
+
+        int newIndex = behaviorSlot + modifierIndex + offset;
+        Debug.Log("offset " + offset + " new index " + newIndex + " searchIndex " + searchIndex);
+
+        currSpell.followEffects.Insert(newIndex, so_modifiers[modifierType]);
+    }
+
+    public List<AddedBehavior> GetModifiersOnBehavior(int startIndex)
+    {
+        int behaviorSlot = startIndex + slotProjectile;
+
+        List<AddedBehavior> modList = new List<AddedBehavior>();
+
+        for (int i = behaviorSlot; i < currSpell.followEffects.Count; i++)
+        {
+            if (currSpell.followEffects[i].currtType == AddedBehavior.dataType.Modifier)
+                modList.Add(currSpell.followEffects[i]);
+            else
+                break;
+        }
+
+        return modList;
     }
 }

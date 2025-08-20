@@ -311,6 +311,21 @@ public class SpellCraftUI : MonoBehaviour
         menuParent[1].SetActive(false);
     }
 
+    public void ResetHoldingSprite(InputAction.CallbackContext ctx)
+    {
+        if (inSpellMenu && (selectProjectile || selectBehavior || selectModifier))
+        {
+            spellSelected.preserveAspect = false;
+            Color trans = new Color(1, 1, 1, 0);
+            spellSelected.color = trans;
+
+            selectProjectile = false;
+            selectBehavior = false;
+            selectModifier = false;
+
+            currHoldingSpellId = -1;
+        }
+    }
     public void ResetHoldingSprite()
     {
         if (inSpellMenu && (selectProjectile || selectBehavior || selectModifier))

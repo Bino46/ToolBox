@@ -35,6 +35,8 @@ public class PlayerInputManager : MonoBehaviour
         playerHit = GetComponent<Headbutt>();
         grab = GetComponentInChildren<GrabObject>();
         spell = GetComponent<ShootSpell>();
+        
+        inputs.Movement.RightClick.performed += playerUi.ResetHoldingSprite;
 
         inputs.Movement.Forward.performed += playerController.MovePlayerForward;
         inputs.Movement.Forward.canceled += playerController.MovePlayerForward;

@@ -39,7 +39,6 @@ public class LoadSpellFromRune : MonoBehaviour
 
                 if (slotBehavior == slot + slotProjectile)
                 {
-                    Debug.Log("replace");
                     currSpell.followEffects[i] = so_behaviors[id];
                     break;
                 }

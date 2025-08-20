@@ -52,7 +52,7 @@ public class Spell : MonoBehaviour
         if (isDelaying)
         {
             delayTime -= Time.deltaTime;
-            Debug.Log("delay remaining = " + delayTime);
+            //Debug.Log("delay remaining = " + delayTime);
 
             if (delayTime <= 0)
                 isDelaying = false;
@@ -99,7 +99,7 @@ public class Spell : MonoBehaviour
     void Reset()
     {
         //Reset the projectile 
-        Debug.Log("Reset");
+        //Debug.Log("Reset");
         canGo = false;
         touch = false;
 
@@ -117,7 +117,7 @@ public class Spell : MonoBehaviour
         //Reset the behavior
         if (currData.followEffects[indexCurrentBehaviour].currtType == AddedBehavior.dataType.Behaviour)
         {
-            Debug.Log("Reset Behavior " + indexCurrentBehaviour);
+            //Debug.Log("Reset Behavior " + indexCurrentBehaviour);
 
             explosionBodyList.Clear();
             currData.followEffects[indexCurrentBehaviour].modStrengthValue = 1;
@@ -142,7 +142,7 @@ public class Spell : MonoBehaviour
     void GetNextAction()
     {
         //increases the index in the list of AddedBehavior from the SO and does something if the new behavior is an action
-        Debug.Log("Get new action");
+        //Debug.Log("Get new action");
         indexCurrentBehaviour++;
 
         if (indexCurrentBehaviour < currData.followEffects.Count && currData.followEffects[indexCurrentBehaviour].currtType == AddedBehavior.dataType.Behaviour)
@@ -167,16 +167,16 @@ public class Spell : MonoBehaviour
         switch (currData.followEffects[indexCurrentBehaviour].id)
         {
             case 1:
-                Debug.Log("Explosion");
+                //Debug.Log("Explosion");
                 lastAction = SpellExplosion;
                 lastAction();
                 break;
             case 2:
-                Debug.Log("Delay");
+                //Debug.Log("Delay");
                 SetDelay();
                 break;
             case 3:
-                Debug.Log("Lock");
+                //Debug.Log("Lock");
                 SetLockOnTouch();
                 break;
         }
@@ -201,32 +201,32 @@ public class Spell : MonoBehaviour
         {
             case 1:
                 //Increase strength
-                Debug.Log("Increase");
+                //Debug.Log("Increase");
                 ChangeModValue(currModifier.modStrengthValue, currModifier.operation, true);
                 break;
 
             case 2:
                 //Decrease strength
-                Debug.Log("Decrease");
+                //Debug.Log("Decrease");
                 ChangeModValue(currModifier.modStrengthValue, currModifier.operation, true);
                 break;
 
             case 3:
                 //wait
-                Debug.Log("Wait");
+                //Debug.Log("Wait");
                 needWait = true;
                 waitTime = currModifier.modDurationValue;
                 break;
 
             case 4:
                 //Increase duration
-                Debug.Log("Increase");
+                //Debug.Log("Increase");
                 ChangeModValue(currModifier.modDurationValue, currModifier.operation, false);
                 break;
 
             case 5:
                 //Decrease Duration
-                Debug.Log("Decrease");
+                //Debug.Log("Decrease");
                 ChangeModValue(currModifier.modDurationValue, currModifier.operation, false);
                 break;
             case 6:

@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class LoadSpellFromRune : MonoBehaviour
 {
-    [SerializeField] List<AddedBehavior> so_projectiles = new List<AddedBehavior>();
-    [SerializeField] List<AddedBehavior> so_behaviors = new List<AddedBehavior>();
-    [SerializeField] List<AddedBehavior> so_modifiers = new List<AddedBehavior>();
+    public List<AddedBehavior> so_projectiles = new List<AddedBehavior>();
+    public List<AddedBehavior> so_behaviors = new List<AddedBehavior>();
+    public List<AddedBehavior> so_modifiers = new List<AddedBehavior>();
     [SerializeField] CompliedSpell currSpell;
     string lastLoaded;
     int slotProjectile = 0;
@@ -18,6 +18,7 @@ public class LoadSpellFromRune : MonoBehaviour
     //Adds behavior to the list
     public void LoadBehavior(int id, int slot)
     {
+        int slotBehavior = 0;
         lastLoaded = so_behaviors[id].name;
 
         if (slot + slotProjectile >= currSpell.followEffects.Count)
@@ -27,10 +28,24 @@ public class LoadSpellFromRune : MonoBehaviour
                 currSpell.followEffects.Add(null);
             }
 
-                currSpell.followEffects.Add(so_behaviors[id]);
+            currSpell.followEffects.Add(so_behaviors[id]);
         }
         else
-            currSpell.followEffects[slot + slotProjectile] = so_behaviors[id];
+        {
+            for (int i = slotProjectile; i < currSpell.followEffects.Count; i++)
+            {
+                if (currSpell.followEffects[i].currtType == AddedBehavior.dataType.Behaviour)
+                    slotBehavior++;
+
+                if (slotBehavior == slot + slotProjectile)
+                {
+                    Debug.Log("replace");
+                    currSpell.followEffects[i] = so_behaviors[id];
+                    break;
+                }
+
+            }
+        }
     }
 
     public string GetName()

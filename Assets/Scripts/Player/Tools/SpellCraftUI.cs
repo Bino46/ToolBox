@@ -49,16 +49,11 @@ public class SpellCraftUI : MonoBehaviour
     [SerializeField] Sprite[] buttonSelection = new Sprite[2];
     [SerializeField] SelectionSlot[] behaviorsButtons = new SelectionSlot[3];
     [SerializeField] SelectionSlot projectileButton;
-
-    [Header("Modifiers")]
     [SerializeField] GameObject modSlotParent;
-    [SerializeField] AddedBehavior[] SO_modifierArray = new AddedBehavior[3];
     Button[] modSlotsUI = new Button[16]; 
 
     [Header("Script values")]
     // Reference to sprites in addon menu
-    [SerializeField] AddedBehavior[] SO_projectileArray = new AddedBehavior[3];
-    [SerializeField] AddedBehavior[] SO_behaviorArray = new AddedBehavior[2];
     [SerializeField] Sprite nullSprite;
     int currSelectedSlot; //reference
     Vector2 mousePos;
@@ -112,7 +107,7 @@ public class SpellCraftUI : MonoBehaviour
         selectBehavior = true;
 
         spellSelected.color = Color.white;
-        spellSelected.sprite = SO_behaviorArray[id].tex;
+        spellSelected.sprite = runeSlots.so_behaviors[id].tex;
         spellSelected.preserveAspect = true;
 
         currHoldingSpellId = id;
@@ -124,7 +119,7 @@ public class SpellCraftUI : MonoBehaviour
         {
             if (behaviorsButtons[id].isFull && holdingSpellCount >= 4)
             {
-            //!Magic number for slot number-------------------------^
+            //!Magic number for slot amount-------------------------^
                 currModifiyingSpellName.text = behaviorsButtons[id].GetName();
                 currSelectedSlot = id;
 
@@ -146,12 +141,13 @@ public class SpellCraftUI : MonoBehaviour
             runeSlots.LoadBehavior(currHoldingSpellId, id);
             behaviorsButtons[id].SetName(runeSlots.GetName(), id);
 
+            if (!behaviorsButtons[id].isFull)
+                holdingSpellCount++;
+
             behaviorsButtons[id].isFull = true;
             behaviorsButtons[id].selectedSlot.GetComponentInChildren<SpellGlowMask>().ActivateSpell();
 
-            behaviorsButtons[id].behavior = SO_behaviorArray[id];
-
-            holdingSpellCount++;
+            behaviorsButtons[id].behavior = runeSlots.so_behaviors[id];
 
             ResetHoldingSprite();
         }
@@ -166,7 +162,7 @@ public class SpellCraftUI : MonoBehaviour
         selectProjectile = true;
 
         spellSelected.color = Color.white;
-        spellSelected.sprite = SO_projectileArray[id].tex;
+        spellSelected.sprite = runeSlots.so_projectiles[id].tex;
         spellSelected.preserveAspect = true;
 
         currHoldingSpellId = id;
@@ -197,10 +193,11 @@ public class SpellCraftUI : MonoBehaviour
             runeSlots.LoadProjectile(currHoldingSpellId);
             projectileButton.SetName(runeSlots.GetName(),0);
 
+            if(!projectileButton.isFull)
+                holdingSpellCount++;
+
             projectileButton.isFull = true;
             projectileButton.selectedSlot.GetComponentInChildren<SpellGlowMask>().ActivateSpell();
-
-            holdingSpellCount++;
 
             ResetHoldingSprite();
         }
@@ -213,7 +210,7 @@ public class SpellCraftUI : MonoBehaviour
         selectModifier = true;
 
         spellSelected.color = Color.white;
-        spellSelected.sprite = SO_modifierArray[id].tex;
+        spellSelected.sprite = runeSlots.so_modifiers[id].tex;
         spellSelected.preserveAspect = true;
 
         currHoldingSpellId = id;

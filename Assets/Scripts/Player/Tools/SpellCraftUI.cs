@@ -122,8 +122,9 @@ public class SpellCraftUI : MonoBehaviour
     {
         if (!selectBehavior)
         {
-            if (behaviorsButtons[id].isFull)
+            if (behaviorsButtons[id].isFull && holdingSpellCount >= 4)
             {
+            //!Magic number for slot number-------------------------^
                 currModifiyingSpellName.text = behaviorsButtons[id].GetName();
                 currSelectedSlot = id;
 
@@ -142,7 +143,7 @@ public class SpellCraftUI : MonoBehaviour
         {
             behaviorsButtons[id].GetImage().sprite = spellSelected.sprite;
 
-            runeSlots.LoadBehavior(currHoldingSpellId);
+            runeSlots.LoadBehavior(currHoldingSpellId, id);
             behaviorsButtons[id].SetName(runeSlots.GetName(), id);
 
             behaviorsButtons[id].isFull = true;
@@ -233,13 +234,24 @@ public class SpellCraftUI : MonoBehaviour
     void LoadModifiersOnUI(int id)
     {
         List<AddedBehavior> modList = runeSlots.GetModifiersOnBehavior(id);
+
+        int lastId = 0;
         Transform modSlot;
 
-        foreach (AddedBehavior bh in modList)
+        for (int i = 0; i < modList.Count; i++)
         {
-            modSlot = modSlotParent.transform.GetChild(id);
+            modSlot = modSlotParent.transform.GetChild(i);
             modSlot.gameObject.SetActive(true);
-            modSlot.GetComponentInChildren<Image>().sprite = bh.tex;
+            modSlot.GetComponentInChildren<Image>().sprite = modList[i].tex;
+            lastId = i;
+        }
+
+        modSlot = modSlotParent.transform.GetChild(lastId + 1);
+
+        if (modSlot != null && modList.Count > 0)
+        {
+            modSlot.gameObject.SetActive(true);
+            modSlot.GetComponentInChildren<Image>().sprite = nullSprite;
         }
     }
     #endregion

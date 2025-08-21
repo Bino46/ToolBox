@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class SelectionSlot
 {
     public GameObject selectedSlot;
-    public AddedBehavior behavior;
+    //public AddedBehavior behavior;
     public bool isFull = false;
     Image image;
     string spellHoldingName;
@@ -64,6 +64,7 @@ public class SpellCraftUI : MonoBehaviour
     bool selectProjectile;
     bool selectBehavior;
     bool selectModifier;
+    bool modProj;
 
     private void Start()
     {
@@ -147,7 +148,7 @@ public class SpellCraftUI : MonoBehaviour
             behaviorsButtons[id].isFull = true;
             behaviorsButtons[id].selectedSlot.GetComponentInChildren<SpellGlowMask>().ActivateSpell();
 
-            behaviorsButtons[id].behavior = runeSlots.so_behaviors[id];
+            //behaviorsButtons[id].behavior = runeSlots.so_behaviors[id];
 
             ResetHoldingSprite();
         }
@@ -173,15 +174,17 @@ public class SpellCraftUI : MonoBehaviour
     {
         if (!selectProjectile)
         {
-            if (projectileButton.isFull)
+            if (projectileButton.isFull && holdingSpellCount == 4)
             {
                 currModifiyingSpellName.text = projectileButton.GetName();
+
+                ResetModInterface();
+                LoadModifiersOnUI(0);
                 SwitchToPJModifiers();
             }
         }
         else
             DepositProjectile();
-
     }
 
     void DepositProjectile()
@@ -224,10 +227,15 @@ public class SpellCraftUI : MonoBehaviour
 
             modSlotsUI[id]?.gameObject.SetActive(true);
 
-            runeSlots.LoadBehaviorModifiers(currSelectedSlot, id, currHoldingSpellId);
+            if (modProj)
+                runeSlots.LoadProjectileModifier(id, currHoldingSpellId);
+            else
+                runeSlots.LoadBehaviorModifiers(currSelectedSlot, id, currHoldingSpellId);
+
             ResetHoldingSprite();
         }
     }
+
     void LoadModifiersOnUI(int id)
     {
         List<AddedBehavior> modList = runeSlots.GetModifiersOnBehavior(id);
@@ -283,6 +291,8 @@ public class SpellCraftUI : MonoBehaviour
     {
         ResetHoldingSprite();
 
+        modProj = false;
+
         menuParent[0].SetActive(false);
         menuParent[1].SetActive(true);
 
@@ -293,6 +303,8 @@ public class SpellCraftUI : MonoBehaviour
     void SwitchToPJModifiers()
     {
         ResetHoldingSprite();
+
+        modProj = true;
 
         menuParent[0].SetActive(false);
         menuParent[1].SetActive(true);

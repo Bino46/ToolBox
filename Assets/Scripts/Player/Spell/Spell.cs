@@ -1,22 +1,14 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class Spell : MonoBehaviour
 {
     LayerMask mask;
     PoolObject pool;
-    Rigidbody body;
+    //Rigidbody body;
     CompliedSpell currData;
+    Projectile projMovement;
 
-    [Header("Base value")]
-    bool canGo;
-    bool touch;
-    float speed;
-    float currlifetime;
     [Header("Delay values")]
     bool isDelaying;
     float delayTime;
@@ -35,14 +27,15 @@ public class Spell : MonoBehaviour
     int indexCurrentBehaviour;
     delegate void CurrentAction();
     CurrentAction lastAction;
+    bool touch;
 
     #region System
     void Awake()
     {
         //First set some variables for later then deactivate the object for it to stay available in the pool
         mask = LayerMask.GetMask("Self");
-        body = GetComponent<Rigidbody>();
         pool = GetComponent<PoolObject>();
+        projMovement = GetComponent<Projectile>();
         gameObject.SetActive(false);
     }
 
@@ -60,18 +53,11 @@ public class Spell : MonoBehaviour
                 return;
         }
 
-        //bool for the projectile to move only when i want it to move (when active mostly)
-        if (canGo)
-            Move();
-
         //Changes in behavior when the projectile hits something
         if (touch)
         {
-            if (mustLock)
-                TimedDestroy();
-            else
-                resetAfterExplosion = true;
-
+            TouchBehaviors();
+            
             //When touch = true, i check  if the Wait modifier is on or not
             WaitOrPass();
         }
@@ -97,13 +83,9 @@ public class Spell : MonoBehaviour
         }
     }
     void Reset()
-    {
-        //Reset the projectile 
-        //Debug.Log("Reset");
-        canGo = false;
+    {   
         touch = false;
 
-        body.isKinematic = true;
         resetAfterExplosion = true;
 
         explosionBodyList.Clear();
@@ -124,6 +106,13 @@ public class Spell : MonoBehaviour
             currData.followEffects[indexCurrentBehaviour].modDurationValue = 1;
         }
     }
+
+    public void FullReset()
+    {
+        ResetBehaviors();
+        Reset();
+        projMovement.ResetMovement();
+    }
     #endregion
 
     #region Spell construction
@@ -132,11 +121,9 @@ public class Spell : MonoBehaviour
         //copies the SO for all the script to use, then sets the base projectile values
         currData = Instantiate(data);
 
-        ReadProjectileData((SimpleProjectileData)currData.followEffects[0]);
+        projMovement.InitMovement(data, (SimpleProjectileData)currData.followEffects[0]);
 
         gameObject.SetActive(true);
-        body.isKinematic = false;
-        canGo = true;
     }
 
     void GetNextAction()
@@ -149,20 +136,11 @@ public class Spell : MonoBehaviour
             ReadNewBehavior();
     }
 
-    void ReadProjectileData(SimpleProjectileData data)
-    {
-        //Base projectile stats
-        speed = data.f_speed;
-        transform.localScale = Vector3.one * data.f_size;
-        currlifetime = data.f_lifetime;
-        body.mass = data.f_mass;
-    }
-
     void ReadNewBehavior()
     {
         //I first check for modifiers, then i call the modded behavior
         if ((indexCurrentBehaviour + 1) < currData.followEffects.Count && currData.followEffects[indexCurrentBehaviour + 1].currtType == AddedBehavior.dataType.Modifier)
-            CheckModifiers();
+            CheckModifiers(indexCurrentBehaviour + 1);
 
         switch (currData.followEffects[indexCurrentBehaviour].id)
         {
@@ -175,25 +153,21 @@ public class Spell : MonoBehaviour
                 //Debug.Log("Delay");
                 SetDelay();
                 break;
-            case 3:
-                //Debug.Log("Lock");
-                SetLockOnTouch();
-                break;
         }
     }
-    void CheckModifiers()
+    void CheckModifiers(int startIndex)
     {
         //Check for any modifiers after the behavior then applies them
-        for (int i = 1; i < currData.followEffects.Count; i++)
+        for (int i = startIndex; i < currData.followEffects.Count; i++)
         {
             if ((indexCurrentBehaviour + i) < currData.followEffects.Count && currData.followEffects[indexCurrentBehaviour + i].currtType == AddedBehavior.dataType.Modifier)
-                ReadModifierData(i);
+                ReadBehaviorModifierData(i);
             else
                 break;
         }
     }
 
-    void ReadModifierData(int gap)
+    void ReadBehaviorModifierData(int gap)
     {
         BaseModifier currModifier = (BaseModifier)currData.followEffects[indexCurrentBehaviour + gap];
         //Applies the modifier(s) following the behavior
@@ -239,11 +213,6 @@ public class Spell : MonoBehaviour
 
 
     #region SpellActions
-    void Move()
-    {
-        //Simple movement
-        transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
-    }
 
     void OnCollisionEnter(Collision other)
     {
@@ -256,16 +225,9 @@ public class Spell : MonoBehaviour
     {
         //After the projectile touched, it will disappear after an extended time
         resetAfterExplosion = false;
-        currlifetime -= Time.deltaTime;
+        projMovement.HandleLifetime();
 
-        if (currlifetime <= 0)
-            Reset();
-
-        if (mustLock)
-        {
-            body.isKinematic = true;
-            canGo = false;
-        }
+        projMovement.LockProjectile(true);
     }
 
     void SpellExplosion()
@@ -287,39 +249,39 @@ public class Spell : MonoBehaviour
 
         foreach (Rigidbody obj in explosionBodyList)
         {
-            Debug.Log(spell.f_explosionStrength * spell.modStrengthValue + " strength");
-            Debug.Log(spell.f_explosionRadius * spell.modDurationValue + " radius");
             obj.AddExplosionForce(spell.f_explosionStrength * spell.modStrengthValue, transform.position, spell.f_explosionRadius * spell.modDurationValue);
-        }
-
-        if (resetAfterExplosion)
-        {
-            ResetBehaviors();
-            Reset();
         }
     }
 
     void SetDelay()
     {
-        //Sets the delay
+        //Sets a pause in the spell actions
         DelaySpell spell = (DelaySpell)currData.followEffects[indexCurrentBehaviour];
         delayTime = spell.delayTime * Mathf.Abs(spell.modDurationValue);
         isDelaying = true;
     }
 
-    void SetLockOnTouch()
+    #endregion
+
+    #region Modifiers
+    public void SetLockOnTouch(int val)
     {
         //Sets the collision interaction
-        LockOnTouch onTouch = (LockOnTouch)currData.followEffects[indexCurrentBehaviour];
+        LockOnTouch onTouch = (LockOnTouch)currData.followEffects[val];
 
-        currlifetime = onTouch.f_timeBeforeDestruction * Mathf.Abs(onTouch.modDurationValue);
+        projMovement.ExtendLifetime(onTouch.f_timeBeforeDestruction * Mathf.Abs(onTouch.modDurationValue));
+
         mustLock = onTouch.b_lockOnTouch;
         resetAfterExplosion = false;
     }
 
-    #endregion
+    void TouchBehaviors()
+    {
+        if (mustLock)
+            projMovement.LockProjectile(true);
 
-    #region Modifiers
+        TimedDestroy();
+    }
 
     void ChangeModValue(float mod, BaseModifier.Operation op, bool strength)
     {

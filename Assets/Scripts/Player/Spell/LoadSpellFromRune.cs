@@ -96,15 +96,21 @@ public class LoadSpellFromRune : MonoBehaviour
             currSpell.followEffects.Insert(newIndex, so_modifiers[modifierType]);
     }
 
+    public void LoadProjectileModifier(int modifierIndex, int modifierType)
+    {
+        if (currSpell.followEffects.Count > modifierIndex && currSpell.followEffects[modifierIndex].currtType == AddedBehavior.dataType.Modifier)
+            currSpell.followEffects[modifierIndex] = so_modifiers[modifierType];
+        else
+            currSpell.followEffects.Insert(modifierIndex, so_modifiers[modifierType]); 
+    }
+
     public List<AddedBehavior> GetModifiersOnBehavior(int searchIndex)
     {
         int behaviorSlot = 0;
         List<AddedBehavior> modList = new List<AddedBehavior>();
 
-
         for (int i = slotProjectile; i < currSpell.followEffects.Count; i++)
         {
-
             if (behaviorSlot == searchIndex + slotProjectile && currSpell.followEffects[i].currtType == AddedBehavior.dataType.Modifier)
                 modList.Add(currSpell.followEffects[i]);
 

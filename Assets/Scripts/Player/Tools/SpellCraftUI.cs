@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -38,6 +37,7 @@ public class SpellCraftUI : MonoBehaviour
 {
     [SerializeField] ControllerV2 player;
     [SerializeField] LoadSpellFromRune runeSlots;
+    public static SpellCraftUI _instance;
 
     [Header("UI objects")]
     [SerializeField] Image spellSelected;
@@ -47,8 +47,8 @@ public class SpellCraftUI : MonoBehaviour
     [SerializeField] GameObject[] menuParent = new GameObject[2];
     [SerializeField] GameObject[] menuLists = new GameObject[4];
     [SerializeField] Sprite[] buttonSelection = new Sprite[2];
-    [SerializeField] SelectionSlot[] behaviorsButtons = new SelectionSlot[3];
-    [SerializeField] SelectionSlot projectileButton;
+    public SelectionSlot[] behaviorsButtons = new SelectionSlot[3];
+    public SelectionSlot projectileButton;
     [SerializeField] GameObject modSlotParent;
     Button[] modSlotsUI = new Button[16]; 
 
@@ -66,6 +66,11 @@ public class SpellCraftUI : MonoBehaviour
     bool selectModifier;
     bool modProj;
 
+    void Awake()
+    {
+        _instance = this;
+    }
+    
     private void Start()
     {
         for (int i = 0; i < modSlotsUI.Length; i++)

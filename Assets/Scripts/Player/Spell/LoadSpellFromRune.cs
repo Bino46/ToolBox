@@ -12,6 +12,11 @@ public class LoadSpellFromRune : MonoBehaviour
 
     void Start()
     {
+        ClearSpell();
+    }
+
+    public void ClearSpell()
+    {
         currSpell.followEffects.Clear();
     }
 
@@ -20,6 +25,7 @@ public class LoadSpellFromRune : MonoBehaviour
     {
         int slotBehavior = 0;
         lastLoaded = so_behaviors[id].name;
+        Debug.Log(slot + " " + slotProjectile + " " + currSpell.followEffects.Count);
 
         if (slot + slotProjectile >= currSpell.followEffects.Count)
         {
@@ -34,7 +40,7 @@ public class LoadSpellFromRune : MonoBehaviour
         {
             for (int i = slotProjectile; i < currSpell.followEffects.Count; i++)
             {
-                if (currSpell.followEffects[i].currtType == AddedBehavior.dataType.Behaviour)
+                if (currSpell.followEffects[i] != null && currSpell.followEffects[i].currtType == AddedBehavior.dataType.Behaviour)
                     slotBehavior++;
 
                 if (slotBehavior == slot + slotProjectile)

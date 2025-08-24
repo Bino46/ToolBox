@@ -55,6 +55,7 @@ public class SpellCraftUI : MonoBehaviour
     [Header("Script values")]
     // Reference to sprites in addon menu
     [SerializeField] Sprite nullSprite;
+    public int slotNumber;
     int currSelectedSlot; //reference
     Vector2 mousePos;
     int currHoldingSpellId = -1;
@@ -123,9 +124,8 @@ public class SpellCraftUI : MonoBehaviour
     {
         if (!selectBehavior)
         {
-            if (behaviorsButtons[id].isFull && holdingSpellCount >= 4)
+            if (behaviorsButtons[id].isFull && holdingSpellCount >= slotNumber)
             {
-            //!Magic number for slot amount-------------------------^
                 currModifiyingSpellName.text = behaviorsButtons[id].GetName();
                 currSelectedSlot = id;
 
@@ -179,7 +179,7 @@ public class SpellCraftUI : MonoBehaviour
     {
         if (!selectProjectile)
         {
-            if (projectileButton.isFull && holdingSpellCount == 4)
+            if (projectileButton.isFull && holdingSpellCount == slotNumber)
             {
                 currModifiyingSpellName.text = projectileButton.GetName();
 
@@ -370,12 +370,35 @@ public class SpellCraftUI : MonoBehaviour
         }
     }
 
+    public void ResetAll()
+    {
+        for (int i = 0; i < behaviorsButtons.Length; i++)
+        {
+            behaviorsButtons[i].selectedSlot.SetActive(false);
+            behaviorsButtons[i].selectedSlot.GetComponentInChildren<SpellGlowMask>().DesactivateSpell();
+
+            behaviorsButtons[i].GetImage().sprite = nullSprite;
+
+            behaviorsButtons[i].isFull = false;
+        }
+
+        holdingSpellCount = 0;
+
+        projectileButton.selectedSlot.SetActive(false);
+        projectileButton.selectedSlot.GetComponentInChildren<SpellGlowMask>().DesactivateSpell();
+        projectileButton.GetImage().sprite = nullSprite;
+        projectileButton.isFull = false;
+
+        runeSlots.ClearSpell();
+
+    }
+
     #endregion
 
     public void FullColorSpell()
     {
-        if (holdingSpellCount > behaviorsButtons.Length)
-            projectileButton.selectedSlot.GetComponentInChildren<SpellGlowMask>().maxSize = 4;
+        if (holdingSpellCount >= slotNumber)
+            projectileButton.selectedSlot.GetComponentInChildren<SpellGlowMask>().maxSize = 5;
         else
             projectileButton.selectedSlot.GetComponentInChildren<SpellGlowMask>().maxSize = 1.6f;
     }

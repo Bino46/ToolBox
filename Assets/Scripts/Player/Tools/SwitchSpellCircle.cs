@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class SwitchSpellCircle : MonoBehaviour
 {
-
     [SerializeField] GameObject[] circleList = new GameObject[6];
+    [SerializeField] LoadSpellFromRune spellReference;
 
     public void Switch(int id)
     {
         ResetAll();
+
+        SpellCraftUI._instance.slotNumber = id + 1;
 
         circleList[id].SetActive(true);
         GameObject obj;
@@ -22,18 +24,14 @@ public class SwitchSpellCircle : MonoBehaviour
             {
                 obj = SpellCraftUI._instance.behaviorsButtons[i].selectedSlot;
                 obj.SetActive(true);
-                obj.transform.position = circleList[id].transform.GetChild(i+1).transform.position;
+                obj.transform.position = circleList[id].transform.GetChild(i + 1).transform.position;
             }
         }
     }
 
     void ResetAll()
     {
-        for (int i = 0; i < SpellCraftUI._instance.behaviorsButtons.Length; i++)
-        {
-            SpellCraftUI._instance.behaviorsButtons[i].selectedSlot.SetActive(false);
-        }
-        SpellCraftUI._instance.projectileButton.selectedSlot.SetActive(false);
+        SpellCraftUI._instance.ResetAll();
 
         for (int i = 0; i < circleList.Length; i++)
         {

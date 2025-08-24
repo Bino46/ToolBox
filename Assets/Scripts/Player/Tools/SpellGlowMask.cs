@@ -10,14 +10,14 @@ public class SpellGlowMask : MonoBehaviour
 
     void Update()
     {
-        if (grow && currSize.magnitude < maxSize)
+        if (grow && currSize.x < maxSize)
         {
             currSize += Vector3.one * speed * Time.deltaTime;
             currSize = Vector3.ClampMagnitude(currSize, maxSize);
 
             transform.localScale = currSize;
         }
-        else if (!grow && currSize.magnitude > 0)
+        else if (!grow && currSize.x > 0)
         {
             currSize -= Vector3.one * speed * Time.deltaTime;
 

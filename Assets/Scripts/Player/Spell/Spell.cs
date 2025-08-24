@@ -13,13 +13,14 @@ public class Spell : MonoBehaviour
     bool isDelaying;
     float delayTime;
     [Header("Explosion values")]
-    bool resetAfterExplosion;
     List<Rigidbody> explosionBodyList = new List<Rigidbody>();
     [SerializeField] GameObject bh;
 
     [Header("Wait effect")]
     bool needWait;
     float waitTime;
+    bool forceWaitTime;
+    [SerializeField] float forceWaitTimeValue;
     [Header("Lock on")]
     bool mustLock;
 
@@ -55,9 +56,7 @@ public class Spell : MonoBehaviour
 
         //Changes in behavior when the projectile hits something
         if (touch)
-        {
-            TouchBehaviors();
-            
+        {   
             //When touch = true, i check  if the Wait modifier is on or not
             WaitOrPass();
         }
@@ -75,9 +74,24 @@ public class Spell : MonoBehaviour
         }
         else
         {
+            //I give just a small delay because otherwise the projectile gets destroyed before the behavior takes place
+            if (forceWaitTime)
+            {
+                SetWaitTime(forceWaitTimeValue);
+
+                lastAction = EmptyDelegate;
+                forceWaitTime = false;
+
+                return;
+            }
+            
             //Since im using SO, i need to reset them before going to the next, otherwise the modifiers will stay active next time ill use this behavior
-            if (indexCurrentBehaviour < currData.followEffects.Count)
-                ResetBehaviors();
+            if (indexCurrentBehaviour >= currData.followEffects.Count && !mustLock)
+            {
+                FullReset();
+                return;
+            }
+            //Debug.Log(indexCurrentBehaviour + " " + currData.followEffects.Count);
 
             GetNextAction();
         }
@@ -86,7 +100,7 @@ public class Spell : MonoBehaviour
     {   
         touch = false;
 
-        resetAfterExplosion = true;
+        forceWaitTime = true;
 
         explosionBodyList.Clear();
         indexCurrentBehaviour = 0;
@@ -97,22 +111,25 @@ public class Spell : MonoBehaviour
     void ResetBehaviors()
     {
         //Reset the behavior
-        if (currData.followEffects[indexCurrentBehaviour].currtType == AddedBehavior.dataType.Behaviour)
+        foreach (AddedBehavior bh in currData.followEffects)
         {
-            //Debug.Log("Reset Behavior " + indexCurrentBehaviour);
-
-            explosionBodyList.Clear();
-            currData.followEffects[indexCurrentBehaviour].modStrengthValue = 1;
-            currData.followEffects[indexCurrentBehaviour].modDurationValue = 1;
+            if (bh.currtType == AddedBehavior.dataType.Behaviour)
+            {
+                bh.modStrengthValue = 1;
+                bh.modDurationValue = 1; 
+            }
         }
+
+        explosionBodyList.Clear();
     }
 
     public void FullReset()
     {
         ResetBehaviors();
-        Reset();
         projMovement.ResetMovement();
+        Reset();
     }
+
     #endregion
 
     #region Spell construction
@@ -141,6 +158,8 @@ public class Spell : MonoBehaviour
         //I first check for modifiers, then i call the modded behavior
         if ((indexCurrentBehaviour + 1) < currData.followEffects.Count && currData.followEffects[indexCurrentBehaviour + 1].currtType == AddedBehavior.dataType.Modifier)
             CheckModifiers(indexCurrentBehaviour + 1);
+
+        forceWaitTime = true;
 
         switch (currData.followEffects[indexCurrentBehaviour].id)
         {
@@ -188,8 +207,7 @@ public class Spell : MonoBehaviour
             case 3:
                 //wait
                 //Debug.Log("Wait");
-                needWait = true;
-                waitTime = currModifier.modDurationValue;
+                SetWaitTime(currModifier.modDurationValue);
                 break;
 
             case 4:
@@ -218,16 +236,26 @@ public class Spell : MonoBehaviour
     {
         //Unity's collision
         if (other.gameObject.layer != mask)
+        {
             touch = true;
+            TouchBehavior();
+        }
     }
-
-    void TimedDestroy()
+    void TouchBehavior()
     {
         //After the projectile touched, it will disappear after an extended time
-        resetAfterExplosion = false;
-        projMovement.HandleLifetime();
 
-        projMovement.LockProjectile(true);
+        if (mustLock)
+        {
+            forceWaitTime = false;
+            projMovement.LockProjectile(true);
+        }
+    }
+
+    void SetWaitTime(float time)
+    {
+        needWait = true;
+        waitTime = time;
     }
 
     void SpellExplosion()
@@ -261,6 +289,10 @@ public class Spell : MonoBehaviour
         isDelaying = true;
     }
 
+    void EmptyDelegate()
+    {
+    }
+
     #endregion
 
     #region Modifiers
@@ -272,15 +304,7 @@ public class Spell : MonoBehaviour
         projMovement.ExtendLifetime(onTouch.f_timeBeforeDestruction * Mathf.Abs(onTouch.modDurationValue));
 
         mustLock = onTouch.b_lockOnTouch;
-        resetAfterExplosion = false;
-    }
-
-    void TouchBehaviors()
-    {
-        if (mustLock)
-            projMovement.LockProjectile(true);
-
-        TimedDestroy();
+        forceWaitTime = false;
     }
 
     void ChangeModValue(float mod, BaseModifier.Operation op, bool strength)

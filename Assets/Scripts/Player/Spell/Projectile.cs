@@ -38,6 +38,8 @@ public class Projectile : MonoBehaviour
         //bool for the projectile to move only when i want it to move (when active mostly)
         if (canGo)
             Move();
+            
+        HandleLifetime();
     }
 
     public void HandleLifetime()

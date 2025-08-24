@@ -179,7 +179,7 @@ public class SpellCraftUI : MonoBehaviour
     {
         if (!selectProjectile)
         {
-            if (projectileButton.isFull && holdingSpellCount == slotNumber)
+            if (projectileButton.isFull && holdingSpellCount >= slotNumber)
             {
                 currModifiyingSpellName.text = projectileButton.GetName();
 

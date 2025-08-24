@@ -25,7 +25,6 @@ public class LoadSpellFromRune : MonoBehaviour
     {
         int slotBehavior = 0;
         lastLoaded = so_behaviors[id].name;
-        Debug.Log(slot + " " + slotProjectile + " " + currSpell.followEffects.Count);
 
         if (slot + slotProjectile >= currSpell.followEffects.Count)
         {
@@ -45,7 +44,7 @@ public class LoadSpellFromRune : MonoBehaviour
 
                 if (slotBehavior == slot + slotProjectile)
                 {
-                    currSpell.followEffects[i] = so_behaviors[id];
+                    currSpell.followEffects[slotBehavior] = so_behaviors[id];
                     break;
                 }
 

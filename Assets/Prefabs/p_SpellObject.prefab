@@ -16,8 +16,8 @@ GameObject:
   - component: {fileID: 4252909322417322421}
   - component: {fileID: 5169847665821242137}
   - component: {fileID: 6181987246435131336}
-  m_Layer: 0
-  m_Name: SpellObject
+  m_Layer: 7
+  m_Name: p_SpellObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -131,7 +131,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 524288
+    m_Bits: 524416
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0

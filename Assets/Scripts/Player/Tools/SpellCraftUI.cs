@@ -49,9 +49,8 @@ public class SpellCraftUI : MonoBehaviour
     [SerializeField] Sprite[] buttonSelection = new Sprite[2];
     public SelectionSlot[] behaviorsButtons = new SelectionSlot[3];
     public SelectionSlot projectileButton;
+    public SelectionSlot[] modifierButtons = new SelectionSlot[16];
     [SerializeField] GameObject modSlotParent;
-    Button[] modSlotsUI = new Button[16]; 
-
     [Header("Script values")]
     // Reference to sprites in addon menu
     [SerializeField] Sprite nullSprite;
@@ -74,9 +73,9 @@ public class SpellCraftUI : MonoBehaviour
     
     private void Start()
     {
-        for (int i = 0; i < modSlotsUI.Length; i++)
+        for (int i = 0; i < modifierButtons.Length; i++)
         {
-            modSlotsUI[i] = modSlotParent.transform.GetChild(i).gameObject.GetComponent<Button>();
+            modifierButtons[i].selectedSlot = modSlotParent.transform.GetChild(i).gameObject;
         }
     }
 
@@ -228,12 +227,15 @@ public class SpellCraftUI : MonoBehaviour
     {
         if (selectModifier)
         {
-            modSlotsUI[id - 1].GetComponentInChildren<Image>().sprite = spellSelected.sprite;
+            modifierButtons[id].GetImage().sprite = spellSelected.sprite;
+            
+            if(modifierButtons.Length > id + 1)
+                modifierButtons[id + 1].selectedSlot.SetActive(true);
 
-            modSlotsUI[id]?.gameObject.SetActive(true);
+            modifierButtons[id].isFull = true;
 
             if (modProj)
-                runeSlots.LoadProjectileModifier(id, currHoldingSpellId);
+                runeSlots.LoadProjectileModifier(id + 1, currHoldingSpellId);
             else
                 runeSlots.LoadBehaviorModifiers(currSelectedSlot, id, currHoldingSpellId);
 
@@ -243,7 +245,12 @@ public class SpellCraftUI : MonoBehaviour
 
     void LoadModifiersOnUI(int id)
     {
-        List<AddedBehavior> modList = runeSlots.GetModifiersOnBehavior(id);
+        List<AddedBehavior> modList;
+        
+        if (id == 0)
+            modList = runeSlots.GetModifiersOnProjectile();
+        else
+            modList = runeSlots.GetModifiersOnBehavior(id);
 
         int lastId = 0;
         Transform modSlot;
@@ -264,6 +271,30 @@ public class SpellCraftUI : MonoBehaviour
             modSlot.GetComponentInChildren<Image>().sprite = nullSprite;
         }
     }
+
+    public void RemoveModifier(int id)
+    {
+        if (modifierButtons[id].isFull && !selectModifier)
+        {
+            List<AddedBehavior> modList;
+            
+            if (currSelectedSlot == 0)
+                modList = runeSlots.GetModifiersOnProjectile();
+            else
+                modList = runeSlots.GetModifiersOnBehavior(id);
+            
+            if (id > 0)
+                modifierButtons[modList.Count - 1].isFull = false;
+            else
+                modifierButtons[1].isFull = false;
+
+            runeSlots.ClearModifer(id + 1, currSelectedSlot);
+            ResetModInterface();
+            LoadModifiersOnUI(currSelectedSlot);
+        }
+        
+    }
+
     #endregion
 
     #region UI menus
@@ -361,12 +392,12 @@ public class SpellCraftUI : MonoBehaviour
 
     void ResetModInterface()
     {
-        modSlotsUI[0].GetComponentInChildren<Image>().sprite = nullSprite;
+        modifierButtons[0].GetImage().sprite = nullSprite;
 
-        for (int i = 1; i < modSlotsUI.Length; i++)
+        for (int i = 1; i < modifierButtons.Length; i++)
         {
-            modSlotsUI[i].GetComponentInChildren<Image>().sprite = nullSprite;
-            modSlotsUI[i].gameObject.SetActive(false);
+            modifierButtons[i].GetImage().sprite = nullSprite;
+            modifierButtons[i].selectedSlot.SetActive(false);
         }
     }
 

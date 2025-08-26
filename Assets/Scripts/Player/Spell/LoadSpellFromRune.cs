@@ -20,6 +20,39 @@ public class LoadSpellFromRune : MonoBehaviour
         currSpell.followEffects.Clear();
     }
 
+    public void ClearModifer(int modId, int bhId)
+    {
+        int start = 0;
+        int count = 0;
+        int step = 0;
+
+        if (bhId > 0)
+        {
+            for (int i = 0; i < currSpell.followEffects.Count; i++)
+            {
+                if (currSpell.followEffects[i].currtType == AddedBehavior.dataType.Behaviour)
+                    step++;
+
+                start = i;
+
+                if (step == bhId + slotProjectile)
+                    break;
+            }
+        }
+
+        for (int i = start; i < currSpell.followEffects.Count; i++)
+        {
+            if (currSpell.followEffects[i].currtType == AddedBehavior.dataType.Modifier)
+                count++;
+
+            if (count == modId)
+            {
+                currSpell.followEffects.RemoveAt(start + count);
+                break;
+            }
+        }
+    }
+
     //Adds behavior to the list
     public void LoadBehavior(int id, int slot)
     {
@@ -63,7 +96,7 @@ public class LoadSpellFromRune : MonoBehaviour
 
         if (currSpell.followEffects.Count > 0)
         {
-            if (currSpell.followEffects[0] == null ||currSpell.followEffects[0].currtType != AddedBehavior.dataType.Projectile)
+            if (currSpell.followEffects[0] == null || currSpell.followEffects[0].currtType != AddedBehavior.dataType.Projectile)
                 currSpell.followEffects.Insert(0, so_projectiles[id]);
             else
                 currSpell.followEffects[0] = so_projectiles[id];
@@ -72,8 +105,11 @@ public class LoadSpellFromRune : MonoBehaviour
             currSpell.followEffects.Add(so_projectiles[id]);
 
         slotProjectile = 1;
+        ShootSpell._instance.ReadProjectile();
     }
 
+
+    #region modifiers
     public void LoadBehaviorModifiers(int searchIndex, int modifierIndex, int modifierType)
     {
         int behaviorSlot = 0;
@@ -94,7 +130,7 @@ public class LoadSpellFromRune : MonoBehaviour
         }
 
         int newIndex = behaviorSlot + modifierIndex + offset + slotProjectile;
-        
+
         if (currSpell.followEffects.Count > newIndex && currSpell.followEffects[newIndex].currtType == AddedBehavior.dataType.Modifier)
             currSpell.followEffects[newIndex] = so_modifiers[modifierType];
         else
@@ -106,7 +142,7 @@ public class LoadSpellFromRune : MonoBehaviour
         if (currSpell.followEffects.Count > modifierIndex && currSpell.followEffects[modifierIndex].currtType == AddedBehavior.dataType.Modifier)
             currSpell.followEffects[modifierIndex] = so_modifiers[modifierType];
         else
-            currSpell.followEffects.Insert(modifierIndex, so_modifiers[modifierType]); 
+            currSpell.followEffects.Insert(modifierIndex, so_modifiers[modifierType]);
     }
 
     public List<AddedBehavior> GetModifiersOnBehavior(int searchIndex)
@@ -125,4 +161,21 @@ public class LoadSpellFromRune : MonoBehaviour
 
         return modList;
     }
+
+    public List<AddedBehavior> GetModifiersOnProjectile()
+    {
+        List<AddedBehavior> modList = new List<AddedBehavior>();
+
+        for (int i = 0; i < currSpell.followEffects.Count; i++)
+        {
+            if (currSpell.followEffects[i].currtType == AddedBehavior.dataType.Modifier)
+                modList.Add(currSpell.followEffects[i]);
+
+            if (currSpell.followEffects[i].currtType == AddedBehavior.dataType.Behaviour)
+                break;
+        }
+
+        return modList;
+    }
+    #endregion
 }

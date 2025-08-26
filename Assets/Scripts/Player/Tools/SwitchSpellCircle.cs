@@ -32,6 +32,7 @@ public class SwitchSpellCircle : MonoBehaviour
     void ResetAll()
     {
         SpellCraftUI._instance.ResetAll();
+        ShootSpell._instance.projectileFired = 1;
 
         for (int i = 0; i < circleList.Length; i++)
         {

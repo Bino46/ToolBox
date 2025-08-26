@@ -9,16 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afa72efd83b06ad44ad064e12255fab8, type: 3}
+  m_Script: {fileID: 11500000, guid: 85d91df5b432ec747800cf7ae26d1bec, type: 3}
   m_Name: p_GravityProjectile
   m_EditorClassIdentifier: 
   currtType: 2
   id: 1
-  tex: {fileID: 21300000, guid: d24b95fe61b17e14b92c7febc226de80, type: 3}
+  tex: {fileID: 21300000, guid: f44e502be12776140ac68efa0b33e762, type: 3}
   color: {fileID: 0}
   modStrengthValue: 1
   modDurationValue: 1
   f_speed: 20
   f_size: 0.5
-  f_lifetime: 5
-  f_mass: 10
+  f_lifetime: 3
+  f_mass: 3
+  useGravity: 1

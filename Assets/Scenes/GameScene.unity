@@ -754,12 +754,24 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 941161587}
         m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: RemoveModifier
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 9
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
         m_MethodName: DepositModifier
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 10
+          m_IntArgument: 9
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3003,12 +3015,24 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 941161587}
         m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: RemoveModifier
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 11
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
         m_MethodName: DepositModifier
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 12
+          m_IntArgument: 11
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -4343,12 +4367,24 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 941161587}
         m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: RemoveModifier
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 12
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
         m_MethodName: DepositModifier
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 13
+          m_IntArgument: 12
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -4374,6 +4410,7 @@ GameObject:
   - component: {fileID: 467317935}
   - component: {fileID: 467317934}
   - component: {fileID: 467317933}
+  - component: {fileID: 467317937}
   m_Layer: 5
   m_Name: Spot5
   m_TagString: Untagged
@@ -4553,6 +4590,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 467317931}
   m_CullTransparentMesh: 1
+--- !u!114 &467317937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467317931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baa6a9732c03f604393b32b0c9edf2f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onLeft:
+    m_PersistentCalls:
+      m_Calls: []
+  onRight:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: RemoveBehavior
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 5
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onMiddle:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &469035830
 GameObject:
   m_ObjectHideFlags: 0
@@ -4637,12 +4707,24 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 941161587}
         m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: RemoveModifier
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
         m_MethodName: DepositModifier
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 4
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -4934,12 +5016,24 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 941161587}
         m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: RemoveModifier
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 10
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
         m_MethodName: DepositModifier
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 11
+          m_IntArgument: 10
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -6276,6 +6370,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1642449392}
+  - {fileID: 1666119298}
   m_Father: {fileID: 1079176282}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.105000004, y: 0.44655105}
@@ -6953,6 +7048,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 704498400}
   m_CullTransparentMesh: 1
+--- !u!1 &710642653
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 710642654}
+  - component: {fileID: 710642655}
+  m_Layer: 0
+  m_Name: GravPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &710642654
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710642653}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.39, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1508029733}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &710642655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710642653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df8659d41f2124e4bbfec59b179ec8b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseObject: {fileID: 7979437524908255663, guid: 82c5c129da6b4f84fbb3c1bb372e3f90, type: 3}
+  count: 15
+  objectList: []
 --- !u!1 &719359213
 GameObject:
   m_ObjectHideFlags: 0
@@ -8319,6 +8461,7 @@ GameObject:
   - component: {fileID: 904501614}
   - component: {fileID: 904501613}
   - component: {fileID: 904501612}
+  - component: {fileID: 904501616}
   m_Layer: 5
   m_Name: Spot3
   m_TagString: Untagged
@@ -8498,6 +8641,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 904501610}
   m_CullTransparentMesh: 1
+--- !u!114 &904501616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904501610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baa6a9732c03f604393b32b0c9edf2f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onLeft:
+    m_PersistentCalls:
+      m_Calls: []
+  onRight:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: RemoveBehavior
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onMiddle:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &928996321
 GameObject:
   m_ObjectHideFlags: 0
@@ -8621,12 +8797,24 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 941161587}
         m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: RemoveModifier
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
         m_MethodName: DepositModifier
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -8674,8 +8862,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   so_projectiles:
   - {fileID: 11400000, guid: a0f3c65963697a047be5346fa9c7a31e, type: 2}
-  - {fileID: 11400000, guid: a0f3c65963697a047be5346fa9c7a31e, type: 2}
-  - {fileID: 11400000, guid: a0f3c65963697a047be5346fa9c7a31e, type: 2}
+  - {fileID: 11400000, guid: ed7f7e5f150131f438112b8d9518d73a, type: 2}
   so_behaviors:
   - {fileID: 11400000, guid: 68950aa55e1dda3458a39ec7c2231472, type: 2}
   - {fileID: 11400000, guid: 4914fc14d38dfef41a48c7d6356973b2, type: 2}
@@ -8688,6 +8875,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7d7c74193d7b95142be58c138e29ade3, type: 2}
   - {fileID: 11400000, guid: 259a5ddfaee037c4d8c12e16b7ae4eb1, type: 2}
   - {fileID: 11400000, guid: 2f8cc62bbb99e0449955d8922372ec2b, type: 2}
+  - {fileID: 11400000, guid: 24f1fd05af12d264ca00b51cc2ef8e6d, type: 2}
   currSpell: {fileID: 11400000, guid: 99c268ba47060564ba1afcf8cb23bb08, type: 2}
 --- !u!114 &941161587
 MonoBehaviour:
@@ -8731,6 +8919,39 @@ MonoBehaviour:
     isFull: 0
   projectileButton:
     selectedSlot: {fileID: 1484879294}
+    isFull: 0
+  modifierButtons:
+  - selectedSlot: {fileID: 0}
+    isFull: 0
+  - selectedSlot: {fileID: 0}
+    isFull: 0
+  - selectedSlot: {fileID: 0}
+    isFull: 0
+  - selectedSlot: {fileID: 0}
+    isFull: 0
+  - selectedSlot: {fileID: 0}
+    isFull: 0
+  - selectedSlot: {fileID: 0}
+    isFull: 0
+  - selectedSlot: {fileID: 0}
+    isFull: 0
+  - selectedSlot: {fileID: 0}
+    isFull: 0
+  - selectedSlot: {fileID: 0}
+    isFull: 0
+  - selectedSlot: {fileID: 0}
+    isFull: 0
+  - selectedSlot: {fileID: 0}
+    isFull: 0
+  - selectedSlot: {fileID: 0}
+    isFull: 0
+  - selectedSlot: {fileID: 0}
+    isFull: 0
+  - selectedSlot: {fileID: 0}
+    isFull: 0
+  - selectedSlot: {fileID: 0}
+    isFull: 0
+  - selectedSlot: {fileID: 0}
     isFull: 0
   modSlotParent: {fileID: 1673396289}
   nullSprite: {fileID: 21300000, guid: 349d1409e1395ac4db39a548cbdae44d, type: 3}
@@ -8974,6 +9195,7 @@ GameObject:
   - component: {fileID: 970891432}
   - component: {fileID: 970891431}
   - component: {fileID: 970891430}
+  - component: {fileID: 970891434}
   m_Layer: 5
   m_Name: Spot4
   m_TagString: Untagged
@@ -9153,6 +9375,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 970891428}
   m_CullTransparentMesh: 1
+--- !u!114 &970891434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970891428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baa6a9732c03f604393b32b0c9edf2f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onLeft:
+    m_PersistentCalls:
+      m_Calls: []
+  onRight:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: RemoveBehavior
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onMiddle:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &987241834
 GameObject:
   m_ObjectHideFlags: 0
@@ -9559,12 +9814,24 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 941161587}
         m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: RemoveModifier
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
         m_MethodName: DepositModifier
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -9988,7 +10255,6 @@ RectTransform:
   m_Children:
   - {fileID: 1338468372}
   - {fileID: 1741514705}
-  - {fileID: 1528420881}
   m_Father: {fileID: 928996322}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.105000004, y: 0.11000001}
@@ -10416,12 +10682,24 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 941161587}
         m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: RemoveModifier
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 15
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
         m_MethodName: DepositModifier
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 16
+          m_IntArgument: 15
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -10933,12 +11211,24 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 941161587}
         m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: RemoveModifier
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
         m_MethodName: DepositModifier
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 5
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -12707,12 +12997,24 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 941161587}
         m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: RemoveModifier
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 5
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
         m_MethodName: DepositModifier
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 6
+          m_IntArgument: 5
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -13758,6 +14060,7 @@ GameObject:
   - component: {fileID: 1484879298}
   - component: {fileID: 1484879297}
   - component: {fileID: 1484879296}
+  - component: {fileID: 1484879299}
   m_Layer: 5
   m_Name: MiddleSpot
   m_TagString: Untagged
@@ -13891,6 +14194,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1484879294}
   m_CullTransparentMesh: 1
+--- !u!114 &1484879299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1484879294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baa6a9732c03f604393b32b0c9edf2f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onLeft:
+    m_PersistentCalls:
+      m_Calls: []
+  onRight:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: RemoveBehavior
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onMiddle:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1508029732
 GameObject:
   m_ObjectHideFlags: 0
@@ -13921,6 +14257,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 84385067}
+  - {fileID: 710642654}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1508633565
@@ -14007,12 +14344,24 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 941161587}
         m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: RemoveModifier
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 8
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
         m_MethodName: DepositModifier
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 9
+          m_IntArgument: 8
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -14109,12 +14458,24 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 941161587}
         m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: RemoveModifier
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 6
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
         m_MethodName: DepositModifier
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 7
+          m_IntArgument: 6
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -14235,138 +14596,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1524957714}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1528420880
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1528420881}
-  - component: {fileID: 1528420884}
-  - component: {fileID: 1528420883}
-  - component: {fileID: 1528420882}
-  m_Layer: 5
-  m_Name: Slot (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1528420881
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1528420880}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1018233198}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 300, y: -50}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1528420882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1528420880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 1528420883}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 941161587}
-        m_TargetAssemblyTypeName: PlayerUI, Assembly-CSharp
-        m_MethodName: SelectProjectile
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1528420883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1528420880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 370c489c0a4575b4b9f5c40aeb0fbc5a, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 1
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1528420884
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1528420880}
-  m_CullTransparentMesh: 1
 --- !u!1 &1533966747
 GameObject:
   m_ObjectHideFlags: 0
@@ -15688,6 +15917,7 @@ GameObject:
   - component: {fileID: 1649415172}
   - component: {fileID: 1649415171}
   - component: {fileID: 1649415170}
+  - component: {fileID: 1649415173}
   m_Layer: 5
   m_Name: Spot1
   m_TagString: Untagged
@@ -15821,6 +16051,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1649415168}
   m_CullTransparentMesh: 1
+--- !u!114 &1649415173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649415168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baa6a9732c03f604393b32b0c9edf2f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onLeft:
+    m_PersistentCalls:
+      m_Calls: []
+  onRight:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: RemoveBehavior
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onMiddle:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1651576015
 GameObject:
   m_ObjectHideFlags: 0
@@ -15957,6 +16220,138 @@ Transform:
   m_Children: []
   m_Father: {fileID: 270731732}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1666119297
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1666119298}
+  - component: {fileID: 1666119301}
+  - component: {fileID: 1666119300}
+  - component: {fileID: 1666119299}
+  m_Layer: 5
+  m_Name: Slot (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1666119298
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1666119297}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.0003292407}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 645722710}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 300.1784, y: -29.059555}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1666119299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1666119297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1666119300}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: SelectModifier
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 8
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1666119300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1666119297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 370c489c0a4575b4b9f5c40aeb0fbc5a, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1666119301
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1666119297}
+  m_CullTransparentMesh: 1
 --- !u!1 &1666422436
 GameObject:
   m_ObjectHideFlags: 0
@@ -16752,12 +17147,24 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 941161587}
         m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: RemoveModifier
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
         m_MethodName: DepositModifier
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -23865,12 +24272,24 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 941161587}
         m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: RemoveModifier
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 13
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
         m_MethodName: DepositModifier
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 14
+          m_IntArgument: 13
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -23967,12 +24386,24 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 941161587}
         m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: RemoveModifier
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 14
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
         m_MethodName: DepositModifier
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 15
+          m_IntArgument: 14
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -24069,12 +24500,24 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 941161587}
         m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: RemoveModifier
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 7
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
         m_MethodName: DepositModifier
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 8
+          m_IntArgument: 7
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -24100,6 +24543,7 @@ GameObject:
   - component: {fileID: 1842720334}
   - component: {fileID: 1842720333}
   - component: {fileID: 1842720332}
+  - component: {fileID: 1842720336}
   m_Layer: 5
   m_Name: Spot2
   m_TagString: Untagged
@@ -24279,6 +24723,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1842720330}
   m_CullTransparentMesh: 1
+--- !u!114 &1842720336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842720330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baa6a9732c03f604393b32b0c9edf2f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onLeft:
+    m_PersistentCalls:
+      m_Calls: []
+  onRight:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 941161587}
+        m_TargetAssemblyTypeName: SpellCraftUI, Assembly-CSharp
+        m_MethodName: RemoveBehavior
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onMiddle:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1848784849
 GameObject:
   m_ObjectHideFlags: 0
@@ -29505,7 +29982,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 127
+    m_Bits: 255
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -29631,8 +30108,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efeb230f6cb96b5478aa45fa8a3aa1da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currPool: {fileID: 84385068}
+  simplePool: {fileID: 84385068}
+  gravPool: {fileID: 710642655}
   currSpell: {fileID: 11400000, guid: 99c268ba47060564ba1afcf8cb23bb08, type: 2}
+  maxShootAngle: 0
+  projectileFired: 1
+  offsetBetweenProjectiles: 1.25
 --- !u!136 &8801713312509916598
 CapsuleCollider:
   m_ObjectHideFlags: 0

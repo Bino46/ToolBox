@@ -16,5 +16,3 @@ MonoBehaviour:
   followEffects:
   - {fileID: 11400000, guid: a0f3c65963697a047be5346fa9c7a31e, type: 2}
   - {fileID: 11400000, guid: 68950aa55e1dda3458a39ec7c2231472, type: 2}
-  - {fileID: 11400000, guid: 4914fc14d38dfef41a48c7d6356973b2, type: 2}
-  - {fileID: 11400000, guid: 2f8cc62bbb99e0449955d8922372ec2b, type: 2}

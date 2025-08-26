@@ -9,6 +9,7 @@ public class Projectile : MonoBehaviour
     float speed;
     bool canGo;
     float currlifetime;
+    int projCount;
 
     void Awake()
     {
@@ -16,7 +17,7 @@ public class Projectile : MonoBehaviour
         spell = GetComponent<Spell>();
     }
 
-    public void InitMovement(CompliedSpell data, SimpleProjectileData projData)
+    public void InitMovement(CompliedSpell data, BaseProjectile projData)
     {
         currData = data;
 
@@ -38,7 +39,7 @@ public class Projectile : MonoBehaviour
         //bool for the projectile to move only when i want it to move (when active mostly)
         if (canGo)
             Move();
-            
+
         HandleLifetime();
     }
 
@@ -77,7 +78,25 @@ public class Projectile : MonoBehaviour
             case 0:
                 spell.SetLockOnTouch(listId);
                 break;
+            case 1:
+                ShootSpell._instance.projectileFired = GetNumberOfProjectile();
+                break;
         }
+    }
+
+    int GetNumberOfProjectile()
+    {
+        int val = 1;
+
+        for (int i = 0; i < currData.followEffects.Count; i++)
+        {
+            if (currData.followEffects[i].currtType == AddedBehavior.dataType.Behaviour)
+                break;
+            else if (currData.followEffects[i].id == 1)
+                val++;
+        }
+
+        return val;
     }
 
     public void LockProjectile(bool isLocked)

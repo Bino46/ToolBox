@@ -29,7 +29,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: dd45972434b31d44da036b4e56d81cc8, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2891214669177f54abd70f6f2afdadf0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture2D:
@@ -57,7 +57,7 @@ Material:
     - _CastShadows: 1
     - _Cull: 0
     - _DstBlend: 10
-    - _IntersectionAmount: 17.69
+    - _IntersectionAmount: 1.05
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1

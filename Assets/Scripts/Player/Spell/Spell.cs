@@ -138,7 +138,7 @@ public class Spell : MonoBehaviour
         //copies the SO for all the script to use, then sets the base projectile values
         currData = Instantiate(data);
 
-        projMovement.InitMovement(data, (SimpleProjectileData)currData.followEffects[0]);
+        projMovement.InitMovement(data, (BaseProjectile)currData.followEffects[0]);
 
         gameObject.SetActive(true);
     }

@@ -9,16 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afa72efd83b06ad44ad064e12255fab8, type: 3}
-  m_Name: p_SimpleProjectile
+  m_Script: {fileID: 11500000, guid: 02d1f1160d562c64daa191ddce9baa4e, type: 3}
+  m_Name: pm_Bounce
   m_EditorClassIdentifier: 
-  currtType: 2
-  id: 0
-  tex: {fileID: 21300000, guid: d24b95fe61b17e14b92c7febc226de80, type: 3}
+  currtType: 1
+  id: 2
+  tex: {fileID: 21300000, guid: 94521cbb20802c640a17865883754588, type: 3}
   color: {fileID: 0}
-  modStrengthValue: 1
+  modStrengthValue: 0.2
   modDurationValue: 1
-  f_speed: 100
-  f_size: 0.5
-  f_lifetime: 2
-  f_mass: 10
+  operation: 0

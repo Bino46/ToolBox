@@ -129,8 +129,8 @@ public class SpellCraftUI : MonoBehaviour
                 currSelectedSlot = id;
 
                 ResetModInterface();
-                LoadModifiersOnUI(id);
                 SwitchToBHModifiers();
+                LoadModifiersOnUI(id);
             }
         }
         else
@@ -183,8 +183,8 @@ public class SpellCraftUI : MonoBehaviour
                 currModifiyingSpellName.text = projectileButton.GetName();
 
                 ResetModInterface();
-                LoadModifiersOnUI(0);
                 SwitchToPJModifiers();
+                LoadModifiersOnUI(0);
             }
         }
         else
@@ -228,8 +228,8 @@ public class SpellCraftUI : MonoBehaviour
         if (selectModifier)
         {
             modifierButtons[id].GetImage().sprite = spellSelected.sprite;
-            
-            if(modifierButtons.Length > id + 1)
+
+            if (modifierButtons.Length > id + 1)
                 modifierButtons[id + 1].selectedSlot.SetActive(true);
 
             modifierButtons[id].isFull = true;
@@ -247,7 +247,7 @@ public class SpellCraftUI : MonoBehaviour
     {
         List<AddedBehavior> modList;
         
-        if (id == 0)
+        if (modProj)
             modList = runeSlots.GetModifiersOnProjectile();
         else
             modList = runeSlots.GetModifiersOnBehavior(id);
@@ -278,7 +278,7 @@ public class SpellCraftUI : MonoBehaviour
         {
             List<AddedBehavior> modList;
             
-            if (currSelectedSlot == 0)
+            if (modProj)
                 modList = runeSlots.GetModifiersOnProjectile();
             else
                 modList = runeSlots.GetModifiersOnBehavior(id);

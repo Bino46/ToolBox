@@ -9,17 +9,19 @@ public class Projectile : MonoBehaviour
     float speed;
     bool canGo;
     float currlifetime;
-    int projCount;
+    PhysicsMaterial bounceMat;
 
     void Awake()
     {
         body = GetComponent<Rigidbody>();
         spell = GetComponent<Spell>();
+        bounceMat = GetComponent<SphereCollider>().material;
     }
 
     public void InitMovement(CompliedSpell data, BaseProjectile projData)
     {
         currData = data;
+
 
         //Base projectile stats
         speed = projData.f_speed;
@@ -54,7 +56,7 @@ public class Projectile : MonoBehaviour
     void Move()
     {
         //Simple movement
-        transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+        body.Move(transform.position + (transform.forward * speed * Time.deltaTime), transform.rotation);
     }
     #endregion
 
@@ -62,12 +64,13 @@ public class Projectile : MonoBehaviour
 
     void ReadModifiers()
     {
+        Debug.Log("pj mod");
         for (int i = 1; i < currData.followEffects.Count; i++)
         {
-            if (currData.followEffects[i].currtType == AddedBehavior.dataType.Modifier)
-                ApplyProjectileModifier(currData.followEffects[i].id, i);
-            else
+            if (currData.followEffects[i].currtType == AddedBehavior.dataType.Behaviour)
                 break;
+            else if(currData.followEffects[i].currtType == AddedBehavior.dataType.Modifier)
+                ApplyProjectileModifier(currData.followEffects[i].id, i);
         }
     }
 
@@ -81,6 +84,9 @@ public class Projectile : MonoBehaviour
             case 1:
                 ShootSpell._instance.projectileFired = GetNumberOfProjectile();
                 break;
+            case 2:
+                AddBounce(listId);
+                break;
         }
     }
 
@@ -90,12 +96,13 @@ public class Projectile : MonoBehaviour
 
         for (int i = 0; i < currData.followEffects.Count; i++)
         {
+            Debug.Log(currData.followEffects[i]);
             if (currData.followEffects[i].currtType == AddedBehavior.dataType.Behaviour)
                 break;
             else if (currData.followEffects[i].id == 1)
                 val++;
         }
-
+        Debug.Log(val);
         return val;
     }
 
@@ -109,10 +116,17 @@ public class Projectile : MonoBehaviour
     {
         currlifetime += amount;
     }
-    
+
+    void AddBounce(int listId)
+    {
+        Debug.Log("add bounce " +  currData.followEffects[listId]);
+        bounceMat.bounciness += currData.followEffects[listId].modStrengthValue;
+    }
+
     #endregion
     public void ResetMovement()
     {
         LockProjectile(true);
+        bounceMat.bounciness = 0;
     }
 }

@@ -36,27 +36,27 @@ public class ShootSpell : MonoBehaviour
                 tempOffset = offsetBetweenProjectiles;
             
             for (int i = 0; i < projectileFired; i++)
-                {
-                    float radians = 2 * 3.14f / projectileFired * i;
+            {
+                float radians = 2 * 3.14f / projectileFired * i;
 
-                    offsetRotation.x = Mathf.Sin(radians) * tempOffset * projectileFired;
-                    offsetRotation.y = Mathf.Cos(radians) * tempOffset * projectileFired;
+                offsetRotation.x = Mathf.Sin(radians) * tempOffset * projectileFired;
+                offsetRotation.y = Mathf.Cos(radians) * tempOffset * projectileFired;
 
-                    Quaternion rotation = Quaternion.Euler(controller.viewRotation + offsetRotation);
-                    GameObject newObject;
+                Quaternion rotation = Quaternion.Euler(controller.viewRotation + offsetRotation);
+                GameObject newObject;
 
-                    if (isGrav)
-                        newObject = gravPool.GetItem();
-                    else
-                        newObject = simplePool.GetItem();
+                if (isGrav)
+                    newObject = gravPool.GetItem();
+                else
+                    newObject = simplePool.GetItem();
 
-                    newObject.transform.position = controller.cameraPivot.transform.position;
-                    newObject.transform.rotation = rotation;
+                newObject.transform.position = controller.cameraPivot.transform.position;
+                newObject.transform.rotation = rotation;
 
-                    newObject.GetComponent<Spell>().Init(currSpell);
-                    newObject.SetActive(true);
+                newObject.GetComponent<Spell>().Init(currSpell);
+                newObject.SetActive(true);
 
-                }
+            }
         }
     }
 

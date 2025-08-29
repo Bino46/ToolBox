@@ -176,6 +176,7 @@ public class Spell : MonoBehaviour
     }
     void CheckModifiers(int startIndex)
     {
+        Debug.Log("bh mod");
         //Check for any modifiers after the behavior then applies them
         for (int i = startIndex; i < currData.followEffects.Count; i++)
         {
@@ -275,6 +276,8 @@ public class Spell : MonoBehaviour
             }
         }
 
+        //Debug.Log("explosion");
+
         foreach (Rigidbody obj in explosionBodyList)
         {
             obj.AddExplosionForce(spell.f_explosionStrength * spell.modStrengthValue, transform.position, spell.f_explosionRadius * spell.modDurationValue);
@@ -286,6 +289,9 @@ public class Spell : MonoBehaviour
         //Sets a pause in the spell actions
         DelaySpell spell = (DelaySpell)currData.followEffects[indexCurrentBehaviour];
         delayTime = spell.delayTime * Mathf.Abs(spell.modDurationValue);
+        projMovement.ExtendLifetime(delayTime);
+        
+        //Debug.Log("delay");
         isDelaying = true;
     }
 

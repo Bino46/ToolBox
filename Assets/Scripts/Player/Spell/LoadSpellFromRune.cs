@@ -115,8 +115,9 @@ public class LoadSpellFromRune : MonoBehaviour
         int behaviorSlot = 0;
         int offset = 0;
 
-        for (int i = slotProjectile; i < currSpell.followEffects.Count; i++)
+        for (int i = 0; i < currSpell.followEffects.Count; i++)
         {
+            offset ++;
             if (currSpell.followEffects[i].currtType == AddedBehavior.dataType.Behaviour)
             {
                 if (behaviorSlot == searchIndex)
@@ -124,12 +125,9 @@ public class LoadSpellFromRune : MonoBehaviour
 
                 behaviorSlot++;
             }
-
-            if (currSpell.followEffects[i].currtType == AddedBehavior.dataType.Modifier)
-                offset++;
         }
 
-        int newIndex = behaviorSlot + modifierIndex + offset + slotProjectile;
+        int newIndex = modifierIndex + offset;
 
         if (currSpell.followEffects.Count > newIndex && currSpell.followEffects[newIndex].currtType == AddedBehavior.dataType.Modifier)
             currSpell.followEffects[newIndex] = so_modifiers[modifierType];
@@ -148,6 +146,7 @@ public class LoadSpellFromRune : MonoBehaviour
     public List<AddedBehavior> GetModifiersOnBehavior(int searchIndex)
     {
         int behaviorSlot = 0;
+
         List<AddedBehavior> modList = new List<AddedBehavior>();
 
         for (int i = slotProjectile; i < currSpell.followEffects.Count; i++)
@@ -156,7 +155,12 @@ public class LoadSpellFromRune : MonoBehaviour
                 modList.Add(currSpell.followEffects[i]);
 
             if (currSpell.followEffects[i].currtType == AddedBehavior.dataType.Behaviour)
+            {
                 behaviorSlot++;
+
+                if (behaviorSlot > searchIndex + slotProjectile)
+                    break;
+            }
         }
 
         return modList;

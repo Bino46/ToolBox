@@ -18,4 +18,4 @@ MonoBehaviour:
   color: {fileID: 0}
   modStrengthValue: 1
   modDurationValue: 1
-  delayTime: 2
+  delayTime: 1

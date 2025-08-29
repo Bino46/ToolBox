@@ -67,6 +67,7 @@ public class Spell : MonoBehaviour
         if (needWait)
         {
             waitTime -= Time.deltaTime;
+            Debug.Log(lastAction.Method.Name);
             lastAction();
 
             if (waitTime <= 0)
@@ -176,7 +177,6 @@ public class Spell : MonoBehaviour
     }
     void CheckModifiers(int startIndex)
     {
-        Debug.Log("bh mod");
         //Check for any modifiers after the behavior then applies them
         for (int i = startIndex; i < currData.followEffects.Count; i++)
         {
@@ -262,25 +262,28 @@ public class Spell : MonoBehaviour
     void SpellExplosion()
     {
         //Simple explosion that pushes rigidbodies away, i keep the bodies in a list in case a Wait modifier loops the method
-        ExplosionSpell spell = (ExplosionSpell)currData.followEffects[indexCurrentBehaviour];
-
-        RaycastHit[] ray = Physics.SphereCastAll(transform.position, spell.f_explosionRadius, Vector3.one);
-        if (explosionBodyList.Count == 0)
+        if (currData.followEffects[indexCurrentBehaviour].currtType == AddedBehavior.dataType.Behaviour)
         {
-            for (int i = 0; i < ray.Length; i++)
+            ExplosionSpell spell = (ExplosionSpell)currData.followEffects[indexCurrentBehaviour];
+
+            RaycastHit[] ray = Physics.SphereCastAll(transform.position, spell.f_explosionRadius, Vector3.one);
+            if (explosionBodyList.Count == 0)
             {
-                if (ray[i].transform.tag == "PhysicsObjects")
+                for (int i = 0; i < ray.Length; i++)
                 {
-                    explosionBodyList.Add(ray[i].collider.GetComponent<Rigidbody>());
+                    if (ray[i].transform.tag == "PhysicsObjects")
+                    {
+                        explosionBodyList.Add(ray[i].collider.GetComponent<Rigidbody>());
+                    }
                 }
             }
-        }
 
-        //Debug.Log("explosion");
+            //Debug.Log("explosion");
 
-        foreach (Rigidbody obj in explosionBodyList)
-        {
-            obj.AddExplosionForce(spell.f_explosionStrength * spell.modStrengthValue, transform.position, spell.f_explosionRadius * spell.modDurationValue);
+            foreach (Rigidbody obj in explosionBodyList)
+            {
+                obj.AddExplosionForce(spell.f_explosionStrength * spell.modStrengthValue, transform.position, spell.f_explosionRadius * spell.modDurationValue);
+            } 
         }
     }
 

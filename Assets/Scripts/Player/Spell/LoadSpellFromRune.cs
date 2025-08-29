@@ -18,6 +18,7 @@ public class LoadSpellFromRune : MonoBehaviour
     public void ClearSpell()
     {
         currSpell.followEffects.Clear();
+        slotProjectile = 0;
     }
 
     public void ClearModifer(int modId, int bhId)

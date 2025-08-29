@@ -64,7 +64,6 @@ public class Projectile : MonoBehaviour
 
     void ReadModifiers()
     {
-        Debug.Log("pj mod");
         for (int i = 1; i < currData.followEffects.Count; i++)
         {
             if (currData.followEffects[i].currtType == AddedBehavior.dataType.Behaviour)
@@ -119,7 +118,6 @@ public class Projectile : MonoBehaviour
 
     void AddBounce(int listId)
     {
-        Debug.Log("add bounce " +  currData.followEffects[listId]);
         bounceMat.bounciness += currData.followEffects[listId].modStrengthValue;
     }
 

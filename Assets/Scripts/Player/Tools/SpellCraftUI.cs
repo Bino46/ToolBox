@@ -152,8 +152,6 @@ public class SpellCraftUI : MonoBehaviour
             behaviorsButtons[id].isFull = true;
             behaviorsButtons[id].selectedSlot.GetComponentInChildren<SpellGlowMask>().ActivateSpell();
 
-            //behaviorsButtons[id].behavior = runeSlots.so_behaviors[id];
-
             ResetHoldingSprite();
         }
     }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class LoadSpellFromRune : MonoBehaviour
@@ -74,14 +75,16 @@ public class LoadSpellFromRune : MonoBehaviour
         }
         else
         {
+            int offset = 0;
             for (int i = slotProjectile; i < currSpell.followEffects.Count; i++)
             {
+                offset++;
                 if (currSpell.followEffects[i] != null && currSpell.followEffects[i].currtType == AddedBehavior.dataType.Behaviour)
                     slotBehavior++;
 
                 if (slotBehavior == slot + slotProjectile)
                 {
-                    currSpell.followEffects[slotBehavior] = so_behaviors[id];
+                    currSpell.followEffects[offset] = so_behaviors[id];
                     break;
                 }
 

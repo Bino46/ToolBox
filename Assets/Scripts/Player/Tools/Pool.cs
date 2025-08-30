@@ -16,16 +16,16 @@ public class Pool : MonoBehaviour
         }
     }
 
-    public GameObject GetItem()
+    public GameObject GetItem(CompiledSpell data)
     {
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < objectList.Count; i++)
         {
             if (!objectList[i].activeSelf)
                 return objectList[i];
         }
 
         //if all objects are busy, make another
-        objectList.Add(MakeObject(objectList.Count));
+        objectList.Add(MakeObject(objectList.Count, data));
         return objectList[objectList.Count - 1];
 
     }
@@ -39,5 +39,28 @@ public class Pool : MonoBehaviour
         obj.GetComponent<PoolObject>().pool = this;
 
         return obj;
+    }
+    GameObject MakeObject(int name, CompiledSpell data)
+    {
+        GameObject obj = Instantiate(baseObject, transform.position, transform.rotation);
+        obj.transform.parent = gameObject.transform;
+        obj.name = name.ToString();
+
+        obj.GetComponent<PoolObject>().pool = this;
+        obj.GetComponent<Spell>().SetCompiledSpell(data);
+
+        return obj;
+    }
+
+    public void UpdateProjectile(CompiledSpell data)
+    {
+        int w = 0;
+        for (int i = 0; i < objectList.Count; i++)
+        {
+            objectList[i].GetComponent<Spell>().SetCompiledSpell(data);
+            w = i;
+        }
+
+        Debug.Log("updated " + w + " items");
     }
 }

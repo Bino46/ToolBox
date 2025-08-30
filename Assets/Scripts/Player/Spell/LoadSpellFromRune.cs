@@ -6,13 +6,14 @@ public class LoadSpellFromRune : MonoBehaviour
     public List<AddedBehavior> so_projectiles = new List<AddedBehavior>();
     public List<AddedBehavior> so_behaviors = new List<AddedBehavior>();
     public List<AddedBehavior> so_modifiers = new List<AddedBehavior>();
-    [SerializeField] CompliedSpell currSpell;
+    [SerializeField] CompiledSpell currSpell;
     string lastLoaded;
     int slotProjectile = 0;
 
     void Start()
     {
         ClearSpell();
+        ShootSpell._instance.projectileFired = 1;
     }
 
     public void ClearSpell()
@@ -52,6 +53,8 @@ public class LoadSpellFromRune : MonoBehaviour
                 break;
             }
         }
+
+        ShootSpell._instance.projectileFired = 1;
     }
 
     //Adds behavior to the list

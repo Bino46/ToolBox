@@ -30246,6 +30246,9 @@ MonoBehaviour:
   gravPool: {fileID: 710642655}
   currSpell: {fileID: 11400000, guid: 99c268ba47060564ba1afcf8cb23bb08, type: 2}
   maxShootAngle: 0
+  pools:
+  - {fileID: 84385068}
+  - {fileID: 710642655}
   projectileFired: 1
   offsetBetweenProjectiles: 1.25
 --- !u!136 &8801713312509916598

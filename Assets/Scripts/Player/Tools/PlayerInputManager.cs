@@ -47,6 +47,7 @@ public class PlayerInputManager : MonoBehaviour
 
         inputs.Movement.MousePosition.performed += playerUi.GetMousePos;
         inputs.Movement.ShowSpellMenu.performed += playerUi.ShowMenu;
+        inputs.Movement.ShowSpellMenu.performed += spell.UpdateAllProjectiles;
 
         inputs.Movement.Sprint.performed += playerController.Sprint;
         inputs.Movement.Sprint.canceled += playerController.Sprint;

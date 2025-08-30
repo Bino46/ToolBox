@@ -6,7 +6,7 @@ public class Spell : MonoBehaviour
     LayerMask mask;
     PoolObject pool;
     //Rigidbody body;
-    CompliedSpell currData;
+    CompiledSpell currData;
     Projectile projMovement;
 
     [Header("Delay values")]
@@ -67,7 +67,6 @@ public class Spell : MonoBehaviour
         if (needWait)
         {
             waitTime -= Time.deltaTime;
-            Debug.Log(lastAction.Method.Name);
             lastAction();
 
             if (waitTime <= 0)
@@ -134,13 +133,16 @@ public class Spell : MonoBehaviour
     #endregion
 
     #region Spell construction
-    public void Init(CompliedSpell data)
+
+    public void SetCompiledSpell(CompiledSpell data)
     {
         //copies the SO for all the script to use, then sets the base projectile values
         currData = Instantiate(data);
 
+    }
+    public void Init(CompiledSpell data)
+    {
         projMovement.InitMovement(data, (BaseProjectile)currData.followEffects[0]);
-
         gameObject.SetActive(true);
     }
 

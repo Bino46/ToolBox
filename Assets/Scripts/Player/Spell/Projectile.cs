@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    CompliedSpell currData;
+    CompiledSpell currData;
     Spell spell;
     Rigidbody body;
     [Header("Base value")]
@@ -18,7 +18,7 @@ public class Projectile : MonoBehaviour
         bounceMat = GetComponent<SphereCollider>().material;
     }
 
-    public void InitMovement(CompliedSpell data, BaseProjectile projData)
+    public void InitMovement(CompiledSpell data, BaseProjectile projData)
     {
         currData = data;
 
@@ -95,13 +95,11 @@ public class Projectile : MonoBehaviour
 
         for (int i = 0; i < currData.followEffects.Count; i++)
         {
-            Debug.Log(currData.followEffects[i]);
             if (currData.followEffects[i].currtType == AddedBehavior.dataType.Behaviour)
                 break;
             else if (currData.followEffects[i].id == 1)
                 val++;
         }
-        Debug.Log(val);
         return val;
     }
 

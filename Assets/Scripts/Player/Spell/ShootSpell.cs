@@ -7,8 +7,9 @@ public class ShootSpell : MonoBehaviour
     public static ShootSpell _instance;
     [SerializeField] Pool simplePool;
     [SerializeField] Pool gravPool;
-    [SerializeField] CompliedSpell currSpell;
+    [SerializeField] CompiledSpell currSpell;
     [SerializeField] float maxShootAngle;
+    [SerializeField] Pool[] pools = new Pool[2];
     ControllerV2 controller;
     bool isGrav;
     public int projectileFired;
@@ -34,7 +35,7 @@ public class ShootSpell : MonoBehaviour
 
             if (projectileFired > 1)
                 tempOffset = offsetBetweenProjectiles;
-            
+
             for (int i = 0; i < projectileFired; i++)
             {
                 float radians = 2 * 3.14f / projectileFired * i;
@@ -46,16 +47,14 @@ public class ShootSpell : MonoBehaviour
                 GameObject newObject;
 
                 if (isGrav)
-                    newObject = gravPool.GetItem();
+                    newObject = gravPool.GetItem(currSpell);
                 else
-                    newObject = simplePool.GetItem();
+                    newObject = simplePool.GetItem(currSpell);
 
                 newObject.transform.position = controller.cameraPivot.transform.position;
                 newObject.transform.rotation = rotation;
 
                 newObject.GetComponent<Spell>().Init(currSpell);
-                newObject.SetActive(true);
-
             }
         }
     }
@@ -72,6 +71,18 @@ public class ShootSpell : MonoBehaviour
             case 1:
                 isGrav = true;
                 break;
+        }
+    }
+
+    public void UpdateAllProjectiles(InputAction.CallbackContext ctx)
+    {
+        if (!UIManager._instance.inMenu && currSpell.followEffects.Count > 0)
+        {
+            Debug.Log("update");
+            if (isGrav)
+                pools[1].UpdateProjectile(currSpell);
+            else
+                pools[0].UpdateProjectile(currSpell);   
         }
     }
 }

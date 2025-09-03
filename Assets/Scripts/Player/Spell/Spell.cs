@@ -100,7 +100,7 @@ public class Spell : MonoBehaviour
     {   
         touch = false;
 
-        forceWaitTime = true;
+        forceWaitTime = false;
 
         explosionBodyList.Clear();
         indexCurrentBehaviour = 0;
@@ -138,8 +138,8 @@ public class Spell : MonoBehaviour
     {
         //copies the SO for all the script to use, then sets the base projectile values
         currData = Instantiate(data);
-
     }
+
     public void Init(CompiledSpell data)
     {
         projMovement.InitMovement(data, (BaseProjectile)currData.followEffects[0]);
@@ -167,7 +167,7 @@ public class Spell : MonoBehaviour
         switch (currData.followEffects[indexCurrentBehaviour].id)
         {
             case 1:
-                //Debug.Log("Explosion");
+                Debug.Log("Explosion");
                 lastAction = SpellExplosion;
                 lastAction();
                 break;
@@ -258,11 +258,13 @@ public class Spell : MonoBehaviour
     void SetWaitTime(float time)
     {
         needWait = true;
+        forceWaitTime = false;
         waitTime = time;
     }
 
     void SpellExplosion()
     {
+        Debug.Log("explode");
         //Simple explosion that pushes rigidbodies away, i keep the bodies in a list in case a Wait modifier loops the method
         if (currData.followEffects[indexCurrentBehaviour].currtType == AddedBehavior.dataType.Behaviour)
         {
@@ -285,7 +287,7 @@ public class Spell : MonoBehaviour
             foreach (Rigidbody obj in explosionBodyList)
             {
                 obj.AddExplosionForce(spell.f_explosionStrength * spell.modStrengthValue, transform.position, spell.f_explosionRadius * spell.modDurationValue);
-            } 
+            }
         }
     }
 
@@ -293,8 +295,8 @@ public class Spell : MonoBehaviour
     {
         //Sets a pause in the spell actions
         DelaySpell spell = (DelaySpell)currData.followEffects[indexCurrentBehaviour];
-        delayTime = spell.delayTime * Mathf.Abs(spell.modDurationValue);
-        projMovement.ExtendLifetime(delayTime);
+        delayTime = spell.delayTime;
+        projMovement.ExtendLifetime(delayTime * 2);
         
         //Debug.Log("delay");
         isDelaying = true;

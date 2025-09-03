@@ -18,7 +18,7 @@ MonoBehaviour:
   color: {fileID: 0}
   modStrengthValue: 1
   modDurationValue: 1
-  f_speed: 100
-  f_size: 0.5
+  f_speed: 250
+  f_size: 0.25
   f_lifetime: 2
   f_mass: 10

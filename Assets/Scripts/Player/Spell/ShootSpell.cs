@@ -5,13 +5,13 @@ using UnityEngine.InputSystem;
 public class ShootSpell : MonoBehaviour
 {
     public static ShootSpell _instance;
-    [SerializeField] Pool simplePool;
-    [SerializeField] Pool gravPool;
+    enum ProjectileType { Simple, Grav, Laser }
+    ProjectileType currProjectile;
     [SerializeField] CompiledSpell currSpell;
+    [SerializeField] GameObject baseRay;
     [SerializeField] float maxShootAngle;
-    [SerializeField] Pool[] pools = new Pool[2];
+    [SerializeField] Pool[] pools = new Pool[3];
     ControllerV2 controller;
-    bool isGrav;
     public int projectileFired;
     public float offsetBetweenProjectiles;
 
@@ -29,33 +29,64 @@ public class ShootSpell : MonoBehaviour
     {
         if (!UIManager._instance.inMenu)
         {
-            Vector3 offsetRotation = Vector3.zero;
+            if (currProjectile == ProjectileType.Laser)
+                ShootRay();
+            else
+                ShootProjectile();
+        }
+    }
 
-            float tempOffset = 0;
+    void ShootProjectile()
+    {
+        Vector3 offsetRotation = Vector3.zero;
 
-            if (projectileFired > 1)
-                tempOffset = offsetBetweenProjectiles;
+        float tempOffset = 0;
 
-            for (int i = 0; i < projectileFired; i++)
-            {
-                float radians = 2 * 3.14f / projectileFired * i;
+        if (projectileFired > 1)
+            tempOffset = offsetBetweenProjectiles;
 
-                offsetRotation.x = Mathf.Sin(radians) * tempOffset * projectileFired;
-                offsetRotation.y = Mathf.Cos(radians) * tempOffset * projectileFired;
+        for (int i = 0; i < projectileFired; i++)
+        {
+            float radians = 2 * 3.14f / projectileFired * i;
 
-                Quaternion rotation = Quaternion.Euler(controller.viewRotation + offsetRotation);
-                GameObject newObject;
+            offsetRotation.y = Mathf.Sin(radians) * tempOffset * projectileFired;
+            offsetRotation.z = Mathf.Cos(radians) * tempOffset * projectileFired;
 
-                if (isGrav)
-                    newObject = gravPool.GetItem(currSpell);
-                else
-                    newObject = simplePool.GetItem(currSpell);
+            Quaternion rotation = Quaternion.Euler(controller.viewRotation + offsetRotation);
+            GameObject newObject;
 
-                newObject.transform.position = controller.cameraPivot.transform.position;
-                newObject.transform.rotation = rotation;
+            newObject = GetFromPool();
 
-                newObject.GetComponent<Spell>().Init(currSpell);
-            }
+            newObject.transform.position = controller.cameraPivot.transform.position;
+            newObject.transform.rotation = rotation;
+
+            newObject.GetComponent<Spell>().Init(currSpell);
+        }
+    }
+
+    void ShootRay()
+    {
+        Vector3 offsetRotation = Vector3.zero;
+        Vector3 shootDir = Vector3.zero;
+
+        float tempOffset = 0;
+
+        if (projectileFired > 1)
+            tempOffset = offsetBetweenProjectiles;
+
+        for (int i = 0; i < projectileFired; i++)
+        {
+            float radians = 2 * 3.14f / projectileFired * i;
+
+            offsetRotation.x = Mathf.Sin(radians) * tempOffset * projectileFired;
+            offsetRotation.y = Mathf.Cos(radians) * tempOffset * projectileFired;
+
+            Quaternion rotation = Quaternion.Euler(offsetRotation);
+            shootDir = rotation * controller.cameraPivot.transform.forward;
+
+            ShootRay pew = Instantiate(baseRay.GetComponent<ShootRay>());
+
+            pew.Init(currSpell, controller.cameraPivot.transform.position, shootDir);
         }
     }
 
@@ -66,10 +97,13 @@ public class ShootSpell : MonoBehaviour
         switch (proj.id)
         {
             case 0:
-                isGrav = false;
+                currProjectile = ProjectileType.Simple;
                 break;
             case 1:
-                isGrav = true;
+                currProjectile = ProjectileType.Grav;
+                break;
+            case 2:
+                currProjectile = ProjectileType.Laser;
                 break;
         }
     }
@@ -78,11 +112,34 @@ public class ShootSpell : MonoBehaviour
     {
         if (!UIManager._instance.inMenu && currSpell.followEffects.Count > 0)
         {
-            Debug.Log("update");
-            if (isGrav)
-                pools[1].UpdateProjectile(currSpell);
-            else
-                pools[0].UpdateProjectile(currSpell);   
+            switch (currProjectile)
+            {
+                case ProjectileType.Simple:
+                    pools[0].UpdateProjectile(currSpell);
+                    break;
+                case ProjectileType.Grav:
+                    pools[1].UpdateProjectile(currSpell);
+                    break;
+                case ProjectileType.Laser:
+                    pools[2].UpdateProjectile(currSpell);
+                    break;
+            }
         }
+    }
+
+    GameObject GetFromPool()
+    {
+        switch (currProjectile)
+        {
+            case ProjectileType.Simple:
+                return pools[0].GetItem(currSpell);
+
+            case ProjectileType.Grav:
+                return pools[1].GetItem(currSpell);
+
+            case ProjectileType.Laser:
+                return pools[2].GetItem(currSpell);
+        }
+        return null;
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Projectile : MonoBehaviour
 {
@@ -13,15 +14,14 @@ public class Projectile : MonoBehaviour
 
     void Awake()
     {
-        body = GetComponent<Rigidbody>();
         spell = GetComponent<Spell>();
         bounceMat = GetComponent<SphereCollider>().material;
+        body = GetComponent<Rigidbody>();   
     }
 
     public void InitMovement(CompiledSpell data, BaseProjectile projData)
     {
         currData = data;
-
 
         //Base projectile stats
         speed = projData.f_speed;
@@ -58,6 +58,7 @@ public class Projectile : MonoBehaviour
         //Simple movement
         body.Move(transform.position + (transform.forward * speed * Time.deltaTime), transform.rotation);
     }
+
     #endregion
 
     #region Modifiers
@@ -123,6 +124,6 @@ public class Projectile : MonoBehaviour
     public void ResetMovement()
     {
         LockProjectile(true);
-        bounceMat.bounciness = 0;
+        bounceMat.bounciness = 0;     
     }
 }

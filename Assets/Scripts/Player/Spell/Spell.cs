@@ -160,14 +160,14 @@ public class Spell : MonoBehaviour
     {
         //I first check for modifiers, then i call the modded behavior
         if ((indexCurrentBehaviour + 1) < currData.followEffects.Count && currData.followEffects[indexCurrentBehaviour + 1].currtType == AddedBehavior.dataType.Modifier)
-            CheckModifiers(indexCurrentBehaviour + 1);
+            CheckModifiers(indexCurrentBehaviour);
 
         forceWaitTime = true;
 
         switch (currData.followEffects[indexCurrentBehaviour].id)
         {
             case 1:
-                Debug.Log("Explosion");
+                //Debug.Log("Explosion");
                 lastAction = SpellExplosion;
                 lastAction();
                 break;
@@ -180,7 +180,7 @@ public class Spell : MonoBehaviour
     void CheckModifiers(int startIndex)
     {
         //Check for any modifiers after the behavior then applies them
-        for (int i = startIndex; i < currData.followEffects.Count; i++)
+        for (int i = 1; i < currData.followEffects.Count; i++)
         {
             if ((indexCurrentBehaviour + i) < currData.followEffects.Count && currData.followEffects[indexCurrentBehaviour + i].currtType == AddedBehavior.dataType.Modifier)
                 ReadBehaviorModifierData(i);
@@ -192,6 +192,7 @@ public class Spell : MonoBehaviour
     void ReadBehaviorModifierData(int gap)
     {
         BaseModifier currModifier = (BaseModifier)currData.followEffects[indexCurrentBehaviour + gap];
+        Debug.Log(currModifier.name);
         //Applies the modifier(s) following the behavior
         switch (currModifier.id)
         {
@@ -209,7 +210,7 @@ public class Spell : MonoBehaviour
 
             case 3:
                 //wait
-                //Debug.Log("Wait");
+                //Debug.Log("Wait " + currModifier.modDurationValue + " " + currData.followEffects[indexCurrentBehaviour].modDurationValue);
                 SetWaitTime(currModifier.modDurationValue);
                 break;
 
@@ -225,6 +226,7 @@ public class Spell : MonoBehaviour
                 ChangeModValue(currModifier.modDurationValue, currModifier.operation, false);
                 break;
             case 6:
+                //Debug.Log(currData.followEffects[indexCurrentBehaviour].name + " " + currData.followEffects[indexCurrentBehaviour].modDurationValue + " wait " + waitTime);
                 GameObject newBh = Instantiate(bh, transform.position, bh.transform.rotation);
                 newBh.GetComponent<ScaleBlackhole>().Summon(currData.followEffects[indexCurrentBehaviour].modDurationValue, waitTime, false);
                 break;
@@ -264,7 +266,6 @@ public class Spell : MonoBehaviour
 
     void SpellExplosion()
     {
-        Debug.Log("explode");
         //Simple explosion that pushes rigidbodies away, i keep the bodies in a list in case a Wait modifier loops the method
         if (currData.followEffects[indexCurrentBehaviour].currtType == AddedBehavior.dataType.Behaviour)
         {

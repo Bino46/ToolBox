@@ -4,6 +4,7 @@ public class ShootRay : MonoBehaviour
 {
     LineRenderer line;
     [SerializeField] float lifetime;
+    Pool pool;
     CompiledSpell currData;
     int bounces;
     int currBounce;
@@ -11,10 +12,11 @@ public class ShootRay : MonoBehaviour
     Vector3 bounceDir;
 
     #region System
-    public void Init(CompiledSpell data, Vector3 startPos, Vector3 dir)
+    public void Init(CompiledSpell data, Vector3 startPos, Vector3 dir, Pool reference)
     {
         line = GetComponent<LineRenderer>();
         currData = data;
+        pool = reference;
 
         bounceStart = startPos;
         bounceDir = dir;
@@ -44,13 +46,13 @@ public class ShootRay : MonoBehaviour
     #region Ray
     void FireRay(Vector3 startPos, Vector3 dir, int index)
     {
-        Debug.Log("cec");
         RaycastHit hit;
         if (Physics.Raycast(startPos, dir, out hit, 1000))
             HitWall(startPos, hit.point, hit.normal, index);
         else
             ShowLine(dir * 1000, line.positionCount -1);
     }
+
     void HitWall(Vector3 startPos, Vector3 hitPoint, Vector3 normal, int index)
     {
         if (currBounce < bounces && bounces > 0)
@@ -63,14 +65,22 @@ public class ShootRay : MonoBehaviour
 
         bounceStart = hitPoint;
         bounceDir = Vector3.Reflect(hitPoint - startPos, normal);
+
+        MakeObject(hitPoint);
     }
 
     void ShowLine(Vector3 hitPoint, int index)
     {
-        Debug.Log(index);
-
         line.enabled = true;
         line.SetPosition(index, hitPoint);
+    }
+
+    void MakeObject(Vector3 spawnPos)
+    {
+        GameObject obj = pool.GetItem(currData);
+
+        obj.transform.position = spawnPos;
+        obj.GetComponent<Spell>().Init(currData);
     }
 
     #endregion

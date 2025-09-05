@@ -23,22 +23,22 @@ public class LoadSpellFromRune : MonoBehaviour
         slotProjectile = 0;
     }
 
-    public void ClearModifer(int modId, int bhId)
+    public void ClearModifer(int modId, int bhId, bool isInProjMenu)
     {
         int start = 0;
         int count = 0;
-        int step = 0;
+        int bhSlot = 0;
 
-        if (bhId > 0)
+        if (!isInProjMenu)
         {
             for (int i = 0; i < currSpell.followEffects.Count; i++)
             {
                 if (currSpell.followEffects[i].currtType == AddedBehavior.dataType.Behaviour)
-                    step++;
+                    bhSlot++;
 
                 start = i;
 
-                if (step == bhId + slotProjectile)
+                if (bhSlot == bhId + slotProjectile)
                     break;
             }
         }
@@ -121,10 +121,10 @@ public class LoadSpellFromRune : MonoBehaviour
     {
         int behaviorSlot = 0;
         int offset = 0;
-
+        
         for (int i = 0; i < currSpell.followEffects.Count; i++)
         {
-            offset ++;
+            offset++;
             if (currSpell.followEffects[i].currtType == AddedBehavior.dataType.Behaviour)
             {
                 if (behaviorSlot == searchIndex)
@@ -133,7 +133,6 @@ public class LoadSpellFromRune : MonoBehaviour
                 behaviorSlot++;
             }
         }
-
         int newIndex = modifierIndex + offset;
 
         if (currSpell.followEffects.Count > newIndex && currSpell.followEffects[newIndex].currtType == AddedBehavior.dataType.Modifier)

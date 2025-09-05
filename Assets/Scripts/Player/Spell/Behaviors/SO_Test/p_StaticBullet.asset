@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: afa72efd83b06ad44ad064e12255fab8, type: 3}
-  m_Name: p_FastBullet
+  m_Name: p_StaticBullet
   m_EditorClassIdentifier: 
   currtType: 2
   id: 2
@@ -18,7 +18,7 @@ MonoBehaviour:
   color: {fileID: 0}
   modStrengthValue: 1
   modDurationValue: 1
-  f_speed: 1000
-  f_size: 0.1
+  f_speed: 0
+  f_size: 2
   f_lifetime: 4
   f_mass: 1

@@ -86,7 +86,7 @@ public class ShootSpell : MonoBehaviour
 
             ShootRay pew = Instantiate(baseRay.GetComponent<ShootRay>());
 
-            pew.Init(currSpell, controller.cameraPivot.transform.position, shootDir);
+            pew.Init(currSpell, controller.cameraPivot.transform.position, shootDir, pools[2]);
         }
     }
 

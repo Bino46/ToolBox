@@ -14,5 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   s_spellName: 
   followEffects:
-  - {fileID: 11400000, guid: a0f3c65963697a047be5346fa9c7a31e, type: 2}
-  - {fileID: 11400000, guid: 68950aa55e1dda3458a39ec7c2231472, type: 2}
+  - {fileID: 11400000, guid: 96bcc13aacb9879439eee3a296a929f4, type: 2}
+  - {fileID: 11400000, guid: b07765faab2669144b3fe677de81c920, type: 2}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 02db6f0b8dcfa2c41981dc33ae94ad10, type: 2}
+  - {fileID: 11400000, guid: 02db6f0b8dcfa2c41981dc33ae94ad10, type: 2}
+  - {fileID: 11400000, guid: 02db6f0b8dcfa2c41981dc33ae94ad10, type: 2}
+  - {fileID: 11400000, guid: 087a5496c308fdd4d8167b9d1b275868, type: 2}
+  - {fileID: 11400000, guid: 18431f7f12d573f4baf5f862c2e65d02, type: 2}

@@ -117,7 +117,8 @@ public class Projectile : MonoBehaviour
 
     void AddBounce(int listId)
     {
-        bounceMat.bounciness += currData.followEffects[listId].modStrengthValue;
+        if(bounceMat != null)
+            bounceMat.bounciness += currData.followEffects[listId].modStrengthValue;
     }
 
     #endregion

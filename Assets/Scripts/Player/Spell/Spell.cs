@@ -110,13 +110,14 @@ public class Spell : MonoBehaviour
 
     void ResetBehaviors()
     {
+        Debug.Log("Reset bh");
         //Reset the behavior
         foreach (AddedBehavior bh in currData.followEffects)
         {
             if (bh.currtType == AddedBehavior.dataType.Behaviour)
             {
                 bh.modStrengthValue = 1;
-                bh.modDurationValue = 1; 
+                bh.modDurationValue = 1;
             }
         }
 
@@ -125,6 +126,7 @@ public class Spell : MonoBehaviour
 
     public void FullReset()
     {
+        Debug.Log("Full Reset");
         ResetBehaviors();
         projMovement.ResetMovement();
         Reset();
@@ -148,6 +150,7 @@ public class Spell : MonoBehaviour
 
     void GetNextAction()
     {
+        ResetBehaviors();
         //increases the index in the list of AddedBehavior from the SO and does something if the new behavior is an action
         //Debug.Log("Get new action");
         indexCurrentBehaviour++;
@@ -197,15 +200,15 @@ public class Spell : MonoBehaviour
         switch (currModifier.id)
         {
             case 1:
-                //Increase strength
+                //Change strength
                 //Debug.Log("Increase");
                 ChangeModValue(currModifier.modStrengthValue, currModifier.operation, true);
                 break;
 
             case 2:
-                //Decrease strength
-                //Debug.Log("Decrease");
-                ChangeModValue(currModifier.modStrengthValue, currModifier.operation, true);
+                //Increase duration
+                //Debug.Log("Increase");
+                ChangeModValue(currModifier.modDurationValue, currModifier.operation, false);
                 break;
 
             case 3:
@@ -215,17 +218,6 @@ public class Spell : MonoBehaviour
                 break;
 
             case 4:
-                //Increase duration
-                //Debug.Log("Increase");
-                ChangeModValue(currModifier.modDurationValue, currModifier.operation, false);
-                break;
-
-            case 5:
-                //Decrease Duration
-                //Debug.Log("Decrease");
-                ChangeModValue(currModifier.modDurationValue, currModifier.operation, false);
-                break;
-            case 6:
                 //Debug.Log(currData.followEffects[indexCurrentBehaviour].name + " " + currData.followEffects[indexCurrentBehaviour].modDurationValue + " wait " + waitTime);
                 GameObject newBh = Instantiate(bh, transform.position, bh.transform.rotation);
                 newBh.GetComponent<ScaleBlackhole>().Summon(currData.followEffects[indexCurrentBehaviour].modDurationValue, waitTime, false);
@@ -283,7 +275,7 @@ public class Spell : MonoBehaviour
                 }
             }
 
-            //Debug.Log("explosion");
+            Debug.Log("explodes " + explosionBodyList.Count + " strength " + spell.f_explosionStrength * spell.modStrengthValue);
 
             foreach (Rigidbody obj in explosionBodyList)
             {

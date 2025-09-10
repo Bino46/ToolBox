@@ -41,11 +41,13 @@ public class SpellCraftUI : MonoBehaviour
 
     [Header("UI objects")]
     [SerializeField] Image spellSelected;
+    [SerializeField] SpinUICircle showSelectedSlot;
     [SerializeField] GameObject spellMenu;
     [SerializeField] Image menuButton;
     [SerializeField] TextMeshProUGUI currModifiyingSpellName;
+    [SerializeField] GameObject[] menuActionVisual = new GameObject[2];
     [SerializeField] GameObject[] menuParent = new GameObject[2];
-    [SerializeField] GameObject[] menuLists = new GameObject[4];
+    [SerializeField] GameObject[] menuLists = new GameObject[6];
     [SerializeField] Sprite[] buttonSelection = new Sprite[2];
     public SelectionSlot[] behaviorsButtons = new SelectionSlot[3];
     public SelectionSlot projectileButton;
@@ -59,12 +61,13 @@ public class SpellCraftUI : MonoBehaviour
     Vector2 mousePos;
     int currHoldingSpellId = -1;
     int holdingSpellCount;
-    bool swicthMenu;
+    enum CurrMenu { bhMenu = 0, pjMenu, bhMod, pjMod, bhVfx, pjVfx}
+    CurrMenu selectionMenu;
     bool inSpellMenu;
     bool selectProjectile;
     bool selectBehavior;
     bool selectModifier;
-    bool modProj;
+    bool inVisuals;
 
     void Awake()
     {
@@ -121,6 +124,8 @@ public class SpellCraftUI : MonoBehaviour
 
     public void SlotBehavior(int id)
     {
+        showSelectedSlot.MoveAt(behaviorsButtons[id].selectedSlot.transform.position);
+
         if (!selectBehavior)
         {
             if (behaviorsButtons[id].isFull && holdingSpellCount >= slotNumber)
@@ -174,6 +179,7 @@ public class SpellCraftUI : MonoBehaviour
 
     public void SlotProjectile()
     {
+        showSelectedSlot.MoveAt(projectileButton.selectedSlot.transform.position);
         if (!selectProjectile)
         {
             if (projectileButton.isFull && holdingSpellCount >= slotNumber)
@@ -232,7 +238,7 @@ public class SpellCraftUI : MonoBehaviour
 
             modifierButtons[id].isFull = true;
 
-            if (modProj)
+            if (selectionMenu == CurrMenu.pjMod)
                 runeSlots.LoadProjectileModifier(id + 1, currHoldingSpellId);
             else
                 runeSlots.LoadBehaviorModifiers(currSelectedSlot, id, currHoldingSpellId);
@@ -245,7 +251,7 @@ public class SpellCraftUI : MonoBehaviour
     {
         List<AddedBehavior> modList;
         
-        if (modProj)
+        if (selectionMenu == CurrMenu.pjMod)
             modList = runeSlots.GetModifiersOnProjectile();
         else
             modList = runeSlots.GetModifiersOnBehavior(id);
@@ -276,7 +282,7 @@ public class SpellCraftUI : MonoBehaviour
         {
             List<AddedBehavior> modList;
 
-            if (modProj)
+            if (selectionMenu == CurrMenu.pjMod)
                 modList = runeSlots.GetModifiersOnProjectile();
             else
                 modList = runeSlots.GetModifiersOnBehavior(currSelectedSlot);
@@ -286,12 +292,21 @@ public class SpellCraftUI : MonoBehaviour
             else
                 modifierButtons[1].isFull = false;
 
-            runeSlots.ClearModifer(id + 1, currSelectedSlot, modProj);
+            runeSlots.ClearModifer(id + 1, currSelectedSlot, (int)selectionMenu);
             ResetModInterface();
             LoadModifiersOnUI(currSelectedSlot);
         }
-        
     }
+
+    #endregion
+
+    #region Visual Effects
+
+    public void SelectVisualEffect(int id)
+    {
+        runeSlots.SelectOneEffect(id);
+    }
+
 
     #endregion
 
@@ -301,9 +316,9 @@ public class SpellCraftUI : MonoBehaviour
     {
         ResetHoldingSprite();
 
-        if (swicthMenu)
+        if (selectionMenu == CurrMenu.bhMenu)
         {
-            swicthMenu = false;
+            selectionMenu = CurrMenu.pjMenu;
 
             menuLists[0].SetActive(true);
             menuLists[1].SetActive(false);
@@ -312,7 +327,7 @@ public class SpellCraftUI : MonoBehaviour
         }
         else
         {
-            swicthMenu = true;
+            selectionMenu = CurrMenu.bhMenu;
 
             menuLists[0].SetActive(false);
             menuLists[1].SetActive(true);
@@ -325,7 +340,7 @@ public class SpellCraftUI : MonoBehaviour
     {
         ResetHoldingSprite();
 
-        modProj = false;
+        selectionMenu = CurrMenu.bhMod;
 
         menuParent[0].SetActive(false);
         menuParent[1].SetActive(true);
@@ -338,7 +353,7 @@ public class SpellCraftUI : MonoBehaviour
     {
         ResetHoldingSprite();
 
-        modProj = true;
+        selectionMenu = CurrMenu.pjMod;
 
         menuParent[0].SetActive(false);
         menuParent[1].SetActive(true);
@@ -353,8 +368,30 @@ public class SpellCraftUI : MonoBehaviour
 
         ResetModInterface();
 
+        selectionMenu = CurrMenu.pjMenu;
+
         menuParent[0].SetActive(true);
         menuParent[1].SetActive(false);
+    }
+
+    public void SwitchToVisuals()
+    {
+        ResetHoldingSprite();
+
+        selectionMenu = CurrMenu.pjVfx;
+
+        menuActionVisual[0].SetActive(false);
+        menuActionVisual[1].SetActive(true);
+    }
+
+    public void SwitchToActions()
+    {
+        ResetHoldingSprite();
+
+        selectionMenu = CurrMenu.pjMenu;
+
+        menuActionVisual[0].SetActive(true);
+        menuActionVisual[1].SetActive(false);
     }
 
     public void ResetHoldingSprite(InputAction.CallbackContext ctx)

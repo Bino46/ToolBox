@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ public class LoadSpellFromRune : MonoBehaviour
     public List<AddedBehavior> so_projectiles = new List<AddedBehavior>();
     public List<AddedBehavior> so_behaviors = new List<AddedBehavior>();
     public List<AddedBehavior> so_modifiers = new List<AddedBehavior>();
+    public List<Pool> so_visualEffects = new List<Pool>();
     [SerializeField] CompiledSpell currSpell;
     string lastLoaded;
     int slotProjectile = 0;
@@ -23,13 +25,13 @@ public class LoadSpellFromRune : MonoBehaviour
         slotProjectile = 0;
     }
 
-    public void ClearModifer(int modId, int bhId, bool isInProjMenu)
+    public void ClearModifer(int modId, int bhId, int isInBhMenu)
     {
         int start = 0;
         int count = 0;
         int bhSlot = 0;
 
-        if (!isInProjMenu)
+        if (isInBhMenu == 2)
         {
             for (int i = 0; i < currSpell.followEffects.Count; i++)
             {
@@ -50,6 +52,7 @@ public class LoadSpellFromRune : MonoBehaviour
 
             if (count == modId)
             {
+                Debug.Log(start + count);
                 currSpell.followEffects.RemoveAt(start + count);
                 break;
             }
@@ -61,7 +64,6 @@ public class LoadSpellFromRune : MonoBehaviour
     //Adds behavior to the list
     public void LoadBehavior(int id, int slot)
     {
-        int slotBehavior = 0;
         lastLoaded = so_behaviors[id].name;
 
         if (slot + slotProjectile >= currSpell.followEffects.Count)
@@ -74,22 +76,7 @@ public class LoadSpellFromRune : MonoBehaviour
             currSpell.followEffects.Add(so_behaviors[id]);
         }
         else
-        {
-            int offset = 0;
-            for (int i = slotProjectile; i < currSpell.followEffects.Count; i++)
-            {
-                offset++;
-                if (currSpell.followEffects[i] != null && currSpell.followEffects[i].currtType == AddedBehavior.dataType.Behaviour)
-                    slotBehavior++;
-
-                if (slotBehavior == slot + slotProjectile)
-                {
-                    currSpell.followEffects[offset] = so_behaviors[id];
-                    break;
-                }
-
-            }
-        }
+            currSpell.followEffects[slot] = so_behaviors[id];
     }
 
     public string GetName()
@@ -121,7 +108,7 @@ public class LoadSpellFromRune : MonoBehaviour
     {
         int behaviorSlot = 0;
         int offset = 0;
-        
+
         for (int i = 0; i < currSpell.followEffects.Count; i++)
         {
             offset++;
@@ -187,5 +174,14 @@ public class LoadSpellFromRune : MonoBehaviour
 
         return modList;
     }
+    #endregion
+
+    #region Visual Effects
+
+    public void SelectOneEffect(int id)
+    {
+        currSpell.visualEffect = so_visualEffects[id];
+    }
+
     #endregion
 }

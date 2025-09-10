@@ -10,7 +10,6 @@ public class ShootSpell : MonoBehaviour
     [SerializeField] CompiledSpell currSpell;
     [SerializeField] GameObject baseRay;
     [SerializeField] float maxShootAngle;
-    [SerializeField] Pool[] pools = new Pool[3];
     ControllerV2 controller;
     public int projectileFired;
     public float offsetBetweenProjectiles;
@@ -86,7 +85,7 @@ public class ShootSpell : MonoBehaviour
 
             ShootRay pew = Instantiate(baseRay.GetComponent<ShootRay>());
 
-            pew.Init(currSpell, controller.cameraPivot.transform.position, shootDir, pools[2]);
+            pew.Init(currSpell, controller.cameraPivot.transform.position, shootDir, PoolManager._instance.poolList[2]);
         }
     }
 
@@ -115,13 +114,13 @@ public class ShootSpell : MonoBehaviour
             switch (currProjectile)
             {
                 case ProjectileType.Simple:
-                    pools[0].UpdateProjectile(currSpell);
+                    PoolManager._instance.poolList[0].UpdateProjectile(currSpell);
                     break;
                 case ProjectileType.Grav:
-                    pools[1].UpdateProjectile(currSpell);
+                    PoolManager._instance.poolList[1].UpdateProjectile(currSpell);
                     break;
                 case ProjectileType.Laser:
-                    pools[2].UpdateProjectile(currSpell);
+                    PoolManager._instance.poolList[2].UpdateProjectile(currSpell);
                     break;
             }
         }
@@ -132,13 +131,13 @@ public class ShootSpell : MonoBehaviour
         switch (currProjectile)
         {
             case ProjectileType.Simple:
-                return pools[0].GetItem(currSpell);
+                return PoolManager._instance.poolList[0].GetItem(currSpell);
 
             case ProjectileType.Grav:
-                return pools[1].GetItem(currSpell);
+                return PoolManager._instance.poolList[1].GetItem(currSpell);
 
             case ProjectileType.Laser:
-                return pools[2].GetItem(currSpell);
+                return PoolManager._instance.poolList[2].GetItem(currSpell);
         }
         return null;
     }

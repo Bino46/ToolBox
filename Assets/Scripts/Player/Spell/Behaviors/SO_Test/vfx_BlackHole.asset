@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02d1f1160d562c64daa191ddce9baa4e, type: 3}
-  m_Name: m_BlackHole
+  m_Name: vfx_BlackHole
   m_EditorClassIdentifier: 
   currtType: 1
   id: 4

@@ -3,11 +3,12 @@ using UnityEngine;
 public class SwitchSpellCircle : MonoBehaviour
 {
     [SerializeField] GameObject[] circleList = new GameObject[6];
-    [SerializeField] LoadSpellFromRune spellReference;
+    [SerializeField] SpinUICircle spinUI;
 
     public void Switch(int id)
     {
         ResetAll();
+        spinUI.ResetPos();
 
         SpellCraftUI._instance.slotNumber = id + 1;
 

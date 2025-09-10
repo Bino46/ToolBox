@@ -56,7 +56,7 @@ public class Spell : MonoBehaviour
 
         //Changes in behavior when the projectile hits something
         if (touch)
-        {   
+        {
             //When touch = true, i check  if the Wait modifier is on or not
             WaitOrPass();
         }
@@ -84,7 +84,7 @@ public class Spell : MonoBehaviour
 
                 return;
             }
-            
+
             //Since im using SO, i need to reset them before going to the next, otherwise the modifiers will stay active next time ill use this behavior
             if (indexCurrentBehaviour >= currData.followEffects.Count && !mustLock)
             {
@@ -97,7 +97,7 @@ public class Spell : MonoBehaviour
         }
     }
     void Reset()
-    {   
+    {
         touch = false;
 
         forceWaitTime = false;
@@ -110,7 +110,7 @@ public class Spell : MonoBehaviour
 
     void ResetBehaviors()
     {
-        Debug.Log("Reset bh");
+        //Debug.Log("Reset bh");
         //Reset the behavior
         foreach (AddedBehavior bh in currData.followEffects)
         {
@@ -126,7 +126,7 @@ public class Spell : MonoBehaviour
 
     public void FullReset()
     {
-        Debug.Log("Full Reset");
+        //Debug.Log("Full Reset");
         ResetBehaviors();
         projMovement.ResetMovement();
         Reset();
@@ -195,7 +195,7 @@ public class Spell : MonoBehaviour
     void ReadBehaviorModifierData(int gap)
     {
         BaseModifier currModifier = (BaseModifier)currData.followEffects[indexCurrentBehaviour + gap];
-        Debug.Log(currModifier.name);
+        //Debug.Log(currModifier.name);
         //Applies the modifier(s) following the behavior
         switch (currModifier.id)
         {
@@ -218,12 +218,10 @@ public class Spell : MonoBehaviour
                 break;
 
             case 4:
-                //Debug.Log(currData.followEffects[indexCurrentBehaviour].name + " " + currData.followEffects[indexCurrentBehaviour].modDurationValue + " wait " + waitTime);
-                GameObject newBh = Instantiate(bh, transform.position, bh.transform.rotation);
-                newBh.GetComponent<ScaleBlackhole>().Summon(currData.followEffects[indexCurrentBehaviour].modDurationValue, waitTime, false);
+                MakeBlackHole();
                 break;
-            }
         }
+    }
     #endregion
 
 
@@ -241,6 +239,8 @@ public class Spell : MonoBehaviour
     void TouchBehavior()
     {
         //After the projectile touched, it will disappear after an extended time
+
+        SummonVisualEffect();
 
         if (mustLock)
         {
@@ -275,7 +275,7 @@ public class Spell : MonoBehaviour
                 }
             }
 
-            Debug.Log("explodes " + explosionBodyList.Count + " strength " + spell.f_explosionStrength * spell.modStrengthValue);
+            //Debug.Log("explodes " + explosionBodyList.Count + " strength " + spell.f_explosionStrength * spell.modStrengthValue);
 
             foreach (Rigidbody obj in explosionBodyList)
             {
@@ -290,7 +290,7 @@ public class Spell : MonoBehaviour
         DelaySpell spell = (DelaySpell)currData.followEffects[indexCurrentBehaviour];
         delayTime = spell.delayTime;
         projMovement.ExtendLifetime(delayTime * 2);
-        
+
         //Debug.Log("delay");
         isDelaying = true;
     }
@@ -311,6 +311,13 @@ public class Spell : MonoBehaviour
 
         mustLock = onTouch.b_lockOnTouch;
         forceWaitTime = false;
+    }
+
+    void MakeBlackHole()
+    {
+        GameObject newBh = PoolManager._instance.poolList[3].GetItem();
+        newBh.transform.position = transform.position;
+        newBh.GetComponent<ScaleBlackhole>().Summon(currData.followEffects[indexCurrentBehaviour].modDurationValue, waitTime, false);
     }
 
     void ChangeModValue(float mod, BaseModifier.Operation op, bool strength)
@@ -352,5 +359,17 @@ public class Spell : MonoBehaviour
             }
         }
     }
+    #endregion
+
+    #region Visual effects
+
+    void SummonVisualEffect()
+    {
+        GameObject obj = currData.visualEffect.GetItem();
+        obj.transform.position = transform.position;
+        obj.SetActive(true);
+        obj.GetComponent<VFX_Interface>().Show(4, 1f);  
+    }
+
     #endregion
 }

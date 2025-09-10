@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShootRay : MonoBehaviour
 {
@@ -10,10 +11,13 @@ public class ShootRay : MonoBehaviour
     int currBounce;
     Vector3 bounceStart;
     Vector3 bounceDir;
+    LayerMask hitMask;
 
     #region System
     public void Init(CompiledSpell data, Vector3 startPos, Vector3 dir, Pool reference)
     {
+        hitMask = LayerMask.GetMask("Walls", "PhysicsObject");
+
         line = GetComponent<LineRenderer>();
         currData = data;
         pool = reference;
@@ -47,7 +51,7 @@ public class ShootRay : MonoBehaviour
     void FireRay(Vector3 startPos, Vector3 dir, int index)
     {
         RaycastHit hit;
-        if (Physics.Raycast(startPos, dir, out hit, 1000))
+        if (Physics.Raycast(startPos, dir, out hit, 1000, hitMask))
             HitWall(startPos, hit.point, hit.normal, index);
         else
             ShowLine(dir * 1000, line.positionCount -1);

@@ -388,10 +388,10 @@ public class SpellCraftUI : MonoBehaviour
     {
         ResetHoldingSprite();
 
-        selectionMenu = CurrMenu.pjMenu;
-
         menuActionVisual[0].SetActive(true);
         menuActionVisual[1].SetActive(false);
+        
+        SwitchToBase();
     }
 
     public void ResetHoldingSprite(InputAction.CallbackContext ctx)

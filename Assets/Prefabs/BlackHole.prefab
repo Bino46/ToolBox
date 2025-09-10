@@ -198,7 +198,7 @@ MonoBehaviour:
   m_bh: {fileID: 2100000, guid: 26502150fc2eb4b4099fecf9a3f89dba, type: 2}
   bh: {fileID: 4148681075411480629}
   scale: 0
-  speed: 15
+  speed: 10
   sizeModifer: 3
   lifeTime: 0
 --- !u!114 &6987100210383528475

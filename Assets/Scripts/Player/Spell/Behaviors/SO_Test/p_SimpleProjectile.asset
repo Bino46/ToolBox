@@ -20,5 +20,5 @@ MonoBehaviour:
   modDurationValue: 1
   f_speed: 250
   f_size: 0.25
-  f_lifetime: 2
+  f_lifetime: 4
   f_mass: 10

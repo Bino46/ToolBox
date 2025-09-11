@@ -240,7 +240,8 @@ public class Spell : MonoBehaviour
     {
         //After the projectile touched, it will disappear after an extended time
 
-        SummonVisualEffect();
+        if(currData.visualEffect != null)
+            SummonVisualEffect();
 
         if (mustLock)
         {

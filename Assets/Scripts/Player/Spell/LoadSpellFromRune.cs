@@ -22,6 +22,7 @@ public class LoadSpellFromRune : MonoBehaviour
     public void ClearSpell()
     {
         currSpell.followEffects.Clear();
+        currSpell.visualEffect = null;
         slotProjectile = 0;
     }
 

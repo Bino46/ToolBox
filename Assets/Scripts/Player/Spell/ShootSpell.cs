@@ -1,7 +1,5 @@
-using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 
 public class ShootSpell : MonoBehaviour
 {

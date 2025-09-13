@@ -9,13 +9,13 @@ public class Projectile : MonoBehaviour
     float speed;
     bool canGo;
     float currlifetime;
-    PhysicsMaterial bounceMat;
+    int maxBounces;
+    int currBounce;
 
     void Awake()
     {
         spell = GetComponent<Spell>();
-        bounceMat = GetComponent<SphereCollider>().material;
-        body = GetComponent<Rigidbody>();   
+        body = GetComponent<Rigidbody>();
     }
 
     public void InitMovement(CompiledSpell data, BaseProjectile projData)
@@ -68,7 +68,7 @@ public class Projectile : MonoBehaviour
         {
             if (currData.followEffects[i].currtType == AddedBehavior.dataType.Behaviour)
                 break;
-            else if(currData.followEffects[i].currtType == AddedBehavior.dataType.Modifier)
+            else if (currData.followEffects[i].currtType == AddedBehavior.dataType.Modifier)
                 ApplyProjectileModifier(currData.followEffects[i].id, i);
         }
     }
@@ -84,7 +84,7 @@ public class Projectile : MonoBehaviour
                 ShootSpell._instance.projectileFired = GetNumberOfProjectile();
                 break;
             case 2:
-                AddBounce(listId);
+                AddBounce();
                 break;
         }
     }
@@ -108,22 +108,38 @@ public class Projectile : MonoBehaviour
         body.isKinematic = isLocked;
         canGo = !isLocked;
     }
-    
+
     public void ExtendLifetime(float amount)
     {
         currlifetime += amount;
     }
 
-    void AddBounce(int listId)
+    void AddBounce()
     {
-        if(bounceMat != null)
-            bounceMat.bounciness += currData.followEffects[listId].modStrengthValue;
+        maxBounces++;
     }
 
     #endregion
     public void ResetMovement()
     {
         LockProjectile(true);
-        bounceMat.bounciness = 0;     
+        maxBounces = 0;
+        currBounce = 0;
+    }
+
+    public void TouchWall(Collision other)
+    {
+        Vector3 bounceDir;
+        Vector3 currDir = transform.forward;
+        if (maxBounces >= 1 && currBounce <= maxBounces)
+        {
+            bounceDir = Vector3.Reflect(currDir, other.contacts[0].normal);
+            
+            transform.rotation = Quaternion.LookRotation(bounceDir);
+
+            currBounce++;
+        }
+        else
+            LockProjectile(true);
     }
 }

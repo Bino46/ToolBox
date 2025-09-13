@@ -222,10 +222,6 @@ public class Spell : MonoBehaviour
                 break;
         }
     }
-    #endregion
-
-
-    #region SpellActions
 
     void OnCollisionEnter(Collision other)
     {
@@ -233,21 +229,24 @@ public class Spell : MonoBehaviour
         if (other.gameObject.layer != mask)
         {
             touch = true;
+            mustLock = true;
             TouchBehavior();
+
+            projMovement.TouchWall(other);
         }
     }
+
+    #endregion
+
+
+    #region SpellActions
+
     void TouchBehavior()
     {
         //After the projectile touched, it will disappear after an extended time
 
         if(currData.visualEffect != null)
             SummonVisualEffect();
-
-        if (mustLock)
-        {
-            forceWaitTime = false;
-            projMovement.LockProjectile(true);
-        }
     }
 
     void SetWaitTime(float time)

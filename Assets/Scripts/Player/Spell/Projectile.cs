@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Projectile : MonoBehaviour
 {
@@ -56,7 +55,7 @@ public class Projectile : MonoBehaviour
     void Move()
     {
         //Simple movement
-        body.Move(transform.position + (transform.forward * speed * Time.deltaTime), transform.rotation);
+        body.MovePosition(transform.position + (transform.forward * speed * Time.deltaTime));
     }
 
     #endregion

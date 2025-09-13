@@ -1,6 +1,7 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class ShootSpell : MonoBehaviour
 {
@@ -9,7 +10,6 @@ public class ShootSpell : MonoBehaviour
     ProjectileType currProjectile;
     [SerializeField] CompiledSpell currSpell;
     [SerializeField] GameObject baseRay;
-    [SerializeField] float maxShootAngle;
     ControllerV2 controller;
     public int projectileFired;
     public float offsetBetweenProjectiles;
@@ -28,65 +28,50 @@ public class ShootSpell : MonoBehaviour
     {
         if (!UIManager._instance.inMenu)
         {
-            if (currProjectile == ProjectileType.Laser)
-                ShootRay();
-            else
-                ShootProjectile();
+            Vector3 offsetRotation;
+            Vector3 shootDir;
+
+            float radius = 0;
+
+            if (projectileFired > 1)
+                radius = offsetBetweenProjectiles;
+
+            for (int i = 0; i < projectileFired; i++)
+            {
+                float radians = 2 * 3.14f / projectileFired * i;
+
+                offsetRotation = (controller.cameraPivot.transform.up * Mathf.Sin(radians) + controller.cameraPivot.transform.right * Mathf.Cos(radians)) * projectileFired;
+
+                shootDir = controller.cameraPivot.transform.forward + offsetRotation * radius;
+
+                if (currProjectile == ProjectileType.Laser)
+                    MakeLaser(shootDir);
+                else
+                {
+                    Quaternion newRotation = Quaternion.LookRotation(shootDir);
+                    MakeProjectile(newRotation);
+                }
+            }
         }
     }
 
-    void ShootProjectile()
+    void MakeProjectile(Quaternion rotation)
     {
-        Vector3 offsetRotation = Vector3.zero;
+        GameObject newObject;
 
-        float tempOffset = 0;
+        newObject = GetFromPool();
 
-        if (projectileFired > 1)
-            tempOffset = offsetBetweenProjectiles;
+        newObject.transform.position = controller.cameraPivot.transform.position;
+        newObject.transform.rotation = rotation;
 
-        for (int i = 0; i < projectileFired; i++)
-        {
-            float radians = 2 * 3.14f / projectileFired * i;
-
-            offsetRotation.y = Mathf.Sin(radians) * tempOffset * projectileFired;
-            offsetRotation.z = Mathf.Cos(radians) * tempOffset * projectileFired;
-
-            Quaternion rotation = Quaternion.Euler(controller.viewRotation + offsetRotation);
-            GameObject newObject;
-
-            newObject = GetFromPool();
-
-            newObject.transform.position = controller.cameraPivot.transform.position;
-            newObject.transform.rotation = rotation;
-
-            newObject.GetComponent<Spell>().Init(currSpell);
-        }
+        newObject.GetComponent<Spell>().Init(currSpell);
     }
 
-    void ShootRay()
+    void MakeLaser(Vector3 dir)
     {
-        Vector3 offsetRotation = Vector3.zero;
-        Vector3 shootDir = Vector3.zero;
+        ShootRay pew = Instantiate(baseRay.GetComponent<ShootRay>());
 
-        float tempOffset = 0;
-
-        if (projectileFired > 1)
-            tempOffset = offsetBetweenProjectiles;
-
-        for (int i = 0; i < projectileFired; i++)
-        {
-            float radians = 2 * 3.14f / projectileFired * i;
-
-            offsetRotation.x = Mathf.Sin(radians) * tempOffset * projectileFired;
-            offsetRotation.y = Mathf.Cos(radians) * tempOffset * projectileFired;
-
-            Quaternion rotation = Quaternion.Euler(offsetRotation);
-            shootDir = rotation * controller.cameraPivot.transform.forward;
-
-            ShootRay pew = Instantiate(baseRay.GetComponent<ShootRay>());
-
-            pew.Init(currSpell, controller.cameraPivot.transform.position, shootDir, PoolManager._instance.poolList[2]);
-        }
+        pew.Init(currSpell, controller.cameraPivot.transform.position, dir, PoolManager._instance.poolList[2]);
     }
 
     public void ReadProjectile()

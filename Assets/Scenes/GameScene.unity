@@ -32483,9 +32483,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currSpell: {fileID: 11400000, guid: 99c268ba47060564ba1afcf8cb23bb08, type: 2}
   baseRay: {fileID: 1855595458767225641, guid: a2c7b537a7996254d85896a9c6d61cd0, type: 3}
-  maxShootAngle: 0
   projectileFired: 1
-  offsetBetweenProjectiles: 1.25
+  offsetBetweenProjectiles: 0.02
 --- !u!136 &8801713312509916598
 CapsuleCollider:
   m_ObjectHideFlags: 0

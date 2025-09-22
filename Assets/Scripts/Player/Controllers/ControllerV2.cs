@@ -239,7 +239,7 @@ public class ControllerV2 : MonoBehaviour
             isGrounded = true;
 
             if (hit.distance <= maxFallDepthClip)
-                gameObject.transform.position += Vector3.up * Time.deltaTime;
+                transform.position += Vector3.up * Time.deltaTime;
         }
         else
         {

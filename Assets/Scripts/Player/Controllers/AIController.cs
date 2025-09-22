@@ -82,7 +82,8 @@ public class AIController : MonoBehaviour
 
         if (currState == PlayerState.Jump)
             JumpOver();
-        else if (currState != PlayerState.Grounded && currState != PlayerState.Dash)
+
+        if (currState != PlayerState.Grounded && currState != PlayerState.Dash)
             Gravity();
 
         if (!canDash)
@@ -98,14 +99,18 @@ public class AIController : MonoBehaviour
     {
         currState = newState;
 
-        Debug.Log("Switch to " + newState.ToString());
-
         switch (newState)
         {
             case PlayerState.Coyote:
                 coyote = coyoteTime;
                 break;
         }
+    }
+
+    public void Reset()
+    {
+        movementDir = Vector3.zero;
+        SwitchState(PlayerState.Fall);
     }
 
     #endregion

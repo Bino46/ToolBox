@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4445291389415307474}
   - component: {fileID: 4093394998586984880}
   - component: {fileID: 2687712743766143750}
+  - component: {fileID: -4035141263071005902}
   m_Layer: 0
   m_Name: Bang
   m_TagString: Untagged
@@ -119,5 +120,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a6663027c21e6246962570ec68c6433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-4035141263071005902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 35066232698360456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bfec28c86254ff42b1f557aaddb0ebd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

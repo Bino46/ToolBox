@@ -54,14 +54,14 @@ public class AIController : MonoBehaviour
 
     void Start()
     {
-        inputs.Movement.Right.performed += Move;
-        inputs.Movement.Right.canceled += Move;
+        // inputs.Movement.Right.performed += Move;
+        // inputs.Movement.Right.canceled += Move;
 
-        inputs.Movement.Jump.performed += Jump;
-        inputs.Movement.Jump.canceled += Jump;
+        // inputs.Movement.Jump.performed += Jump;
+        // inputs.Movement.Jump.canceled += Jump;
 
-        inputs.Movement.Sprint.performed += Dash;
-        inputs.Movement.Sprint.canceled += Dash;
+        // inputs.Movement.Sprint.performed += Dash;
+        // inputs.Movement.Sprint.canceled += Dash;
 
         bounds = GetComponent<CapsuleCollider>().bounds;
         bounds.Expand(-2 * skinWidth);
@@ -116,30 +116,52 @@ public class AIController : MonoBehaviour
     #endregion
 
     #region Action
-    public void Move(InputAction.CallbackContext ctx)
+    // public void Move(InputAction.CallbackContext ctx)
+    // {
+    //     if (currState != PlayerState.Dash)
+    //     {
+    //         lastDirectionPressed = ctx.ReadValue<float>();
+    //         movementDir.x = lastDirectionPressed * speed;
+    //     }
+    // }
+    public void Move(float dir)
     {
         if (currState != PlayerState.Dash)
         {
-            lastDirectionPressed = ctx.ReadValue<float>();
+            lastDirectionPressed = dir;
             movementDir.x = lastDirectionPressed * speed;
         }
     }
 
-    public void Jump(InputAction.CallbackContext ctx)
+    public void Jump()
     {
-        if (ctx.performed && currState == PlayerState.Grounded || currState == PlayerState.Coyote)
+        if (currState == PlayerState.Grounded || currState == PlayerState.Coyote)
         {
             movementDir.y = 0;
             movementDir.y += jumpMinStrength;
             jumpTime = maxJumpTime;
 
             SwitchState(PlayerState.Jump);
-        } 
-        else if(currState == PlayerState.Jump)
+        }
+        else if (currState == PlayerState.Jump)
             SwitchState(PlayerState.Fall);
     }
 
     public void Dash(InputAction.CallbackContext ctx)
+    {
+        if (currState != PlayerState.Dash && canDash)
+        {
+            SwitchState(PlayerState.Dash);
+            canDash = false;
+            touchedGround = false;
+
+            movementDir.x = lastDirectionPressed * dashSpeed;
+
+            currDashTime = dashTime;
+            movementDir.y = 0;
+        }
+    }
+    public void Dash()
     {
         if (currState != PlayerState.Dash && canDash)
         {

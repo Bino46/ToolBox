@@ -1,0 +1,47 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1758725985",
+        "python_version": "3.10.0 (tags/v3.10.0:b494f59, Oct  4 2021, 19:00:18) [MSC v.1929 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\Maya\\Documents\\JeuxVideoz\\ToolBoxGit\\venv\\Scripts\\mlagents-learn --run-id==NewTest --force",
+        "mlagents_version": "0.30.0",
+        "mlagents_envs_version": "0.30.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "2.8.0+cpu",
+        "numpy_version": "1.21.2",
+        "end_time_seconds": "1758725996"
+    },
+    "total": 10.869701600000553,
+    "count": 1,
+    "self": 0.0019223000053898431,
+    "children": {
+        "run_training.setup": {
+            "total": 0.009009999997942941,
+            "count": 1,
+            "self": 0.009009999997942941
+        },
+        "TrainerController.start_learning": {
+            "total": 10.85876929999722,
+            "count": 1,
+            "self": 0.00019079999765381217,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 10.858573099998466,
+                    "count": 1,
+                    "self": 10.858573099998466
+                },
+                "trainer_threads": {
+                    "total": 3.9999940781854093e-07,
+                    "count": 1,
+                    "self": 3.9999940781854093e-07
+                },
+                "TrainerController._save_models": {
+                    "total": 5.000001692678779e-06,
+                    "count": 1,
+                    "self": 5.000001692678779e-06
+                }
+            }
+        }
+    }
+}

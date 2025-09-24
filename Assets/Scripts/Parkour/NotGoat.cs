@@ -14,7 +14,6 @@ public class NotGoat : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        parent.MoveGoal(false);
         agent.FuckYou();
     }
 }

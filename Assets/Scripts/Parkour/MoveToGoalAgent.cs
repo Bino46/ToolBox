@@ -22,7 +22,6 @@ public class MoveToGoalAgent : Agent
     public override void OnEpisodeBegin()
     {
         Debug.Log("end ep");
-        goal.MoveGoal(false);
         RespawnAgent();
     }
 

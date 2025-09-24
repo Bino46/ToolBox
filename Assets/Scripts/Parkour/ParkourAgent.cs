@@ -3,45 +3,57 @@ using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using UnityEngine.InputSystem;
+using System;
 
 public class ParkourAgent : Agent
 {
     public Goal goal;
+    public Transform spawnPoint;
     Vector2 movementDir;
     float oldDistanceFromGoal;
     float distanceFromGoal;
     AIController controller;
+    public AgentPool pool;
 
     #region System
+    public void ReturnToPool()
+    {
+        gameObject.SetActive(false);
+    }
     void Start()
     {
         controller = GetComponent<AIController>();
     }
     void FixedUpdate()
     {
-        //CalculateDistanceFromGoal();
+        CalculateDistanceFromGoal();
     }
     #endregion
 
     #region Agent overrides
     public override void OnEpisodeBegin()
     {
-        //goal.MoveGoal(false);
-
+        controller.Reset();
+        transform.position = pool.transform.position;
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
         sensor.AddObservation(transform.localPosition);
-        //sensor.AddObservation(goal.transform.localPosition);
+        sensor.AddObservation(goal.transform.localPosition);
+        sensor.AddObservation((int)controller.currState);
     }
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        Debug.Log("action");
         float moveX = actions.ContinuousActions[0];
-
         controller.Move(moveX);
+
+        int jump = actions.DiscreteActions[0];
+        Debug.Log(actions.DiscreteActions[0]);
+
+        if (jump == 1)
+            controller.Jump();
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -78,10 +90,8 @@ public class ParkourAgent : Agent
         oldDistanceFromGoal = distanceFromGoal;
     }
 
-
-
     #endregion
-    //Inputs WASD
+    //Inputs
     public void MoveHorizontal(InputAction.CallbackContext ctx)
     {
         movementDir.x = ctx.ReadValue<float>();

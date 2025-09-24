@@ -6,10 +6,10 @@ using UnityEngine.InputSystem;
 public class AIController : MonoBehaviour
 {
     PlayerActions inputs;
-    float lastDirectionPressed;
     [SerializeField] float speed;
     [SerializeField] float gravity;
     [SerializeField] Vector3 movementDir;
+    float lastDirectionPressed;
     public enum PlayerState { Grounded, Jump, Fall, Coyote, Dash }
     public PlayerState currState;
 

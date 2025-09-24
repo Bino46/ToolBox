@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5879486530982868084
+--- !u!1 &7411181737804717053
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,52 +8,54 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4077074691537254176}
-  - component: {fileID: 8265052160961074385}
-  - component: {fileID: 2353744063196785346}
-  - component: {fileID: 1643914080970507891}
-  - component: {fileID: 2401110106640045688}
-  - component: {fileID: 5591569125144761761}
-  - component: {fileID: 498003466636991153}
-  - component: {fileID: 7837435933479490001}
-  - component: {fileID: 8444778544790825564}
-  m_Layer: 0
+  - component: {fileID: 2291809435943399821}
+  - component: {fileID: 3660900641643625899}
+  - component: {fileID: 5885770064701468689}
+  - component: {fileID: 6028244475066177554}
+  - component: {fileID: 1814423048738284330}
+  - component: {fileID: 6516402042539146550}
+  - component: {fileID: 4029553873049904833}
+  - component: {fileID: 5474895898352238027}
+  - component: {fileID: 1930626626054901081}
+  - component: {fileID: 7019716193804618284}
+  - component: {fileID: 7384476724622812391}
+  m_Layer: 19
   m_Name: Agent
-  m_TagString: Untagged
+  m_TagString: Agent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4077074691537254176
+--- !u!4 &2291809435943399821
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5879486530982868084}
+  m_GameObject: {fileID: 7411181737804717053}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.6, y: 11.6, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -71.99, y: -38.82, z: 66.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &8265052160961074385
+--- !u!33 &3660900641643625899
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5879486530982868084}
+  m_GameObject: {fileID: 7411181737804717053}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &2353744063196785346
+--- !u!23 &5885770064701468689
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5879486530982868084}
+  m_GameObject: {fileID: 7411181737804717053}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -92,13 +94,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &1643914080970507891
+--- !u!136 &6028244475066177554
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5879486530982868084}
+  m_GameObject: {fileID: 7411181737804717053}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -115,13 +117,38 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &2401110106640045688
+--- !u!143 &1814423048738284330
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7411181737804717053}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &6516402042539146550
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5879486530982868084}
+  m_GameObject: {fileID: 7411181737804717053}
   serializedVersion: 5
   m_Mass: 1
   m_LinearDamping: 0
@@ -134,32 +161,32 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 524288
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &5591569125144761761
+--- !u!114 &4029553873049904833
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5879486530982868084}
+  m_GameObject: {fileID: 7411181737804717053}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d1c4e0b1822b495aa52bc52839ecb30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 6
+    VectorObservationSize: 7
     NumStackedVectorObservations: 1
     m_ActionSpec:
-      m_NumContinuousActions: 2
-      BranchSizes: 01000000
+      m_NumContinuousActions: 1
+      BranchSizes: 02000000
     VectorActionSize: 
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
@@ -173,16 +200,39 @@ MonoBehaviour:
   m_UseChildActuators: 1
   m_DeterministicInference: 0
   m_ObservableAttributeHandling: 0
---- !u!114 &498003466636991153
+--- !u!114 &5474895898352238027
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5879486530982868084}
+  m_GameObject: {fileID: 7411181737804717053}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8033afad174211d4ab093758db79de86, type: 3}
+  m_Script: {fileID: 11500000, guid: 41d0490aaac3dfa488d932fd66d55678, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0.05
+  gravity: 0.08
+  movementDir: {x: 0, y: 0, z: 0}
+  currState: 2
+  jumpMinStrength: 0.8
+  jumpHoldStrength: 0.1
+  coyoteTime: 0.1
+  maxJumpTime: 0.08
+  dashTime: 0.1
+  dashSpeed: 2
+  dashCooldown: 0.25
+--- !u!114 &1930626626054901081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7411181737804717053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5db73a921dd2ca4a80b412eb12d00e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agentParameters:
@@ -190,14 +240,15 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 5000
   goal: {fileID: 0}
-  speed: 3
---- !u!114 &7837435933479490001
+  spawnPoint: {fileID: 0}
+  pool: {fileID: 0}
+--- !u!114 &7019716193804618284
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5879486530982868084}
+  m_GameObject: {fileID: 7411181737804717053}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
@@ -206,13 +257,13 @@ MonoBehaviour:
   DecisionPeriod: 5
   DecisionStep: 0
   TakeActionsBetweenDecisions: 1
---- !u!114 &8444778544790825564
+--- !u!114 &7384476724622812391
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5879486530982868084}
+  m_GameObject: {fileID: 7411181737804717053}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
@@ -232,19 +283,7 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 498003466636991153}
-        m_TargetAssemblyTypeName: MoveToGoalAgent, Assembly-CSharp
-        m_MethodName: MoveVertical
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: c3ca7cc6-6266-4de9-844a-0e8120757b25
     m_ActionName: 'Movement/Forward[/Keyboard/s,/Keyboard/w]'
   - m_PersistentCalls:
@@ -253,8 +292,8 @@ MonoBehaviour:
     m_ActionName: 'Movement/View[/Mouse/delta/up,/Mouse/delta/down,/Mouse/delta/left,/Mouse/delta/right]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 498003466636991153}
-        m_TargetAssemblyTypeName: MoveToGoalAgent, Assembly-CSharp
+      - m_Target: {fileID: 1930626626054901081}
+        m_TargetAssemblyTypeName: ParkourAgent, Assembly-CSharp
         m_MethodName: MoveHorizontal
         m_Mode: 0
         m_Arguments:
@@ -268,11 +307,35 @@ MonoBehaviour:
     m_ActionId: 25b48220-c075-40c5-b578-5da5df591537
     m_ActionName: 'Movement/Right[/Keyboard/a,/Keyboard/d]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1930626626054901081}
+        m_TargetAssemblyTypeName: ParkourAgent, Assembly-CSharp
+        m_MethodName: Jump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: d02c8f60-d376-48b8-bd83-ff0aa15fa2ea
     m_ActionName: 'Movement/Jump[/Keyboard/space]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1930626626054901081}
+        m_TargetAssemblyTypeName: ParkourAgent, Assembly-CSharp
+        m_MethodName: Dash
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 51c1877b-99c3-458c-918f-925b660f384f
     m_ActionName: 'Movement/Sprint[/Keyboard/shift]'
   - m_PersistentCalls:

@@ -1,0 +1,47 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1758641110",
+        "python_version": "3.10.0 (tags/v3.10.0:b494f59, Oct  4 2021, 19:00:18) [MSC v.1929 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\Maya\\Documents\\JeuxVideoz\\ToolBoxGit\\venv\\Scripts\\mlagents-learn config/MoveToGoal.yaml --run-id=Test2 --force",
+        "mlagents_version": "0.30.0",
+        "mlagents_envs_version": "0.30.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "2.2.2+cu121",
+        "numpy_version": "1.21.2",
+        "end_time_seconds": "1758641117"
+    },
+    "total": 7.788527299999259,
+    "count": 1,
+    "self": 0.0031060000001161825,
+    "children": {
+        "run_training.setup": {
+            "total": 0.03934270000172546,
+            "count": 1,
+            "self": 0.03934270000172546
+        },
+        "TrainerController.start_learning": {
+            "total": 7.746078599997418,
+            "count": 1,
+            "self": 0.0002074999974865932,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 7.745863299998746,
+                    "count": 1,
+                    "self": 7.745863299998746
+                },
+                "trainer_threads": {
+                    "total": 7.00001692166552e-07,
+                    "count": 1,
+                    "self": 7.00001692166552e-07
+                },
+                "TrainerController._save_models": {
+                    "total": 7.099999493220821e-06,
+                    "count": 1,
+                    "self": 7.099999493220821e-06
+                }
+            }
+        }
+    }
+}

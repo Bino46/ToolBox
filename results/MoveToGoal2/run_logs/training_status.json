@@ -1,0 +1,29 @@
+{
+    "BigBrain": {
+        "checkpoints": [
+            {
+                "steps": 77057,
+                "file_path": "results\\MoveToGoal2\\BigBrain\\BigBrain-77057.onnx",
+                "reward": null,
+                "creation_time": 1758643990.749223,
+                "auxillary_file_paths": [
+                    "results\\MoveToGoal2\\BigBrain\\BigBrain-77057.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 77057,
+            "file_path": "results\\MoveToGoal2\\BigBrain.onnx",
+            "reward": null,
+            "creation_time": 1758643990.749223,
+            "auxillary_file_paths": [
+                "results\\MoveToGoal2\\BigBrain\\BigBrain-77057.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

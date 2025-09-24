@@ -1,0 +1,29 @@
+{
+    "BigBrain": {
+        "checkpoints": [
+            {
+                "steps": 40900,
+                "file_path": "results\\ppo\\BigBrain\\BigBrain-40900.onnx",
+                "reward": -8.143635754558174,
+                "creation_time": 1758641453.812783,
+                "auxillary_file_paths": [
+                    "results\\ppo\\BigBrain\\BigBrain-40900.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 40900,
+            "file_path": "results\\ppo\\BigBrain.onnx",
+            "reward": -8.143635754558174,
+            "creation_time": 1758641453.812783,
+            "auxillary_file_paths": [
+                "results\\ppo\\BigBrain\\BigBrain-40900.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

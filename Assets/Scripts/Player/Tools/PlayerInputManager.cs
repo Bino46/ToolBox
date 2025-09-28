@@ -9,9 +9,13 @@ public class PlayerInputManager : MonoBehaviour
     Headbutt playerHit;
     GrabObject grab;
     ShootSpell spell;
-    [SerializeField] SpellCraftUI playerUi;
+    public enum ControllerType{Magic, RPG}
+    [SerializeField] ControllerType controllerType;
 
-    [Header("Variables")]
+    [Header("Magic controller")]
+    [SerializeField] GameObject playerUi;
+
+    [Header("Hidden variables")]
     bool switchMain;
 
     void Awake()
@@ -32,12 +36,7 @@ public class PlayerInputManager : MonoBehaviour
     void Start()
     {
         playerController = GetComponent<ControllerV2>();
-        playerHit = GetComponent<Headbutt>();
-        grab = GetComponentInChildren<GrabObject>();
-        spell = GetComponent<ShootSpell>();
-        
-        inputs.Movement.RightClick.performed += playerUi.ResetHoldingSprite;
-
+    
         inputs.Movement.Forward.performed += playerController.MovePlayerForward;
         inputs.Movement.Forward.canceled += playerController.MovePlayerForward;
         inputs.Movement.Right.performed += playerController.MovePlayerSide;
@@ -45,19 +44,52 @@ public class PlayerInputManager : MonoBehaviour
 
         inputs.Movement.View.performed += playerController.MoveCamera;
 
-        inputs.Movement.MousePosition.performed += playerUi.GetMousePos;
-        inputs.Movement.ShowSpellMenu.performed += playerUi.ShowMenu;
-        inputs.Movement.ShowSpellMenu.performed += spell.UpdateAllProjectiles;
 
         inputs.Movement.Sprint.performed += playerController.Sprint;
         inputs.Movement.Sprint.canceled += playerController.Sprint;
 
         inputs.Movement.Jump.performed += playerController.Jump;
 
+        SetupSpecifics();
+    }
+
+    void SetupSpecifics()
+    {
+        switch (controllerType)
+        {
+            case ControllerType.Magic:
+                SetupMagic();
+                break;
+
+            case ControllerType.RPG:
+                SetupRPG();
+                break;
+        }
+    }
+
+    void SetupMagic()
+    {
+        playerHit = GetComponent<Headbutt>();
+        grab = GetComponentInChildren<GrabObject>();
+        spell = GetComponent<ShootSpell>();
+        SpellCraftUI spellInterface = playerUi.GetComponent<SpellCraftUI>();
+
+        inputs.Movement.RightClick.performed += spellInterface.ResetHoldingSprite;
+        inputs.Movement.MousePosition.performed += spellInterface.GetMousePos;
+
+        inputs.Movement.ShowSpellMenu.performed += spellInterface.ShowMenu;
+
+        inputs.Movement.ShowSpellMenu.performed += spell.UpdateAllProjectiles;
+
         inputs.Movement.SwitchWeapon.performed += SwitchAttack;
 
         inputs.Movement.Grab.performed += grab.Grab;
         inputs.Movement.Grab.canceled += grab.UnGrab; 
+    }
+
+    void SetupRPG()
+    {
+
     }
 
     void SwitchAttack(InputAction.CallbackContext ctx)

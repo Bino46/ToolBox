@@ -146,8 +146,8 @@ public class TreeGenerator : MonoBehaviour
 
         newBranch.transform.localPosition = Vector3.zero;
 
-        // if(!isSide)
-        //     MakeSideBranch(childMesh, newPivot.transform);
+        if(!isSide)
+            MakeSideBranch(childMesh, newPivot.transform);
 
         if (currentBranchCount < length)
             MakeSmallerBranch(childMesh, newPivot.transform, length, false);

@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &224702253911462633
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 644522038968453611}
+  - component: {fileID: 6855362504071654135}
+  m_Layer: 0
+  m_Name: Tree
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &644522038968453611
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224702253911462633}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4.995331, y: 1.00001, z: -18.70552}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6855362504071654135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224702253911462633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c25761535170bf438ce050b7a46a23b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seed: 148305
+  go_trunk: {fileID: 8253355890401168239, guid: b18454e852493a24881225472aebdf49, type: 3}
+  height: 7
+  heightRadiusRatio: 0.196
+  go_branch: {fileID: 964125848840383352, guid: 3f1d0b8d1622e98478d217cdba54be2b, type: 3}
+  mainBranchCount: 7
+  m_stepMinimumRotation: 90
+  m_minMaxBranchRotation:
+  - {x: -80, y: -15, z: -80}
+  - {x: -25, y: 15, z: -25}
+  m_minBranchHeight: 1.05
+  m_maxBranchHeight: 1.95
+  m_minBranchLength: 0.254
+  m_branchRadius: 0.565
+  m_sizeReductionWithHeight:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.0035057068
+      value: 1.0002425
+      inSlope: -0.21693824
+      outSlope: -0.21693824
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.086605705
+    - serializedVersion: 3
+      time: 0.9961984
+      value: 0.70011973
+      inSlope: -0.27130434
+      outSlope: -0.27130434
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.093877554
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  smallBranchCount: 4
+  sizeReduction: 0.7
+  s_minMaxBranchRotation:
+  - {x: -25, y: -15, z: -25}
+  - {x: 25, y: 15, z: 25}
+  sideBranchCount: 1
+  sideBranchLength: 2
+  sideBranchProba: 0.6
+  sideminMaxBranchRotation:
+  - {x: 0, y: -90, z: -25}
+  - {x: 90, y: 90, z: 45}

@@ -163,7 +163,7 @@ public class Spell : MonoBehaviour
     {
         //I first check for modifiers, then i call the modded behavior
         if ((indexCurrentBehaviour + 1) < currData.followEffects.Count && currData.followEffects[indexCurrentBehaviour + 1].currtType == AddedBehavior.dataType.Modifier)
-            CheckModifiers(indexCurrentBehaviour);
+            CheckModifiers();
 
         forceWaitTime = true;
 
@@ -178,9 +178,14 @@ public class Spell : MonoBehaviour
                 //Debug.Log("Delay");
                 SetDelay();
                 break;
+            case 3:
+                Slash();
+                lastAction = Slash;
+                lastAction();
+                break;
         }
     }
-    void CheckModifiers(int startIndex)
+    void CheckModifiers()
     {
         //Check for any modifiers after the behavior then applies them
         for (int i = 1; i < currData.followEffects.Count; i++)
@@ -244,9 +249,6 @@ public class Spell : MonoBehaviour
     void TouchBehavior()
     {
         //After the projectile touched, it will disappear after an extended time
-
-        if(currData.visualEffect != null)
-            SummonVisualEffect();
     }
 
     void SetWaitTime(float time)
@@ -281,6 +283,8 @@ public class Spell : MonoBehaviour
             {
                 obj.AddExplosionForce(spell.f_explosionStrength * spell.modStrengthValue, transform.position, spell.f_explosionRadius * spell.modDurationValue);
             }
+
+            SummonVisualEffect();
         }
     }
 
@@ -293,6 +297,24 @@ public class Spell : MonoBehaviour
 
         //Debug.Log("delay");
         isDelaying = true;
+    }
+
+    void Slash()
+    {
+        if (currData.followEffects[indexCurrentBehaviour].currtType == AddedBehavior.dataType.Behaviour)
+        {
+            SlashSpell spell = (SlashSpell)currData.followEffects[indexCurrentBehaviour];
+            RaycastHit[] ray = Physics.SphereCastAll(transform.position, spell.f_slashRadius * spell.modDurationValue, Vector3.one);
+
+            for (int i = 0; i < ray.Length; i++)
+            {
+                float dot = Vector3.Dot(transform.position, ray[i].point);
+                //Debug.Log(dot);
+            }
+
+            SummonVisualEffect();
+        }
+
     }
 
     void EmptyDelegate()
@@ -365,10 +387,11 @@ public class Spell : MonoBehaviour
 
     void SummonVisualEffect()
     {
-        GameObject obj = currData.visualEffect.GetItem();
+        GameObject obj = VFX_Manager._instance.GetVFX(currData.followEffects[indexCurrentBehaviour].visual);
         obj.transform.position = transform.position;
         obj.SetActive(true);
-        obj.GetComponent<VFX_Interface>().Show(4, 1f);  
+        obj.transform.localScale = Vector3.one * currData.followEffects[indexCurrentBehaviour].modDurationValue;
+        obj.GetComponent<VFX_Interface>().Show(1,1);  
     }
 
     #endregion

@@ -83,8 +83,8 @@ public class PlayerInputManager : MonoBehaviour
 
         inputs.Movement.SwitchWeapon.performed += SwitchAttack;
 
-        inputs.Movement.Grab.performed += grab.Grab;
-        inputs.Movement.Grab.canceled += grab.UnGrab; 
+        // inputs.Movement.Grab.performed += grab.Grab;
+        // inputs.Movement.Grab.canceled += grab.UnGrab; 
     }
 
     void SetupRPG()
@@ -99,8 +99,8 @@ public class PlayerInputManager : MonoBehaviour
         
         if (switchMain)
         {
-            inputs.Movement.Attack.performed -= playerHit.ChargeHead;
-            inputs.Movement.Attack.canceled -= playerHit.SlingHead;
+            // inputs.Movement.Attack.performed -= playerHit.ChargeHead;
+            // inputs.Movement.Attack.canceled -= playerHit.SlingHead;
 
             inputs.Movement.Attack.performed += spell.Shoot;
 
@@ -108,12 +108,12 @@ public class PlayerInputManager : MonoBehaviour
         }
         else
         {
-            inputs.Movement.Attack.performed += playerHit.ChargeHead;
-            inputs.Movement.Attack.canceled += playerHit.SlingHead;
+            // inputs.Movement.Attack.performed += playerHit.ChargeHead;
+            // inputs.Movement.Attack.canceled += playerHit.SlingHead;
 
             inputs.Movement.Attack.performed -= spell.Shoot;
 
-            UIManager._instance.ChangeTextOnUi("MainAttack", "Headbutt");
+            UIManager._instance.ChangeTextOnUi("MainAttack", " ");
         }
     }
 }

@@ -6,5 +6,4 @@ public class CompiledSpell : ScriptableObject
 {
     public string s_spellName;
     public List<AddedBehavior> followEffects = new List<AddedBehavior>();
-    public Pool visualEffect;
 }

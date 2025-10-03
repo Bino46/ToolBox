@@ -15,6 +15,14 @@ public class AddedBehavior : ScriptableObject
     public int id;
     public Sprite tex;
     public Material color;
+    public enum vfx
+    {
+        BlackHole = 0,
+        Explosion = 1,
+        Slash,
+        None
+    }
+    public vfx visual;
 
     [Header("Modifiers section")]
     public float modStrengthValue = 1;

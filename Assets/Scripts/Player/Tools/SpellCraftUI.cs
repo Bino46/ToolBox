@@ -45,7 +45,6 @@ public class SpellCraftUI : MonoBehaviour
     [SerializeField] GameObject spellMenu;
     [SerializeField] Image menuButton;
     [SerializeField] TextMeshProUGUI currModifiyingSpellName;
-    [SerializeField] GameObject[] menuActionVisual = new GameObject[2];
     [SerializeField] GameObject[] menuParent = new GameObject[2];
     [SerializeField] GameObject[] menuLists = new GameObject[6];
     [SerializeField] Sprite[] buttonSelection = new Sprite[2];
@@ -67,7 +66,6 @@ public class SpellCraftUI : MonoBehaviour
     bool selectProjectile;
     bool selectBehavior;
     bool selectModifier;
-    bool inVisuals;
 
     void Awake()
     {
@@ -300,16 +298,6 @@ public class SpellCraftUI : MonoBehaviour
 
     #endregion
 
-    #region Visual Effects
-
-    public void SelectVisualEffect(int id)
-    {
-        runeSlots.SelectOneEffect(id);
-    }
-
-
-    #endregion
-
     #region UI menus
 
     public void SwitchActionMenu()
@@ -372,26 +360,6 @@ public class SpellCraftUI : MonoBehaviour
 
         menuParent[0].SetActive(true);
         menuParent[1].SetActive(false);
-    }
-
-    public void SwitchToVisuals()
-    {
-        ResetHoldingSprite();
-
-        selectionMenu = CurrMenu.pjVfx;
-
-        menuActionVisual[0].SetActive(false);
-        menuActionVisual[1].SetActive(true);
-    }
-
-    public void SwitchToActions()
-    {
-        ResetHoldingSprite();
-
-        menuActionVisual[0].SetActive(true);
-        menuActionVisual[1].SetActive(false);
-        
-        SwitchToBase();
     }
 
     public void ResetHoldingSprite(InputAction.CallbackContext ctx)

@@ -22,7 +22,6 @@ public class LoadSpellFromRune : MonoBehaviour
     public void ClearSpell()
     {
         currSpell.followEffects.Clear();
-        currSpell.visualEffect = null;
         slotProjectile = 0;
     }
 
@@ -175,14 +174,5 @@ public class LoadSpellFromRune : MonoBehaviour
 
         return modList;
     }
-    #endregion
-
-    #region Visual Effects
-
-    public void SelectOneEffect(int id)
-    {
-        currSpell.visualEffect = so_visualEffects[id];
-    }
-
     #endregion
 }

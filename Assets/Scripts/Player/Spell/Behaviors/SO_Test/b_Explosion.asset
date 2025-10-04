@@ -9,15 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cab31b5ff7766844b9fed79d863f340, type: 3}
+  m_Script: {fileID: 11500000, guid: ec38e419dc13b114ea61dca6353777cb, type: 3}
   m_Name: b_Explosion
   m_EditorClassIdentifier: 
   currtType: 0
   id: 1
   tex: {fileID: 21300000, guid: ea6e39a1e06f4794081d8cf5c7d58518, type: 3}
-  color: {fileID: 2100000, guid: c9b48ac487af3034db22aff121ffd7be, type: 2}
+  color: {fileID: 0}
+  baseStrengthValue: 75
+  baseDurationValue: 1
   visual: 1
   modStrengthValue: 1
   modDurationValue: 1
-  f_explosionRadius: 3
-  f_explosionStrength: 100

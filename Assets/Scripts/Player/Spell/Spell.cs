@@ -179,7 +179,6 @@ public class Spell : MonoBehaviour
                 SetDelay();
                 break;
             case 3:
-                Slash();
                 lastAction = Slash;
                 lastAction();
                 break;
@@ -263,9 +262,9 @@ public class Spell : MonoBehaviour
         //Simple explosion that pushes rigidbodies away, i keep the bodies in a list in case a Wait modifier loops the method
         if (currData.followEffects[indexCurrentBehaviour].currtType == AddedBehavior.dataType.Behaviour)
         {
-            ExplosionSpell spell = (ExplosionSpell)currData.followEffects[indexCurrentBehaviour];
+            AddedBehavior spell = currData.followEffects[indexCurrentBehaviour];
 
-            RaycastHit[] ray = Physics.SphereCastAll(transform.position, spell.f_explosionRadius, Vector3.one);
+            RaycastHit[] ray = Physics.SphereCastAll(transform.position, spell.baseDurationValue * spell.modDurationValue, Vector3.one);
             if (explosionBodyList.Count == 0)
             {
                 for (int i = 0; i < ray.Length; i++)
@@ -281,8 +280,13 @@ public class Spell : MonoBehaviour
 
             foreach (Rigidbody obj in explosionBodyList)
             {
-                obj.AddExplosionForce(spell.f_explosionStrength * spell.modStrengthValue, transform.position, spell.f_explosionRadius * spell.modDurationValue);
+                obj.AddExplosionForce(spell.baseStrengthValue * spell.modStrengthValue, transform.position, spell.baseDurationValue * spell.modDurationValue);
             }
+
+            if (spell.modStrengthValue < 0)
+                spell.visual = AddedBehavior.vfx.BlackHole;
+            else
+                spell.visual = AddedBehavior.vfx.Explosion;
 
             SummonVisualEffect();
         }
@@ -291,8 +295,8 @@ public class Spell : MonoBehaviour
     void SetDelay()
     {
         //Sets a pause in the spell actions
-        DelaySpell spell = (DelaySpell)currData.followEffects[indexCurrentBehaviour];
-        delayTime = spell.delayTime;
+        AddedBehavior spell = currData.followEffects[indexCurrentBehaviour];
+        delayTime = spell.baseDurationValue * spell.modDurationValue;
         projMovement.ExtendLifetime(delayTime * 2);
 
         //Debug.Log("delay");
@@ -301,18 +305,11 @@ public class Spell : MonoBehaviour
 
     void Slash()
     {
-        if (currData.followEffects[indexCurrentBehaviour].currtType == AddedBehavior.dataType.Behaviour)
+        AddedBehavior slash = currData.followEffects[indexCurrentBehaviour];
+        if (slash.currtType == AddedBehavior.dataType.Behaviour)
         {
-            SlashSpell spell = (SlashSpell)currData.followEffects[indexCurrentBehaviour];
-            RaycastHit[] ray = Physics.SphereCastAll(transform.position, spell.f_slashRadius * spell.modDurationValue, Vector3.one);
-
-            for (int i = 0; i < ray.Length; i++)
-            {
-                float dot = Vector3.Dot(transform.position, ray[i].point);
-                //Debug.Log(dot);
-            }
-
-            SummonVisualEffect();
+            SummonVisualEffect(true, slash.baseStrengthValue * slash.modStrengthValue);
+            Debug.Log(slash.baseStrengthValue + " " + slash.modStrengthValue);
         }
 
     }
@@ -327,11 +324,11 @@ public class Spell : MonoBehaviour
     public void SetLockOnTouch(int val)
     {
         //Sets the collision interaction
-        LockOnTouch onTouch = (LockOnTouch)currData.followEffects[val];
+        AddedBehavior onTouch = currData.followEffects[val];
 
-        projMovement.ExtendLifetime(onTouch.f_timeBeforeDestruction * Mathf.Abs(onTouch.modDurationValue));
+        projMovement.ExtendLifetime(onTouch.baseDurationValue * Mathf.Abs(onTouch.modDurationValue));
 
-        mustLock = onTouch.b_lockOnTouch;
+        mustLock = true;
         forceWaitTime = false;
     }
 
@@ -349,16 +346,10 @@ public class Spell : MonoBehaviour
             switch (op)
             {
                 case BaseModifier.Operation.Add:
-                    currData.followEffects[indexCurrentBehaviour].modStrengthValue = currData.followEffects[indexCurrentBehaviour].modStrengthValue + mod;
+                    currData.followEffects[indexCurrentBehaviour].modStrengthValue += mod;
                     break;
                 case BaseModifier.Operation.Multiply:
-                    currData.followEffects[indexCurrentBehaviour].modStrengthValue = currData.followEffects[indexCurrentBehaviour].modStrengthValue * mod;
-                    break;
-                case BaseModifier.Operation.Substract:
-                    currData.followEffects[indexCurrentBehaviour].modStrengthValue = currData.followEffects[indexCurrentBehaviour].modStrengthValue - mod;
-                    break;
-                case BaseModifier.Operation.Divide:
-                    currData.followEffects[indexCurrentBehaviour].modStrengthValue = currData.followEffects[indexCurrentBehaviour].modStrengthValue / mod;
+                    currData.followEffects[indexCurrentBehaviour].modStrengthValue *= mod;
                     break;
             }
         }
@@ -367,16 +358,10 @@ public class Spell : MonoBehaviour
             switch (op)
             {
                 case BaseModifier.Operation.Add:
-                    currData.followEffects[indexCurrentBehaviour].modDurationValue = currData.followEffects[indexCurrentBehaviour].modDurationValue + mod;
+                    currData.followEffects[indexCurrentBehaviour].modDurationValue += mod;
                     break;
                 case BaseModifier.Operation.Multiply:
-                    currData.followEffects[indexCurrentBehaviour].modDurationValue = currData.followEffects[indexCurrentBehaviour].modDurationValue * mod;
-                    break;
-                case BaseModifier.Operation.Substract:
-                    currData.followEffects[indexCurrentBehaviour].modDurationValue = currData.followEffects[indexCurrentBehaviour].modDurationValue - mod;
-                    break;
-                case BaseModifier.Operation.Divide:
-                    currData.followEffects[indexCurrentBehaviour].modDurationValue = currData.followEffects[indexCurrentBehaviour].modDurationValue / mod;
+                    currData.followEffects[indexCurrentBehaviour].modDurationValue *= mod;
                     break;
             }
         }
@@ -388,10 +373,23 @@ public class Spell : MonoBehaviour
     void SummonVisualEffect()
     {
         GameObject obj = VFX_Manager._instance.GetVFX(currData.followEffects[indexCurrentBehaviour].visual);
-        obj.transform.position = transform.position;
         obj.SetActive(true);
-        obj.transform.localScale = Vector3.one * currData.followEffects[indexCurrentBehaviour].modDurationValue;
+
+        obj.transform.position = transform.position;
+        obj.transform.localScale = Vector3.one * currData.followEffects[indexCurrentBehaviour].baseDurationValue * currData.followEffects[indexCurrentBehaviour].modDurationValue;
+
         obj.GetComponent<VFX_Interface>().Show(1,1);  
+    }
+
+    void SummonVisualEffect(bool withChildren, float damage)
+    {
+        GameObject obj = VFX_Manager._instance.GetVFX(currData.followEffects[indexCurrentBehaviour].visual);
+        obj.SetActive(true);
+
+        obj.transform.position = transform.position;
+        obj.transform.localScale = Vector3.one * currData.followEffects[indexCurrentBehaviour].baseDurationValue * currData.followEffects[indexCurrentBehaviour].modDurationValue;
+
+        obj.GetComponent<VFX_Interface>().Show(1,1,withChildren, Mathf.FloorToInt(damage));  
     }
 
     #endregion

@@ -76,7 +76,7 @@ public class LoadSpellFromRune : MonoBehaviour
             currSpell.followEffects.Add(so_behaviors[id]);
         }
         else
-            currSpell.followEffects[slot] = so_behaviors[id];
+            currSpell.followEffects[slot + slotProjectile] = so_behaviors[id];
     }
 
     public string GetName()

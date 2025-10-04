@@ -16,7 +16,7 @@ public class ShootRay : MonoBehaviour
     #region System
     public void Init(CompiledSpell data, Vector3 startPos, Vector3 dir, Pool reference)
     {
-        hitMask = LayerMask.GetMask("Walls", "PhysicsObject");
+        hitMask = LayerMask.GetMask("Walls", "PhysicsObject", "Entity");
 
         line = GetComponent<LineRenderer>();
         currData = data;

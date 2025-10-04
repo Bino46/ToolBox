@@ -71,13 +71,15 @@ public class SpellCraftUI : MonoBehaviour
     {
         _instance = this;
     }
-    
+
     private void Start()
     {
         for (int i = 0; i < modifierButtons.Length; i++)
         {
             modifierButtons[i].selectedSlot = modSlotParent.transform.GetChild(i).gameObject;
         }
+
+        selectionMenu = CurrMenu.pjMenu;
     }
 
     void Update()

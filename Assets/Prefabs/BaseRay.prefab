@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cc329423eac3c84eb331dbfdc0dd9e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: 2
+  lifetime: 0.25
 --- !u!120 &1778030886621104279
 LineRenderer:
   serializedVersion: 2

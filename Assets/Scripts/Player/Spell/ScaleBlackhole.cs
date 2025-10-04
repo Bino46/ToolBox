@@ -71,4 +71,8 @@ public class ScaleBlackhole : MonoBehaviour, VFX_Interface
     {
         Summon(scale, duration, false);
     }
+    void VFX_Interface.Show(float scale, float duration, bool activateChildren, int damage)
+    {
+        Summon(scale, duration, false);
+    }
 }

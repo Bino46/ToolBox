@@ -16,6 +16,9 @@ MonoBehaviour:
   id: 1
   tex: {fileID: 21300000, guid: ddeb6ecb5374aa147a9f228f8ed710b9, type: 3}
   color: {fileID: 0}
-  modStrengthValue: 0.5
+  baseStrengthValue: 1
+  baseDurationValue: 1
+  visual: 0
+  modStrengthValue: -1
   modDurationValue: 0
-  operation: 1
+  operation: 0

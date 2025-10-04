@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "Behavior", menuName = "Spell Behavior", order = 1)]
 public class AddedBehavior : ScriptableObject
 {
     public enum dataType
@@ -15,6 +16,8 @@ public class AddedBehavior : ScriptableObject
     public int id;
     public Sprite tex;
     public Material color;
+    public float baseStrengthValue = 1;
+    public float baseDurationValue = 1;
     public enum vfx
     {
         BlackHole = 0,

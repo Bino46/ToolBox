@@ -72,14 +72,14 @@ public class PlayerInputManager : MonoBehaviour
         playerHit = GetComponent<Headbutt>();
         grab = GetComponentInChildren<GrabObject>();
         spell = GetComponent<ShootSpell>();
-        SpellCraftUI spellInterface = playerUi.GetComponent<SpellCraftUI>();
+        RW_SpellCraftUI spellInterface = playerUi.GetComponent<RW_SpellCraftUI>();
 
-        inputs.Movement.RightClick.performed += spellInterface.ResetHoldingSprite;
-        inputs.Movement.MousePosition.performed += spellInterface.GetMousePos;
+        // inputs.Movement.RightClick.performed += spellInterface.ResetHoldingSprite;
+        // inputs.Movement.MousePosition.performed += spellInterface.GetMousePos;
 
         inputs.Movement.ShowSpellMenu.performed += spellInterface.ShowMenu;
 
-        inputs.Movement.ShowSpellMenu.performed += spell.UpdateAllProjectiles;
+        //inputs.Movement.ShowSpellMenu.performed += spell.UpdateAllProjectiles;
 
         inputs.Movement.SwitchWeapon.performed += SwitchAttack;
 

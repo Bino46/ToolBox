@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public class RW_Modifier : RW_MagicSlot
+public class RW_Modifier : ScriptableObject
 {
-    [Header("Modifier")]
     public float modifiedValue;
+    public enum modType { Modify, Add, Multiply }
+    public modType operation;
 }

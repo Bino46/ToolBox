@@ -1,10 +1,8 @@
 using UnityEngine;
 
-public class RW_p_Laser : RW_MagicSlot
+public class RW_p_Laser : RW_Projectile
 {
     LineRenderer _line;
-    [Header("Base Values")]
-    [SerializeField] int i_bounceCount;
     [Header("Hidden Values")]
     int currBounceCount;
 

@@ -1,12 +1,11 @@
 using UnityEngine;
-public class RW_p_Projectile : RW_MagicSlot
+public class RW_p_SimpleProjectile : RW_Projectile
 {
     Rigidbody _body;
 
     [Header("Base Values")]
     [SerializeField] float f_speed;
     [SerializeField] bool b_useGravity;
-    [SerializeField] int i_bounceCount;
     [Header("Hidden Values")]
     int currBounceCount;
     float modSpeed = 1;

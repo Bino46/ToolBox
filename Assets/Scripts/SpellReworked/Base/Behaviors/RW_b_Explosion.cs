@@ -1,17 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RW_b_Explosion : RW_MagicSlot
+public class RW_b_Explosion : RW_Behavior
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void UseAbility()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RW_p_Self : RW_MagicSlot
+public class RW_p_Self : RW_Projectile
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

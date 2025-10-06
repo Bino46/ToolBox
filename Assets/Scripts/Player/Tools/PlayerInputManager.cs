@@ -8,7 +8,7 @@ public class PlayerInputManager : MonoBehaviour
     ControllerV2 playerController;
     Headbutt playerHit;
     GrabObject grab;
-    ShootSpell spell;
+    RW_ShootSpell spell;
     public enum ControllerType{Magic, RPG}
     [SerializeField] ControllerType controllerType;
 
@@ -71,7 +71,7 @@ public class PlayerInputManager : MonoBehaviour
     {
         playerHit = GetComponent<Headbutt>();
         grab = GetComponentInChildren<GrabObject>();
-        spell = GetComponent<ShootSpell>();
+        spell = GetComponent<RW_ShootSpell>();
         RW_SpellCraftUI spellInterface = playerUi.GetComponent<RW_SpellCraftUI>();
 
         // inputs.Movement.RightClick.performed += spellInterface.ResetHoldingSprite;

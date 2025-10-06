@@ -18,4 +18,8 @@ public class VFX_Manager : MonoBehaviour
     {
         return vfxPools[(int)vfx].GetItem();
     }
+    public GameObject GetVFX(RW_Behavior.vfx vfx)
+    {
+        return vfxPools[(int)vfx].GetItem();
+    }
 }

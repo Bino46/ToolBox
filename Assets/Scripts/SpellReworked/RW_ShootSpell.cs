@@ -3,18 +3,13 @@ using UnityEngine.InputSystem;
 
 public class RW_ShootSpell : MonoBehaviour
 {
-    private RW_SO_DataSpell data;
+    [SerializeField] RW_SO_DataSpell data;
     public int projectileCount;
     public float offsetBetweenProjectiles;
     ControllerV2 controller;
     void Start()
     {
         controller = GetComponent<ControllerV2>();
-    }
-
-    public void GetData(RW_SO_DataSpell newData)
-    {
-        data = newData;
     }
 
     public void Shoot(InputAction.CallbackContext ctx)
@@ -44,11 +39,12 @@ public class RW_ShootSpell : MonoBehaviour
 
     void SetProjectile(Vector3 dir)
     {
-        GameObject obj = GetProjectile();
+        RW_Spell obj = GetProjectile();
+        obj.InitSpell(data,controller.cameraPivot.transform.position, dir);
     }
 
-    GameObject GetProjectile()
+    RW_Spell GetProjectile()
     {
-        return PoolManager._instance.poolList[data.projectileType].GetItem();
+        return PoolManager._instance.poolList[data.projectileType].GetItem().GetComponent<RW_Spell>();
     }
 }

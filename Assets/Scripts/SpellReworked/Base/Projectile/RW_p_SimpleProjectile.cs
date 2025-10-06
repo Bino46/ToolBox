@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 public class RW_p_SimpleProjectile : RW_Projectile
 {
@@ -9,29 +10,41 @@ public class RW_p_SimpleProjectile : RW_Projectile
     [Header("Hidden Values")]
     int currBounceCount;
     float modSpeed = 1;
+    bool canMove;
 
     #region System
     void Awake()
     {
         _body = GetComponent<Rigidbody>();
-    }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
         ResetProjectile();
     }
 
-    // Update is called once per frame
+    public override void InitProjectile(RW_SO_DataSpell data, Vector3 startPos, Vector3 dir)
+    {
+        base.InitProjectile(data, startPos, dir);
+
+        transform.position = startPos;
+        transform.rotation = Quaternion.LookRotation(dir);
+        canMove = true;
+    }
+
     void Update()
     {
-        Move();
+        if(canMove)
+            Move();
     }
+
     void OnCollisionEnter(Collision collision)
     {
         if (i_bounceCount > 0 && currBounceCount < i_bounceCount)
-            Bounce(collision.contacts[0].normal);
+            Bounce(collision.GetContact(0).normal);
         else
+        {
             modSpeed = 0;
+            canMove = false;
+            spellEffects.GetSignal(transform.position);
+        }
+
     }
     #endregion
 
@@ -39,7 +52,8 @@ public class RW_p_SimpleProjectile : RW_Projectile
     void Move()
     {
         //Simple movement
-        _body.MovePosition(transform.position + (transform.forward * f_speed * modSpeed * Time.deltaTime));
+        Vector3 moveDir = transform.position + (transform.forward * f_speed * modSpeed * Time.deltaTime);
+        _body.MovePosition(moveDir);
     }
 
     void Bounce(Vector3 normal)
@@ -53,7 +67,7 @@ public class RW_p_SimpleProjectile : RW_Projectile
         currBounceCount++;
     }
 
-    void ResetProjectile()
+    public override void ResetProjectile()
     {
         modSpeed = 1;
         currBounceCount = 0;

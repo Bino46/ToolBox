@@ -8,7 +8,7 @@ public class SwitchSpellCircle : MonoBehaviour
     public void Switch(int id)
     {
         ResetAll();
-        spinUI.ResetPos();
+        //spinUI.ResetPos();
 
         SpellCraftUI._instance.slotNumber = id + 1;
 

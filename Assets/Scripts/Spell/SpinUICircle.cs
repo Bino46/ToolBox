@@ -8,12 +8,7 @@ public class SpinUICircle : MonoBehaviour
     bool move;
     Vector3 newRotation;
     Vector3 newPosition;
-    Vector3 startPosition;
 
-    void Start()
-    {
-        startPosition = transform.position;
-    }
     void Update()
     {
         newRotation.z += Time.deltaTime * spinSpeed;
@@ -37,10 +32,10 @@ public class SpinUICircle : MonoBehaviour
         newPosition = newPos;
     }
 
-    public void ResetPos()
+    public void ResetPos(Vector3 middlePos)
     {
         move = true;
         timer = 0;
-        newPosition = startPosition;
+        newPosition = middlePos;
     }
 }

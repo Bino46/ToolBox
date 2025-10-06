@@ -8,10 +8,13 @@ class PrefabSlot
     GameObject baseObject;
     public Button buttonFct;
     public int index;
+    public enum type{Projectile, Behavior, Modifier};
+    public type currType;
 
     public PrefabSlot(GameObject prefab, Transform parent, Sprite sprite, int idx)
     {
         baseObject = GameObject.Instantiate(prefab, parent);
+        baseObject.name = idx.ToString();
         buttonFct = baseObject.GetComponent<Button>();
 
         baseObject.GetComponent<Image>().sprite = sprite;
@@ -32,7 +35,6 @@ public class RW_SpellCraftUI : MonoBehaviour
     [SerializeField] List<Sprite> behaviorSprites = new List<Sprite>();
     [SerializeField] List<Sprite> projectileModifierSprites = new List<Sprite>();
     [SerializeField] List<Sprite> behaviorModifierSprites = new List<Sprite>();
-    [SerializeField] List<Sprite> interfaceSprites = new List<Sprite>();
 
     [Header("Menu List")]
     [SerializeField] GameObject spellCraftInterface;
@@ -48,15 +50,19 @@ public class RW_SpellCraftUI : MonoBehaviour
     [SerializeField] CurrMenu activeMenu;
 
     [Header("Interface objects")]
-    [SerializeField] Image switchBaseMenuButton;
+    [SerializeField] SpinUICircle selectionIndicator;
     [SerializeField] Transform circleParent;
     [SerializeField] GameObject[] circleObjectList = new GameObject[6];
+    [SerializeField] SpellGlowMask[] glow = new SpellGlowMask[6];
     [Header("Variables")]
-    int currSelectedSlot;
-    int currCircle;
+    int currSelectedSlot = 0;
+    bool[] isSlotFilled = new bool[6];
+    int slotsAvailable;
+    int slotFilledCount;
 
     void Start()
     {
+        GenerateSlots();
         loadSpellData = GetComponent<RW_SpellLoadUI>();
         ChangeMenu(CurrMenu.pjMenu);
     }
@@ -100,11 +106,9 @@ public class RW_SpellCraftUI : MonoBehaviour
         {
             case CurrMenu.bhMenu:
                 behaviorMenu.SetActive(true);
-                switchBaseMenuButton.sprite = interfaceSprites[1];
                 break;
             case CurrMenu.pjMenu:
                 projectileMenu.SetActive(true);
-                switchBaseMenuButton.sprite = interfaceSprites[0];
                 break;
             case CurrMenu.bhMod:
                 modBehaviorMenu.SetActive(true);
@@ -133,14 +137,34 @@ public class RW_SpellCraftUI : MonoBehaviour
             circleSlots[i].SetActive(true);
             circleSlots[i].transform.position = circleObjectList[id].transform.GetChild(i).position;
         }
+
+        selectionIndicator.ResetPos(circleSlots[0].transform.position);
+
+        slotsAvailable = id;
+
+        ResetInterface();
+        loadSpellData.ResetSpell(id);
+    }
+
+    void ResetInterface()
+    {
+        for (int i = 0; i < circleSlots.Length; i++)
+        {
+            circleSlots[i].transform.GetChild(0).GetComponent<Image>().sprite = nullSprite;
+            isSlotFilled[i] = false;
+            glow[i].DesactivateSpell();
+            glow[0].maxSize = 1.6f;
+        }
+
+        slotFilledCount = 0;
     }
 
     #endregion
 
     public void SelectCircleSlot(int slot)
     {
-        Debug.Log(slot);
         currSelectedSlot = slot;
+        selectionIndicator.MoveAt(circleSlots[currSelectedSlot].transform.position);
 
         if (currSelectedSlot == 0)
             ChangeMenu(CurrMenu.pjMenu);
@@ -148,61 +172,96 @@ public class RW_SpellCraftUI : MonoBehaviour
             ChangeMenu(CurrMenu.bhMenu);
     }
 
-    void SelectSlot(int id)
+    void SelectSlot(int id, int type)
     {
         loadSpellData.LoadIndex(currSelectedSlot, id);
+        
+        FullGlowSpellCheck(currSelectedSlot);
+
+        switch (type)
+        {
+            case 0:
+                circleSlots[currSelectedSlot].transform.GetChild(0).GetComponent<Image>().sprite = projectileSprites[id];
+                break;
+            case 1:
+                circleSlots[currSelectedSlot].transform.GetChild(0).GetComponent<Image>().sprite = behaviorSprites[id];
+                break;
+        }
     }
 
+    void FullGlowSpellCheck(int slot)
+    {
+        if (!isSlotFilled[slot])
+        {
+            isSlotFilled[slot] = true;
+            slotFilledCount++;
+            glow[slot].ActivateSpell();
+        }
+
+        if (slotFilledCount > slotsAvailable)
+            glow[0].maxSize = 5;
+    }
 
     #region Interface Generation
     [Button]
     void GenerateSlots()
     {
+        CleanInterface();
         for (int i = 0; i < projectileSprites.Count; i++)
         {
             PrefabSlot obj = new PrefabSlot(buttonPrefab, projectileMenu.transform, projectileSprites[i], i);
-            obj.buttonFct.onClick.AddListener(() => SelectSlot(obj.index));
+            obj.currType = PrefabSlot.type.Projectile;
+            obj.buttonFct.onClick.AddListener(() => SelectSlot(obj.index, (int)obj.currType));
         }
 
         for (int i = 0; i < behaviorSprites.Count; i++)
         {
             PrefabSlot obj = new PrefabSlot(buttonPrefab, behaviorMenu.transform, behaviorSprites[i], i);
-            obj.buttonFct.onClick.AddListener(() => SelectSlot(obj.index));
+            obj.currType = PrefabSlot.type.Behavior;
+            obj.buttonFct.onClick.AddListener(() => SelectSlot(obj.index, (int)obj.currType));
         }
 
         for (int i = 0; i < projectileModifierSprites.Count; i++)
         {
             PrefabSlot obj = new PrefabSlot(buttonPrefab, modProjectileMenu.transform, projectileModifierSprites[i], i);
-            obj.buttonFct.onClick.AddListener(() => SelectSlot(obj.index));
+            // obj.currType = PrefabSlot.type.Modifier;
+            // obj.buttonFct.onClick.AddListener(() => SelectSlot(obj.index, (int)obj.currType));
         }
 
         for (int i = 0; i < behaviorModifierSprites.Count; i++)
         {
             PrefabSlot obj = new PrefabSlot(buttonPrefab, modBehaviorMenu.transform, behaviorModifierSprites[i], i);
-            obj.buttonFct.onClick.AddListener(() => SelectSlot(obj.index));
+            // obj.currType = PrefabSlot.type.Modifier;
+            // obj.buttonFct.onClick.AddListener(() => SelectSlot(obj.index, (int)obj.currType));
         }
     }
     [Button]
     void CleanInterface()
     {
-        for (int i = 0; i < projectileMenu.transform.childCount; i++)
+        int val;
+
+        val = projectileMenu.transform.childCount;
+        for (int i = 0; i < val; i++)
         {
-            DestroyImmediate(projectileMenu.transform.GetChild(i).gameObject);
+            DestroyImmediate(projectileMenu.transform.GetChild(0).gameObject);
         }
 
-        for (int i = 0; i < behaviorMenu.transform.childCount; i++)
+        val = behaviorMenu.transform.childCount;
+        for (int i = 0; i < val; i++)
         {
-            DestroyImmediate(behaviorMenu.transform.GetChild(i).gameObject);
+            DestroyImmediate(behaviorMenu.transform.GetChild(0).gameObject);
         }
 
-        for (int i = 0; i < modProjectileMenu.transform.childCount; i++)
+        val = modProjectileMenu.transform.childCount;
+        for (int i = 0; i < val; i++)
         {
-            DestroyImmediate(modProjectileMenu.transform.GetChild(i).gameObject);
+            DestroyImmediate(modProjectileMenu.transform.GetChild(0).gameObject);
         }
 
-        for (int i = 0; i < modBehaviorMenu.transform.childCount; i++)
+        val = modBehaviorMenu.transform.childCount;
+        for (int i = 0; i < val; i++)
         {
-            DestroyImmediate(modBehaviorMenu.transform.GetChild(i).gameObject);
+            DestroyImmediate(modBehaviorMenu.transform.GetChild(0).gameObject);
         }
 
     }

@@ -130,7 +130,6 @@ public class ControllerV2 : MonoBehaviour
                 break;
             case 0:
                 isWalkingSide = false;
-
                 currInputDir.y = 0;
                 break;
         }

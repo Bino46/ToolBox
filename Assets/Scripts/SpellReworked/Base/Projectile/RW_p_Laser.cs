@@ -20,9 +20,9 @@ public class RW_p_Laser : RW_Projectile
         ResetProjectile();
     }
 
-    public override void InitProjectile(RW_SO_DataSpell data, Vector3 startPos, Vector3 dir)
+    public override void Init(RW_SO_DataSpell data, Vector3 startPos, Vector3 dir)
     {
-        base.InitProjectile(data, startPos, dir);
+        base.Init(data, startPos, dir);
 
         hitMask = LayerMask.GetMask("Walls", "PhysicsObject", "Entity");
         bounceStart = startPos;
@@ -56,7 +56,7 @@ public class RW_p_Laser : RW_Projectile
             _line.positionCount++;
         }
         else
-            spellEffects.GetSignal(hitPoint);
+            spellEffect.GetSignal(hitPoint);
 
         ShowLine(hitPoint, index, false);
 
@@ -70,7 +70,7 @@ public class RW_p_Laser : RW_Projectile
         _line.SetPosition(index, hitPoint);
 
         if (miss)
-            spellEffects.GetSignal(_line.GetPosition(index-1));
+            spellEffect.GetSignal(_line.GetPosition(index-1));
     }
 
     void MakeObject(Vector3 spawnPos)

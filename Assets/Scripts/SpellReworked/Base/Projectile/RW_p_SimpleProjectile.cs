@@ -19,9 +19,9 @@ public class RW_p_SimpleProjectile : RW_Projectile
         ResetProjectile();
     }
 
-    public override void InitProjectile(RW_SO_DataSpell data, Vector3 startPos, Vector3 dir)
+    public override void Init(RW_SO_DataSpell data, Vector3 startPos, Vector3 dir)
     {
-        base.InitProjectile(data, startPos, dir);
+        base.Init(data, startPos, dir);
 
         transform.position = startPos;
         transform.rotation = Quaternion.LookRotation(dir);
@@ -42,7 +42,7 @@ public class RW_p_SimpleProjectile : RW_Projectile
         {
             modSpeed = 0;
             canMove = false;
-            spellEffects.GetSignal(transform.position);
+            spellEffect.GetSignal(transform.position);
         }
 
     }

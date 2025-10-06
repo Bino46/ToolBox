@@ -11,9 +11,11 @@ GameObject:
   - component: {fileID: 782210082211805166}
   - component: {fileID: 1778030886621104279}
   - component: {fileID: -4581456851925400504}
-  - component: {fileID: 2224357340774791713}
   - component: {fileID: 7969948335272719439}
+  - component: {fileID: 2224357340774791713}
   - component: {fileID: -1399290318153677757}
+  - component: {fileID: 38614005940987881}
+  - component: {fileID: 6780522756753291424}
   m_Layer: 0
   m_Name: BaseRay
   m_TagString: Untagged
@@ -156,22 +158,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pool: {fileID: 0}
---- !u!114 &2224357340774791713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1855595458767225641}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23f8d3a1825377e468a736c2c87e4670, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slotName: Laser
-  icon: {fileID: 0}
-  slotType: 0
-  i_bounceCount: 1
 --- !u!114 &7969948335272719439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,6 +175,20 @@ MonoBehaviour:
   f_timeBetweenRepeats: 0.1
   b_needRepeat: 0
   touchedGround: 0
+--- !u!114 &2224357340774791713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855595458767225641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23f8d3a1825377e468a736c2c87e4670, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotName: Laser
+  i_bounceCount: 0
 --- !u!114 &-1399290318153677757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,12 +201,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2230cce7418516149aff277d49bbb980, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotName: 
-  icon: {fileID: 0}
-  slotType: 0
+  slotName: Explosion
+  baseValue: {fileID: 11400000, guid: 6c70692041effcd459813425da21e45d, type: 2}
   modifiers: []
   visual: 0
-  baseStrengthValue: 0
-  baseDurationValue: 0
-  modStrengthValue: 0
-  modDurationValue: 0
+--- !u!114 &38614005940987881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855595458767225641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b723c29985ad0d44cbd7efc9bae54e41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotName: Delay
+  baseValue: {fileID: 11400000, guid: b51c99b0a60e49b40a1c26b440802206, type: 2}
+  modifiers: []
+  visual: 3
+--- !u!114 &6780522756753291424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855595458767225641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb6ee14f6f7a8a94d95494fce340ec5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotName: Slash
+  baseValue: {fileID: 11400000, guid: a2802df5cc265b047b803ef7f29b6ca7, type: 2}
+  modifiers: []
+  visual: 2

@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: 6104099740449900365}
   - component: {fileID: -4638109108327803724}
   - component: {fileID: -6170726293672388787}
+  - component: {fileID: 4598465307952820553}
+  - component: {fileID: 6635206326648212496}
   m_Layer: 7
   m_Name: p_SpellObject
   m_TagString: Untagged
@@ -292,10 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotName: Simple Projectile
-  icon: {fileID: 0}
-  slotType: 0
-  spellEffects: {fileID: 0}
-  i_bounceCount: 1
+  i_bounceCount: 0
   f_speed: 300
   b_useGravity: 0
 --- !u!114 &-6170726293672388787
@@ -311,14 +310,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotName: Explosion
-  icon: {fileID: 0}
-  slotType: 0
+  baseValue: {fileID: 11400000, guid: 6c70692041effcd459813425da21e45d, type: 2}
   modifiers: []
   visual: 1
-  baseStrengthValue: 1
-  baseDurationValue: 1
-  modStrengthValue: 1
-  modDurationValue: 1
+--- !u!114 &4598465307952820553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7979437524908255663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b723c29985ad0d44cbd7efc9bae54e41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotName: Delay
+  baseValue: {fileID: 11400000, guid: b51c99b0a60e49b40a1c26b440802206, type: 2}
+  modifiers: []
+  visual: 3
+--- !u!114 &6635206326648212496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7979437524908255663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb6ee14f6f7a8a94d95494fce340ec5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotName: Slash
+  baseValue: {fileID: 11400000, guid: a2802df5cc265b047b803ef7f29b6ca7, type: 2}
+  modifiers: []
+  visual: 2
 --- !u!1001 &4732649113431934605
 PrefabInstance:
   m_ObjectHideFlags: 0

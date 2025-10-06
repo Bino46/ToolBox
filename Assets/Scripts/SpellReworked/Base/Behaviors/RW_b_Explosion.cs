@@ -4,6 +4,7 @@ using UnityEngine;
 public class RW_b_Explosion : RW_Behavior
 {
     List<Rigidbody> explosionBodyList = new List<Rigidbody>();
+
     public override void UseAbility(Vector3 pos)
     {
         //Simple explosion that pushes rigidbodies away, i keep the bodies in a list in case a Wait modifier loops the method

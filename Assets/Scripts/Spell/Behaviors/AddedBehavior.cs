@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Behavior", menuName = "Spell Behavior", order = 1)]
+//[CreateAssetMenu(fileName = "Behavior", menuName = "Spell Behavior", order = 1)]
 public class AddedBehavior : ScriptableObject
 {
     public enum dataType

@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Reflection;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 public class RW_Spell : MonoBehaviour
@@ -40,11 +38,11 @@ public class RW_Spell : MonoBehaviour
     public void InitSpell(RW_SO_DataSpell newData, Vector3 startPos, Vector3 dir)
     {
         data = newData;
-        projecile.InitProjectile(data, startPos, dir);
+        projecile.Init(data, startPos, dir);
 
         for (int i = 0; i < behaviors.Count; i++)
         {
-            behaviors[i].InitBehavior(data);
+            behaviors[i].Init(data);
         }
     }
 
@@ -124,7 +122,7 @@ public class RW_Spell : MonoBehaviour
         touchedGround = true;
         hitPosition = pos;
     }
-    
+
     void ResetSpell()
     {
         touchedGround = false;

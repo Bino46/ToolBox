@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 class PrefabSlot
 {
-    GameObject baseObject;
+    public GameObject baseObject;
     public Button buttonFct;
     public int index;
     public enum type{Projectile, Behavior, Modifier};
@@ -54,6 +54,8 @@ public class RW_SpellCraftUI : MonoBehaviour
     [SerializeField] Transform circleParent;
     [SerializeField] GameObject[] circleObjectList = new GameObject[6];
     [SerializeField] SpellGlowMask[] glow = new SpellGlowMask[6];
+    [SerializeField] Transform modSlotsParent;
+    List<PrefabSlot> modSlotsRef = new List<PrefabSlot>();
     [Header("Variables")]
     int currSelectedSlot = 0;
     bool[] isSlotFilled = new bool[6];
@@ -116,7 +118,6 @@ public class RW_SpellCraftUI : MonoBehaviour
             case CurrMenu.pjMod:
                 modProjectileMenu.SetActive(true);
                 break;
-
         }
     }
 
@@ -142,6 +143,9 @@ public class RW_SpellCraftUI : MonoBehaviour
 
         slotsAvailable = id;
 
+        ChangeMenu(CurrMenu.pjMenu);
+        currSelectedSlot = 0;
+
         ResetInterface();
         loadSpellData.ResetSpell(id);
     }
@@ -157,35 +161,38 @@ public class RW_SpellCraftUI : MonoBehaviour
         }
 
         slotFilledCount = 0;
+
+        loadSpellData.ResetData();
     }
 
     #endregion
 
     public void SelectCircleSlot(int slot)
     {
-        currSelectedSlot = slot;
-        selectionIndicator.MoveAt(circleSlots[currSelectedSlot].transform.position);
-
-        if (currSelectedSlot == 0)
-            ChangeMenu(CurrMenu.pjMenu);
-        else
-            ChangeMenu(CurrMenu.bhMenu);
-    }
-
-    void SelectSlot(int id, int type)
-    {
-        loadSpellData.LoadIndex(currSelectedSlot, id);
-        
-        FullGlowSpellCheck(currSelectedSlot);
-
-        switch (type)
+        if (currSelectedSlot != slot || modMenu.activeSelf)
         {
-            case 0:
-                circleSlots[currSelectedSlot].transform.GetChild(0).GetComponent<Image>().sprite = projectileSprites[id];
-                break;
-            case 1:
-                circleSlots[currSelectedSlot].transform.GetChild(0).GetComponent<Image>().sprite = behaviorSprites[id];
-                break;
+            modMenu.SetActive(false);
+            behaviorMenu.SetActive(true);
+
+            currSelectedSlot = slot;
+            selectionIndicator.MoveAt(circleSlots[currSelectedSlot].transform.position);
+
+            if (currSelectedSlot == 0)
+                ChangeMenu(CurrMenu.pjMenu);
+            else
+                ChangeMenu(CurrMenu.bhMenu);
+        }
+        else if(isSlotFilled[slot])
+        {
+            modMenu.SetActive(true);
+            behaviorMenu.SetActive(false);
+
+            if (currSelectedSlot == 0)
+                ChangeMenu(CurrMenu.pjMod);
+            else
+                ChangeMenu(CurrMenu.bhMod);
+
+            DisplayActiveModifiers(currSelectedSlot);
         }
     }
 
@@ -201,6 +208,83 @@ public class RW_SpellCraftUI : MonoBehaviour
         if (slotFilledCount > slotsAvailable)
             glow[0].maxSize = 5;
     }
+
+    void DisplayActiveModifiers(int selectedSlot)
+    {
+        GameObject child;
+        for (int i = 0; i < modSlotsParent.childCount; i++)
+        {
+            child = modSlotsParent.GetChild(i).gameObject;
+            child.GetComponent<Image>().sprite = nullSprite;
+            child.SetActive(false);
+        }
+
+        modSlotsParent.GetChild(0).gameObject.SetActive(true);
+
+        if (selectedSlot == 0)
+            DisplayPjMods();
+        else
+            DisplayBhMods(selectedSlot);
+    }
+    void DisplayPjMods()
+    {
+        List<int> modList = loadSpellData.ReturnModList(0);
+
+        for (int i = 0; i < modList.Count; i++)
+        {
+            modSlotsRef[i].baseObject.GetComponent<Image>().sprite = projectileModifierSprites[modList[i] - 1];
+            modSlotsRef[i].baseObject.SetActive(true);
+        }
+
+        if (modList.Count < 16)
+            modSlotsRef[modList.Count].baseObject.SetActive(true);
+    }
+
+    void DisplayBhMods(int selectedSlot)
+    {
+        List<int> modList = loadSpellData.ReturnModList(selectedSlot);
+
+        for (int i = 0; i < modList.Count; i++)
+        {
+            modSlotsRef[i].baseObject.GetComponent<Image>().sprite = behaviorModifierSprites[modList[i] - 1];
+            modSlotsRef[i].baseObject.SetActive(true);
+        }
+
+        if (modList.Count < 16)
+            modSlotsRef[modList.Count].baseObject.SetActive(true);
+    }
+    
+
+    #region Button Construction
+    void SelectSlot(int id, int type)
+    {
+        loadSpellData.LoadIndex(currSelectedSlot, id);
+
+        FullGlowSpellCheck(currSelectedSlot);
+
+        switch (type)
+        {
+            case 0:
+                circleSlots[currSelectedSlot].transform.GetChild(0).GetComponent<Image>().sprite = projectileSprites[id];
+                break;
+            case 1:
+                circleSlots[currSelectedSlot].transform.GetChild(0).GetComponent<Image>().sprite = behaviorSprites[id];
+                break;
+        }
+    }
+
+    void SelectModifer(int id)
+    {
+        loadSpellData.LoadModifier(currSelectedSlot, id);
+        DisplayActiveModifiers(currSelectedSlot);
+    }
+
+    void RemoveModifer(int id)
+    {
+
+    }
+    
+    #endregion
 
     #region Interface Generation
     [Button]
@@ -224,15 +308,24 @@ public class RW_SpellCraftUI : MonoBehaviour
         for (int i = 0; i < projectileModifierSprites.Count; i++)
         {
             PrefabSlot obj = new PrefabSlot(buttonPrefab, modProjectileMenu.transform, projectileModifierSprites[i], i);
-            // obj.currType = PrefabSlot.type.Modifier;
-            // obj.buttonFct.onClick.AddListener(() => SelectSlot(obj.index, (int)obj.currType));
+            obj.currType = PrefabSlot.type.Modifier;
+            obj.buttonFct.onClick.AddListener(() => SelectModifer(obj.index + 1));
         }
 
         for (int i = 0; i < behaviorModifierSprites.Count; i++)
         {
             PrefabSlot obj = new PrefabSlot(buttonPrefab, modBehaviorMenu.transform, behaviorModifierSprites[i], i);
-            // obj.currType = PrefabSlot.type.Modifier;
-            // obj.buttonFct.onClick.AddListener(() => SelectSlot(obj.index, (int)obj.currType));
+            obj.currType = PrefabSlot.type.Modifier;
+            obj.buttonFct.onClick.AddListener(() => SelectModifer(obj.index + 1));
+        }
+
+        for (int i = 0; i < 16; i++)
+        {
+            PrefabSlot obj = new PrefabSlot(buttonPrefab, modSlotsParent.transform, nullSprite, i);
+            obj.currType = PrefabSlot.type.Modifier;
+            obj.buttonFct.onClick.AddListener(() => RemoveModifer(obj.index));
+
+            modSlotsRef.Add(obj);
         }
     }
     [Button]

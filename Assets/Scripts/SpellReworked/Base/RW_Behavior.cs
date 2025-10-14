@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TreeEditor;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
 public class RW_Behavior : RW_MagicSlot
@@ -45,7 +46,7 @@ public class RW_Behavior : RW_MagicSlot
         obj.transform.localScale = Vector3.one * baseDurationValue * modDurationValue;
     }
     
-    public void SummonVisualEffect(Vector3 pos, bool withChildren, float damage)
+    public void SummonVisualEffect(Vector3 pos, bool withChildren, float damage, float scale)
     {
         GameObject obj = VFX_Manager._instance.GetVFX(visual);
 

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 690c9e44ba4c48342a0e391da65e3235, type: 3}
   m_Name: SO_Slash
   m_EditorClassIdentifier: 
-  baseStrengthValue: 1
+  baseStrengthValue: 25
   baseDurationValue: 1
   modStrengthValue: 1
   modDurationValue: 1

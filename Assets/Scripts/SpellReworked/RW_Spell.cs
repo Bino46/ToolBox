@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NaughtyAttributes.Test;
 using UnityEngine;
 
 public class RW_Spell : MonoBehaviour
@@ -40,9 +41,25 @@ public class RW_Spell : MonoBehaviour
         data = newData;
         projecile.Init(data, startPos, dir);
 
-        for (int i = 0; i < behaviors.Count; i++)
+        for (int i = 0; i < data.loadedBehaviorCount; i++)
         {
-            behaviors[i].Init(data);
+            InitSpecificBehavior(i, data.behaviorAndModifiers[i].behaviorID);
+        }
+    }
+
+    void InitSpecificBehavior(int id, int bhId)
+    {
+        switch (bhId)
+        {
+            case 0:
+                behaviors[id].GetComponent<RW_b_Explosion>().Init(data);
+                break;
+            case 1:
+                behaviors[id].GetComponent<RW_b_Delay>().Init(data);
+                break;
+            case 2:
+                behaviors[id].GetComponent<RW_b_Slash>().Init(data);
+                break;
         }
     }
 
@@ -82,7 +99,10 @@ public class RW_Spell : MonoBehaviour
 
     void ActivateCurrentBehavior()
     {
-        behaviors[data.behaviorAndModifiers[indexCurrentBehavior].behaviorID].UseAbility(hitPosition);
+        int val = data.behaviorAndModifiers[indexCurrentBehavior].behaviorID;
+
+        if (val >= 0)
+            behaviors[val].UseAbility(hitPosition);
     }
 
     bool Pause()
@@ -118,7 +138,6 @@ public class RW_Spell : MonoBehaviour
 
     public void GetSignal(Vector3 pos)
     {
-        Debug.Log("hit");
         touchedGround = true;
         hitPosition = pos;
     }

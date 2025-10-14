@@ -10,6 +10,6 @@ public class RW_b_Slash : RW_Behavior
 
     public override void UseAbility(Vector3 pos)
     {
-        SummonVisualEffect(pos, true, baseStrengthValue * modStrengthValue);
+        SummonVisualEffect(pos, true, baseStrengthValue * modStrengthValue, baseDurationValue * modDurationValue);
     }
 }

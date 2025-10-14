@@ -6,7 +6,7 @@ public class RW_SO_DataSpell : ScriptableObject
 {
     [Header("Projectile")]
     public int projectileType;
-    public List<int> projectileModifiers = new List<int>();
+    public int[] projectileModifiers = new int[16];
     
     [Header("Behaviors")]
     public int loadedBehaviorCount;

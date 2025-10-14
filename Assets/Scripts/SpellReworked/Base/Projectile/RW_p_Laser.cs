@@ -45,7 +45,7 @@ public class RW_p_Laser : RW_Projectile
         if (Physics.Raycast(startPos, dir, out hit, 1000, hitMask))
             HitWall(startPos, hit.point, hit.normal, index);
         else
-            ShowLine(dir * 1000, _line.positionCount - 1, true);
+            ShowLine(dir * 25000, _line.positionCount - 1, true);
     }
 
     void HitWall(Vector3 startPos, Vector3 hitPoint, Vector3 normal, int index)
@@ -69,7 +69,7 @@ public class RW_p_Laser : RW_Projectile
         _line.enabled = true;
         _line.SetPosition(index, hitPoint);
 
-        if (miss)
+        if (miss && i_bounceCount > 0)
             spellEffect.GetSignal(_line.GetPosition(index-1));
     }
 

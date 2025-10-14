@@ -312,7 +312,7 @@ MonoBehaviour:
   slotName: Explosion
   baseValue: {fileID: 11400000, guid: 6c70692041effcd459813425da21e45d, type: 2}
   modifiers: []
-  visual: 1
+  visual: 0
 --- !u!114 &4598465307952820553
 MonoBehaviour:
   m_ObjectHideFlags: 0

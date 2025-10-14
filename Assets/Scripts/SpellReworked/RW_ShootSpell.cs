@@ -39,12 +39,17 @@ public class RW_ShootSpell : MonoBehaviour
 
     void SetProjectile(Vector3 dir)
     {
-        RW_Spell obj = GetProjectile();
-        obj.InitSpell(data,controller.cameraPivot.transform.position, dir);
+        int val = data.projectileType;
+        
+        if (val >= 0)
+        {
+            RW_Spell obj = GetProjectile(val);
+            obj.InitSpell(data, controller.cameraPivot.transform.position, dir);
+        }
     }
 
-    RW_Spell GetProjectile()
+    RW_Spell GetProjectile(int type)
     {
-        return PoolManager._instance.poolList[data.projectileType].GetItem().GetComponent<RW_Spell>();
+        return PoolManager._instance.poolList[type].GetItem().GetComponent<RW_Spell>();
     }
 }

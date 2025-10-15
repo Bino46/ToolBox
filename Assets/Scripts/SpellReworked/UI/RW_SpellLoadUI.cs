@@ -67,9 +67,7 @@ public class RW_SpellLoadUI : MonoBehaviour
             for (int i = 0; i < dataSpell.projectileModifiers.Length; i++)
             {
                 if (dataSpell.projectileModifiers[i] == 0)
-                {
                     return i;
-                }
             }
         }
         else
@@ -77,9 +75,7 @@ public class RW_SpellLoadUI : MonoBehaviour
             for (int i = 0; i < dataSpell.behaviorAndModifiers[slot].modListID.Length; i++)
             {
                 if (dataSpell.projectileModifiers[i] == 0)
-                {
                     return i;
-                }
             }
         }
 

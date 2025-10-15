@@ -3,6 +3,7 @@ using UnityEngine;
 using NaughtyAttributes;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 class PrefabSlot
 {
     public GameObject baseObject;
@@ -67,6 +68,7 @@ public class RW_SpellCraftUI : MonoBehaviour
         GenerateSlots();
         loadSpellData = GetComponent<RW_SpellLoadUI>();
         ChangeMenu(CurrMenu.pjMenu);
+        ResetInterface();
     }
 
     #region Menu Managment
@@ -74,6 +76,9 @@ public class RW_SpellCraftUI : MonoBehaviour
     {
         UIManager._instance.inMenu = !UIManager._instance.inMenu;
         spellCraftInterface.SetActive(UIManager._instance.inMenu);
+
+        if(!spellCraftInterface.activeSelf)
+            loadSpellData.InitSpell();
     }
 
     public void SwitchMenu()
@@ -160,9 +165,20 @@ public class RW_SpellCraftUI : MonoBehaviour
             glow[0].maxSize = 1.6f;
         }
 
+        ResetModSlots();
+
         slotFilledCount = 0;
 
         loadSpellData.ResetData();
+    }
+
+    void ResetModSlots()
+    {
+        for(int i = 0; i < modSlotsRef.Count; i++)
+        {
+            modSlotsRef[i].baseObject.GetComponent<Image>().sprite = nullSprite;
+            modSlotsRef[i].baseObject.SetActive(false);
+        }
     }
 
     #endregion
@@ -275,13 +291,23 @@ public class RW_SpellCraftUI : MonoBehaviour
 
     void SelectModifer(int id)
     {
-        loadSpellData.LoadModifier(currSelectedSlot, id);
-        DisplayActiveModifiers(currSelectedSlot);
+        if (loadSpellData.CheckModQuantity(currSelectedSlot) < 16)
+        {
+            loadSpellData.LoadModifier(currSelectedSlot, id);
+            DisplayActiveModifiers(currSelectedSlot);  
+        }
     }
 
     void RemoveModifer(int id)
     {
+        loadSpellData.RemoveModifier(currSelectedSlot, id);
 
+        ResetModSlots();
+
+        if (currSelectedSlot == 0)
+            DisplayPjMods();
+        else
+            DisplayBhMods(currSelectedSlot);
     }
     
     #endregion

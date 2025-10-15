@@ -172,9 +172,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PauseTime: 1
   RepeatCount: 25
+  f_baseLifetime: 0.25
+  f_minlifetime: 0.25
   f_timeBetweenRepeats: 0.1
   b_needRepeat: 0
-  touchedGround: 0
 --- !u!114 &2224357340774791713
 MonoBehaviour:
   m_ObjectHideFlags: 0

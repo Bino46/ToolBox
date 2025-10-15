@@ -334,7 +334,7 @@ public class Spell : MonoBehaviour
 
     void MakeBlackHole()
     {
-        GameObject newBh = PoolManager._instance.poolList[3].GetItem();
+        GameObject newBh = PoolManager._instance.poolList[3].GetItem(true);
         newBh.transform.position = transform.position;
         newBh.GetComponent<ScaleBlackhole>().Summon(currData.followEffects[indexCurrentBehaviour].modDurationValue, waitTime, false);
     }

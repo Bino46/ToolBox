@@ -1,21 +1,25 @@
 using System.Collections.Generic;
-using NaughtyAttributes.Test;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class RW_Spell : MonoBehaviour
 {
     private RW_SO_DataSpell data;
-    private RW_Projectile projecile;
+    private RW_Projectile projectile;
     private PoolObject pool;
     private List<RW_Behavior> behaviors = new List<RW_Behavior>();
     [Header("Main Values")]
     public float PauseTime;
     public int RepeatCount;
+    [SerializeField] float f_baseLifetime;
+    [SerializeField] float f_minlifetime;
     [SerializeField] float f_timeBetweenRepeats;
     [SerializeField] bool b_needRepeat;
     [Header("Hidden Values")]
     float pauseTimer;
-    public bool touchedGround;
+    float currentLifetime;
+    bool touchedGround;
+    bool isOver;
     int indexCurrentBehavior;
     delegate void CurrentAction();
     CurrentAction lastAction;
@@ -32,19 +36,26 @@ public class RW_Spell : MonoBehaviour
             }
         }
 
-        projecile = GetComponent<RW_Projectile>();
+        projectile = GetComponent<RW_Projectile>();
         pool = GetComponent<PoolObject>();
     }
 
-    public void InitSpell(RW_SO_DataSpell newData, Vector3 startPos, Vector3 dir)
+    public void InitSpell(RW_SO_DataSpell newData)
     {
         data = newData;
-        projecile.Init(data, startPos, dir);
+        projectile.Init(data);
 
         for (int i = 0; i < data.loadedBehaviorCount; i++)
         {
             InitSpecificBehavior(i, data.behaviorAndModifiers[i].behaviorID);
         }
+
+        ResetSpell();
+    }
+
+    public void SetProjectileDirectionAndPosition(Vector3 dir, Vector3 pos)
+    {
+        projectile.SetDirectionAndPosition(dir,pos);
     }
 
     void InitSpecificBehavior(int id, int bhId)
@@ -67,6 +78,8 @@ public class RW_Spell : MonoBehaviour
     {
         if (touchedGround)
             HandleTimers();
+        else
+            HandleLifeTime();
     }
 
     void HandleTimers()
@@ -77,6 +90,14 @@ public class RW_Spell : MonoBehaviour
             NextBehavior();
         else if (b_needRepeat)
             Repeat();
+    }
+
+    void HandleLifeTime()
+    {
+        currentLifetime -= Time.deltaTime;
+
+        if (currentLifetime <= 0)
+            ResetSpell();
     }
 
     void NextBehavior()
@@ -93,7 +114,13 @@ public class RW_Spell : MonoBehaviour
         }
         else if (indexCurrentBehavior >= data.loadedBehaviorCount)
         {
-            ResetSpell();
+            if (isOver)
+                ResetSpell();
+            else
+            {
+                pauseTimer = f_minlifetime;
+                isOver = true;
+            }
         }
     }
 
@@ -150,7 +177,10 @@ public class RW_Spell : MonoBehaviour
         currRepeatCount = 0;
         indexCurrentBehavior = 0;
 
-        projecile.ResetProjectile();
+        currentLifetime = f_baseLifetime;
+        isOver = false;
+
+        projectile.ResetProjectile();
 
         pool.ReturnToPool();
     }

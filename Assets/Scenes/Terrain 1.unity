@@ -6855,7 +6855,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d9dd9d760989ab40a2dd06c5972cc80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootSpell: {fileID: 0}
+  shootSpell: {fileID: 85607520}
   dataSpell: {fileID: 11400000, guid: 5e48eb2c818b8f244927c5e3b6401248, type: 2}
 --- !u!114 &5996925051047583023
 MonoBehaviour:

@@ -40,16 +40,25 @@ public class RW_ShootSpell : MonoBehaviour
     void SetProjectile(Vector3 dir)
     {
         int val = data.projectileType;
-        
+
         if (val >= 0)
         {
             RW_Spell obj = GetProjectile(val);
-            obj.InitSpell(data, controller.cameraPivot.transform.position, dir);
+            obj.SetProjectileDirectionAndPosition(dir, controller.cameraPivot.transform.position);
+            obj.gameObject.SetActive(true);
+        }
+    }
+
+    public void InitProjectile(int idPool)
+    {
+        foreach (GameObject obj in PoolManager._instance.poolList[idPool].objectList)
+        {
+            obj.GetComponent<RW_Spell>().InitSpell(data);
         }
     }
 
     RW_Spell GetProjectile(int type)
     {
-        return PoolManager._instance.poolList[type].GetItem().GetComponent<RW_Spell>();
+        return PoolManager._instance.poolList[type].GetItem(data).GetComponent<RW_Spell>();
     }
 }

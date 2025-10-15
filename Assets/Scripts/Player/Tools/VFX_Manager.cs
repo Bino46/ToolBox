@@ -16,10 +16,10 @@ public class VFX_Manager : MonoBehaviour
 
     public GameObject GetVFX(AddedBehavior.vfx vfx)
     {
-        return vfxPools[(int)vfx].GetItem();
+        return vfxPools[(int)vfx].GetItem(true);
     }
     public GameObject GetVFX(RW_Behavior.vfx vfx)
     {
-        return vfxPools[(int)vfx].GetItem();
+        return vfxPools[(int)vfx].GetItem(true);
     }
 }

@@ -1,5 +1,5 @@
-using Unity.VisualScripting;
 using UnityEngine;
+
 public class RW_p_SimpleProjectile : RW_Projectile
 {
     Rigidbody _body;
@@ -19,12 +19,18 @@ public class RW_p_SimpleProjectile : RW_Projectile
         ResetProjectile();
     }
 
-    public override void Init(RW_SO_DataSpell data, Vector3 startPos, Vector3 dir)
+    void OnEnable()
     {
-        base.Init(data, startPos, dir);
+        if (dir != Vector3.zero)
+            transform.rotation = Quaternion.LookRotation(dir);
+            
+        transform.position = basePos;
+    }
 
-        transform.position = startPos;
-        transform.rotation = Quaternion.LookRotation(dir);
+    public override void Init(RW_SO_DataSpell data)
+    {
+        base.Init(data);
+
         canMove = true;
     }
 
@@ -42,6 +48,7 @@ public class RW_p_SimpleProjectile : RW_Projectile
         {
             modSpeed = 0;
             canMove = false;
+
             spellEffect.GetSignal(transform.position);
         }
 
@@ -71,6 +78,7 @@ public class RW_p_SimpleProjectile : RW_Projectile
     {
         modSpeed = 1;
         currBounceCount = 0;
+        canMove = true;
     }
     #endregion
 }

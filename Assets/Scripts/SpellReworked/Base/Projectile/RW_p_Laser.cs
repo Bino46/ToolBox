@@ -7,7 +7,7 @@ public class RW_p_Laser : RW_Projectile
     int currBounceCount;
     LayerMask hitMask;
     Vector3 bounceStart;
-    Vector3 bounceDir;
+    Vector3 bouceDir;
 
     #region System
     void Awake()
@@ -19,49 +19,53 @@ public class RW_p_Laser : RW_Projectile
     {
         ResetProjectile();
     }
-
-    public override void Init(RW_SO_DataSpell data, Vector3 startPos, Vector3 dir)
+    public override void Init(RW_SO_DataSpell data)
     {
-        base.Init(data, startPos, dir);
+        base.Init(data);
 
         hitMask = LayerMask.GetMask("Walls", "PhysicsObject", "Entity");
-        bounceStart = startPos;
-        bounceDir = dir;
+    }
 
-        _line.SetPosition(0, startPos);
+    void OnEnable()
+    {
+        bouceDir = dir;
+        bounceStart = basePos;
+        _line.SetPosition(0, basePos);
 
         for (int i = 0; i <= i_bounceCount; i++)
         {
-            FireRay(bounceStart, bounceDir, i + 1);
+            FireRay(bounceStart, bouceDir, i + 1);
         }
     }
+
+
     #endregion
 
     #region Actions
 
-    void FireRay(Vector3 startPos, Vector3 dir, int index)
+    void FireRay(Vector3 startPos, Vector3 newDir, int index)
     {
         RaycastHit hit;
-        if (Physics.Raycast(startPos, dir, out hit, 1000, hitMask))
+        if (Physics.Raycast(startPos, newDir, out hit, 1000, hitMask))
             HitWall(startPos, hit.point, hit.normal, index);
         else
-            ShowLine(dir * 25000, _line.positionCount - 1, true);
+            ShowLine(newDir * 25000, _line.positionCount - 1, true);
     }
 
     void HitWall(Vector3 startPos, Vector3 hitPoint, Vector3 normal, int index)
     {
+        ShowLine(hitPoint, index, false);
+
         if (currBounceCount < i_bounceCount && i_bounceCount > 0)
         {
+            bounceStart = hitPoint;
+            dir = Vector3.Reflect(hitPoint - startPos, normal);
+
             currBounceCount++;
             _line.positionCount++;
         }
         else
             spellEffect.GetSignal(hitPoint);
-
-        ShowLine(hitPoint, index, false);
-
-        bounceStart = hitPoint;
-        bounceDir = Vector3.Reflect(hitPoint - startPos, normal);
     }
 
     void ShowLine(Vector3 hitPoint, int index, bool miss)

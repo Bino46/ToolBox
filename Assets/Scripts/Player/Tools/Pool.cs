@@ -15,13 +15,13 @@ public class Pool : MonoBehaviour
             objectList.Add(MakeObject(i));
         }
     }
-    public GameObject GetItem()
+    public GameObject GetItem(bool isActive)
     {
         for (int i = 0; i < objectList.Count; i++)
         {
             if (!objectList[i].activeSelf)
             {
-                objectList[i].SetActive(true);
+                objectList[i].SetActive(isActive);
                 return objectList[i];
             }
         }
@@ -29,7 +29,6 @@ public class Pool : MonoBehaviour
         //if all objects are busy, make another
         objectList.Add(MakeObject(objectList.Count));
         return objectList[objectList.Count - 1];
-
     }
 
     GameObject MakeObject(int name)
@@ -46,7 +45,7 @@ public class Pool : MonoBehaviour
 
     #region Overloads for spells
     
-    public GameObject GetItem(CompiledSpell data)
+    public GameObject GetItem(RW_SO_DataSpell data)
     {
         for (int i = 0; i < objectList.Count; i++)
         {
@@ -59,14 +58,14 @@ public class Pool : MonoBehaviour
         return objectList[objectList.Count - 1];
 
     }
-    GameObject MakeObject(int name, CompiledSpell data)
+    GameObject MakeObject(int name, RW_SO_DataSpell data)
     {
         GameObject obj = Instantiate(baseObject, transform.position, transform.rotation);
         obj.transform.parent = gameObject.transform;
         obj.name = name.ToString();
 
         obj.GetComponent<PoolObject>().pool = this;
-        obj.GetComponent<Spell>().SetCompiledSpell(data);
+        obj.GetComponent<RW_Spell>().InitSpell(data);
 
         return obj;
     }

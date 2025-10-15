@@ -278,9 +278,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PauseTime: 1
   RepeatCount: 25
+  f_baseLifetime: 5
+  f_minlifetime: 0.25
   f_timeBetweenRepeats: 0.02
   b_needRepeat: 0
-  touchedGround: 0
 --- !u!114 &-4638109108327803724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,6 +296,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotName: Simple Projectile
   i_bounceCount: 0
+  dir: {x: 0, y: 0, z: 0}
+  basePos: {x: 0, y: 0, z: 0}
   f_speed: 300
   b_useGravity: 0
 --- !u!114 &-6170726293672388787
@@ -456,6 +459,10 @@ PrefabInstance:
     - target: {fileID: 8277454217694513132, guid: 73a4caad716c8e54e98476191c16034a, type: 3}
       propertyPath: m_MeshDistribution
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8442521297638994700, guid: 73a4caad716c8e54e98476191c16034a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9137163529481559127, guid: 73a4caad716c8e54e98476191c16034a, type: 3}
       propertyPath: RotationModule.x.scalar

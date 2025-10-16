@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class RW_p_SimpleProjectile : RW_Projectile
@@ -6,6 +7,7 @@ public class RW_p_SimpleProjectile : RW_Projectile
 
     [Header("Base Values")]
     [SerializeField] float f_speed;
+    [SerializeField] float f_bounceIntensity;
     [SerializeField] bool b_useGravity;
     [Header("Hidden Values")]
     int currBounceCount;
@@ -31,6 +33,8 @@ public class RW_p_SimpleProjectile : RW_Projectile
     {
         base.Init(data);
 
+        SortModifier();
+
         canMove = true;
     }
 
@@ -42,16 +46,40 @@ public class RW_p_SimpleProjectile : RW_Projectile
 
     void OnCollisionEnter(Collision collision)
     {
+        canMove = false;
+
         if (i_bounceCount > 0 && currBounceCount < i_bounceCount)
             Bounce(collision.GetContact(0).normal);
         else
         {
             modSpeed = 0;
-            canMove = false;
 
             spellEffect.GetSignal(transform.position);
         }
+    }
 
+    void SortModifier()
+    {
+        for(int i = 0; i < modList.Length; i++)
+        {
+            if (modList[i] == null)
+                return;
+
+            ApplyModifier(i);
+        }
+    }
+
+    void ApplyModifier(int i)
+    {
+        switch(modList[i].idx)
+        {
+            case 2:
+                i_bounceCount = (int)MakeOperation(i_bounceCount, modList[i]);
+                break;
+            case 3:
+                _body.useGravity = Convert.ToBoolean(MakeOperation(0, modList[i]));
+                break;
+        }
     }
     #endregion
 
@@ -69,9 +97,11 @@ public class RW_p_SimpleProjectile : RW_Projectile
         Vector3 currDir = transform.forward;
 
         bounceDir = Vector3.Reflect(currDir, normal);
+        bounceDir += Vector3.up * f_bounceIntensity;
         transform.rotation = Quaternion.LookRotation(bounceDir);
 
         currBounceCount++;
+        canMove = true;
     }
 
     public override void ResetProjectile()
@@ -79,6 +109,9 @@ public class RW_p_SimpleProjectile : RW_Projectile
         modSpeed = 1;
         currBounceCount = 0;
         canMove = true;
+
+        _body.isKinematic = true;
+        _body.isKinematic = false;
     }
     #endregion
 }

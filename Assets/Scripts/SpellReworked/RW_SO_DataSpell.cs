@@ -11,4 +11,8 @@ public class RW_SO_DataSpell : ScriptableObject
     [Header("Behaviors")]
     public int loadedBehaviorCount;
     public BehaviorWithModifierList[] behaviorAndModifiers = new BehaviorWithModifierList[5];
+
+    [Header("Modifiers")]
+    public List<RW_Modifier> pjModifiers = new List<RW_Modifier>();
+    public List<RW_Modifier> bhModifiers = new List<RW_Modifier>();
 }

@@ -172,7 +172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PauseTime: 1
   RepeatCount: 25
-  f_baseLifetime: 0.25
+  f_baseLifetime: 0.5
   f_minlifetime: 0.25
   f_timeBetweenRepeats: 0.1
   b_needRepeat: 0
@@ -190,6 +190,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotName: Laser
   i_bounceCount: 0
+  dir: {x: 0, y: 0, z: 0}
+  basePos: {x: 0, y: 0, z: 0}
 --- !u!114 &-1399290318153677757
 MonoBehaviour:
   m_ObjectHideFlags: 0

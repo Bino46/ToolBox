@@ -23,12 +23,36 @@ public class RW_p_Laser : RW_Projectile
     {
         base.Init(data);
 
+        SortModifier();
+
         hitMask = LayerMask.GetMask("Walls", "PhysicsObject", "Entity");
+    }
+
+    void SortModifier()
+    {
+        for(int i = 0; i < modList.Length; i++)
+        {
+            if (modList[i] == null)
+                return;
+
+            ApplyModifier(i);
+        }
+    }
+
+    void ApplyModifier(int i)
+    {
+        switch(modList[i].idx)
+        {
+            case 2:
+                i_bounceCount = (int)MakeOperation(i_bounceCount, modList[i]);
+                break;
+        }
     }
 
     void OnEnable()
     {
         bouceDir = dir;
+
         bounceStart = basePos;
         _line.SetPosition(0, basePos);
 
@@ -37,7 +61,6 @@ public class RW_p_Laser : RW_Projectile
             FireRay(bounceStart, bouceDir, i + 1);
         }
     }
-
 
     #endregion
 
@@ -55,14 +78,14 @@ public class RW_p_Laser : RW_Projectile
     void HitWall(Vector3 startPos, Vector3 hitPoint, Vector3 normal, int index)
     {
         ShowLine(hitPoint, index, false);
-
         if (currBounceCount < i_bounceCount && i_bounceCount > 0)
         {
             bounceStart = hitPoint;
-            dir = Vector3.Reflect(hitPoint - startPos, normal);
+            bouceDir = Vector3.Reflect(hitPoint - startPos, normal);
 
             currBounceCount++;
             _line.positionCount++;
+
         }
         else
             spellEffect.GetSignal(hitPoint);
@@ -75,14 +98,6 @@ public class RW_p_Laser : RW_Projectile
 
         if (miss && i_bounceCount > 0)
             spellEffect.GetSignal(_line.GetPosition(index-1));
-    }
-
-    void MakeObject(Vector3 spawnPos)
-    {
-        // GameObject obj = pool.GetItem(currData);
-
-        // obj.transform.position = spawnPos;
-        // obj.GetComponent<Spell>().Init(currData);
     }
 
     public override void ResetProjectile()

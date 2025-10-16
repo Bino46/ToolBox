@@ -37,7 +37,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -13.12104, y: 1.13, z: -28.809}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8460387769599404142}
@@ -278,7 +278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PauseTime: 1
   RepeatCount: 25
-  f_baseLifetime: 5
+  f_baseLifetime: 15
   f_minlifetime: 0.25
   f_timeBetweenRepeats: 0.02
   b_needRepeat: 0
@@ -299,6 +299,7 @@ MonoBehaviour:
   dir: {x: 0, y: 0, z: 0}
   basePos: {x: 0, y: 0, z: 0}
   f_speed: 300
+  f_bounceIntensity: 0.5
   b_useGravity: 0
 --- !u!114 &-6170726293672388787
 MonoBehaviour:
@@ -406,7 +407,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6481454651286536129, guid: 73a4caad716c8e54e98476191c16034a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.639
+      value: -2.16
       objectReference: {fileID: 0}
     - target: {fileID: 6481454651286536129, guid: 73a4caad716c8e54e98476191c16034a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -490,7 +491,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9137163529481559127, guid: 73a4caad716c8e54e98476191c16034a, type: 3}
       propertyPath: EmissionModule.m_BurstCount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9137163529481559127, guid: 73a4caad716c8e54e98476191c16034a, type: 3}
       propertyPath: InitialModule.maxNumParticles
@@ -498,15 +499,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9137163529481559127, guid: 73a4caad716c8e54e98476191c16034a, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9137163529481559127, guid: 73a4caad716c8e54e98476191c16034a, type: 3}
-      propertyPath: EmissionModule.rateOverTime.scalar
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9137163529481559127, guid: 73a4caad716c8e54e98476191c16034a, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 9137163529481559127, guid: 73a4caad716c8e54e98476191c16034a, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 600
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9137163529481559127, guid: 73a4caad716c8e54e98476191c16034a, type: 3}
       propertyPath: InitialModule.startRotation.scalar

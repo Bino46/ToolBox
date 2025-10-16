@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using TreeEditor;
-using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
 public class RW_Behavior : RW_MagicSlot
@@ -33,10 +31,20 @@ public class RW_Behavior : RW_MagicSlot
         modStrengthValue = baseValue.modStrengthValue;
         modDurationValue = baseValue.modDurationValue;
 
-        ApplyModifiers();
+        ReadModifiers(data.projectileModifiers);
     }
 
-    public void ApplyModifiers() { }
+    void ReadModifiers(int[] indexes)
+    {
+        for (int i = 0; i < indexes.Length; i++)
+        {
+            Debug.Log(indexes[i]);
+            if (indexes[i] == 0)
+                return;
+
+            modList[i] = dataSpell.bhModifiers[indexes[i] - 1];
+        }
+    }
 
     public void SummonVisualEffect(Vector3 pos)
     {

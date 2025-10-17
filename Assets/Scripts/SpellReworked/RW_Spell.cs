@@ -103,7 +103,7 @@ public class RW_Spell : MonoBehaviour
     void NextBehavior()
     {
         //Activate the next behavior on the data list (modifiers have already been applied)
-        //Projectiles should handle their lifetime, howev0er need a point where the projectile disappears once the list is empty
+        //Projectiles should handle their lifetime, however need a point where the projectile disappears once the list is empty
         if (data.loadedBehaviorCount > 0 && indexCurrentBehavior < data.loadedBehaviorCount)
         {
             lastAction = ActivateCurrentBehavior;

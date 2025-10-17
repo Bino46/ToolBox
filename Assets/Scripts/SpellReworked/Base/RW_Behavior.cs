@@ -90,7 +90,7 @@ public class RW_Behavior : RW_MagicSlot
         obj.GetComponent<VFX_Interface>().Show(1, 1, withChildren, Mathf.FloorToInt(damage));
     }
     
-    public void ResetBehavior()
+    public virtual void ResetBehavior()
     {
         spellEffect.b_needRepeat = false;
 

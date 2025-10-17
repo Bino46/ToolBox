@@ -12,7 +12,6 @@ public class RW_b_Slash : RW_Behavior
 
     public override void UseAbility(Vector3 pos)
     {
-        Debug.Log("slash " + modDurationValue);
         SummonVisualEffect(pos, true, baseStrengthValue * modStrengthValue, baseDurationValue * modDurationValue);
     }
 }

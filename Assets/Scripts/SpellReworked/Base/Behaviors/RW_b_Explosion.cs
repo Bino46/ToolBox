@@ -20,7 +20,7 @@ public class RW_b_Explosion : RW_Behavior
             }
         }
 
-        // Debug.Log("explodes " + explosionBodyList.Count + " strength " + baseStrengthValue * modStrengthValue);
+        Debug.Log("explodes " + explosionBodyList.Count + " strength " + baseStrengthValue * modStrengthValue);
 
         foreach (Rigidbody obj in explosionBodyList)
         {

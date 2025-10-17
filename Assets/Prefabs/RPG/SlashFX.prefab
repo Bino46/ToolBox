@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 569065188640191350}
   - component: {fileID: 1075910162089010207}
   - component: {fileID: 2850171500600978341}
-  m_Layer: 19
+  m_Layer: 0
   m_Name: SlashFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 2098580653193600140}
   - component: {fileID: 831511961120212077}
   - component: {fileID: 9065570639807347646}
-  m_Layer: 19
+  m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -255,3 +255,4 @@ MonoBehaviour:
   speed: 3
   lifetime: 1
   parentLifetime: 1.2
+  slashDamage: 0

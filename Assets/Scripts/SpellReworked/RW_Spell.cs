@@ -14,7 +14,7 @@ public class RW_Spell : MonoBehaviour
     [SerializeField] float f_baseLifetime;
     [SerializeField] float f_minlifetime;
     [SerializeField] float f_timeBetweenRepeats;
-    [SerializeField] bool b_needRepeat;
+    public bool b_needRepeat;
     [Header("Hidden Values")]
     float pauseTimer;
     float currentLifetime;
@@ -63,13 +63,13 @@ public class RW_Spell : MonoBehaviour
         switch (bhId)
         {
             case 0:
-                behaviors[id].GetComponent<RW_b_Explosion>().Init(data);
+                behaviors[id].GetComponent<RW_b_Explosion>().Init(data, id);
                 break;
             case 1:
-                behaviors[id].GetComponent<RW_b_Delay>().Init(data);
+                behaviors[id].GetComponent<RW_b_Delay>().Init(data, id);
                 break;
             case 2:
-                behaviors[id].GetComponent<RW_b_Slash>().Init(data);
+                behaviors[id].GetComponent<RW_b_Slash>().Init(data, id);
                 break;
         }
     }

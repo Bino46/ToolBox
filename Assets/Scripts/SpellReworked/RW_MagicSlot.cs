@@ -11,9 +11,15 @@ public class RW_MagicSlot : MonoBehaviour
         spellEffect = GetComponent<RW_Spell>();
         dataSpell = data;
     }
+    public virtual void Init(RW_SO_DataSpell data, int id)
+    {
+        spellEffect = GetComponent<RW_Spell>();
+        dataSpell = data;
+    }
 
     public float MakeOperation(float val, RW_Modifier mod)
     {
+        Debug.Log("operation " + val);
         switch (mod.operation)
         {
             case RW_Modifier.modType.Modify:

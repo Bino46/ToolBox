@@ -29,6 +29,7 @@ public class RW_SpellLoadUI : MonoBehaviour
     public void LoadModifier(int selectedSlot, int modId)
     {
         int modSlot = 0;
+
         if (selectedSlot == 0)
         {
             for (int i = 0; i < dataSpell.projectileModifiers.Length; i++)
@@ -47,7 +48,8 @@ public class RW_SpellLoadUI : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < dataSpell.projectileModifiers.Length; i++)
+            selectedSlot -= 1;
+            for (int i = 0; i < dataSpell.behaviorAndModifiers[selectedSlot].modListID.Length; i++)
             {
                 if (dataSpell.behaviorAndModifiers[selectedSlot].modListID.Length > 0 && dataSpell.behaviorAndModifiers[selectedSlot].modListID[i] == 0)
                 {
@@ -55,7 +57,6 @@ public class RW_SpellLoadUI : MonoBehaviour
                     break;
                 }
             }
-
             dataSpell.behaviorAndModifiers[selectedSlot].modListID[modSlot] = modId;
         }
     }
@@ -95,10 +96,13 @@ public class RW_SpellLoadUI : MonoBehaviour
         }
         else
         {
+            currSelectedSlot -= 1;
             for (int i = 0; i < dataSpell.behaviorAndModifiers[currSelectedSlot].modListID.Length; i++)
             {
-                if (dataSpell.behaviorAndModifiers[currSelectedSlot].modListID[i] != 0)
-                    initializedMods.Add(dataSpell.behaviorAndModifiers[currSelectedSlot].modListID[i]);
+                if (dataSpell.behaviorAndModifiers[currSelectedSlot].modListID[i] == 0)
+                    break;
+
+                initializedMods.Add(dataSpell.behaviorAndModifiers[currSelectedSlot].modListID[i]);
             }
         }
         return initializedMods;
@@ -133,7 +137,6 @@ public class RW_SpellLoadUI : MonoBehaviour
 
             for (int i = id; i + 1 < dataSpell.projectileModifiers.Length; i++)
             {
-
                 dataSpell.projectileModifiers[i] = dataSpell.projectileModifiers[i + 1];
             }
             dataSpell.projectileModifiers[dataSpell.projectileModifiers.Length - 1] = 0;
@@ -141,6 +144,7 @@ public class RW_SpellLoadUI : MonoBehaviour
         }
         else
         {
+            slot -= 1;
             for (int i = id; i + 1 < dataSpell.behaviorAndModifiers[slot].modListID.Length; i++)
             {
                 dataSpell.behaviorAndModifiers[slot].modListID[i] = dataSpell.behaviorAndModifiers[slot].modListID[i + 1];
